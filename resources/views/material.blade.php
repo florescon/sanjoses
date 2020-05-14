@@ -83,7 +83,7 @@ ventas@sj-uniformes.com
       @foreach($sale_material->material_product_sale as $material)
       <tr>
         <td scope="row">
-            <strong>{{ $material->material->part_number }}</strong> {{ $material->material->name }}
+            <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!}
         </td>
         <td align="center">{{ $material->material->unit->name }}</td>
         <td align="right">{{ $material->sum }}</td>

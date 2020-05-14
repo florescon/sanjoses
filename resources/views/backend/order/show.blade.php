@@ -172,7 +172,7 @@
                 @php($totalmat=0)
                 @foreach($sale_material->material_product_sale as $material)
                   <tr class="table-warning">
-                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {{ $material->material->name }} </td>
+                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} </td>
                     <td class="right">
                         {{ $material->material->unit->name }}
                     </td>

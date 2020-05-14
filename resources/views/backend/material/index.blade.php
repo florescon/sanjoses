@@ -656,7 +656,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         autoWidth: false,
-        order: ['8', 'desc'], 
+        order: ['2', 'asc'], 
         ajax: {
           url: "{{ route('admin.material.index') }}",
           method: 'get',

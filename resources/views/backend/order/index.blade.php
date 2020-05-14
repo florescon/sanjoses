@@ -266,7 +266,7 @@
         search: {
           caseInsensitive: false,
         },
-        order: ['7', 'desc'], 
+        order: ['6', 'desc'], 
         columns: [
             {data: 'folio', name: 'id'},
             {data: 'user', name: 'user.first_name', orderable: false},

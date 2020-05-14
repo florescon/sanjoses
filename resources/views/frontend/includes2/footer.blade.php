@@ -30,12 +30,12 @@
                                 <h4 class="widget-title">@lang('labels.frontend.contact.box_title')</h4>
                                 <ul class="contact-info">
                                     <li>
-                                        <span class="contact-info-label">@lang('labels.general.address'):</span>Margarito Gonzalez Rubio #857<br>
+                                        <span class="contact-info-label">@lang('labels.general.address'):</span>Margarito Gonzalez Rubio #822 L5<br>
                                         Col. El Refugio, Lagos de Moreno Jal.<br>
                                         C.P. 47470
                                     </li>
                                     <li>
-                                        <span class="contact-info-label">@lang('labels.general.phone'):</span> <a href="tel:">47 41 02 28 90</a>
+                                        <span class="contact-info-label">@lang('labels.general.phone'):</span> <a href="tel:">47 42 30 00</a>
                                     </li>
                                 </ul>
                             </div><!-- End .widget -->

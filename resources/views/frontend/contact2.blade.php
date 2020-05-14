@@ -7,8 +7,9 @@
             <div class="mb-3"></div><!-- margin -->
 
             <div class="container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d29728.007347400115!2d-101.938515!3d21.350459!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842bd3cc6f8ae1f1%3A0x7de36d6c433c66e7!2sMargarito%20Gonz%C3%A1lez%20Rubio%20886%2C%20Centro%2C%2047400%20Lagos%20de%20Moreno%2C%20Jal.!5e0!3m2!1ses-419!2smx!4v1582130261952!5m2!1ses-419!2smx" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                 
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3715.9789861847735!2d-101.94036608553087!3d21.351324082064966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842bd3cb86f94867%3A0x27a1c662fae46eec!2sMargarito%20Gonz%C3%A1lez%20Rubio%20822%2C%20El%20Refugio%2C%2047470%20Lagos%20de%20Moreno%2C%20Jal.!5e0!3m2!1sen!2smx!4v1589257899515!5m2!1sen!2smx" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
                 <div class="container-box">
                     <div class="row mt-2">
                         <div class="col-md-8">
@@ -69,7 +70,7 @@
                             <div class="contact-info">
                                 <div>
                                     <i class="icon-phone"></i>
-                                    <p><a href="tel:">47 47 42 30 00</a></p>
+                                    <p><a href="tel:">47 42 30 00</a></p>
                                 </div>
                                 <div>
                                     <i class="icon-mail-alt"></i>

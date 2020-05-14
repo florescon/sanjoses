@@ -94,7 +94,7 @@
                         </button>
                         <div class="header-contact">
                             <span>@lang('labels.general.call_us')</span>
-                            <a href="tel:#"><strong>47 41 02 28 90</strong></a>
+                            <a href="tel:#"><strong>47 42 30 00</strong></a>
                         </div><!-- End .header-contact -->
 
                         <div class="dropdown cart-dropdown">

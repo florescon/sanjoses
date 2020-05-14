@@ -199,7 +199,7 @@ class OrderController extends Controller
         // $sale = Sale::with('products', 'products.boms', 'products.boms.material', 'products.product_detail', 'products.product_detail.product_detail_size', 'products.product_detail.product_detail_color')->findOrFail($id);
         $sale = Sale::with('products', 'material_product_sale', 'products.boms')->findOrFail($id);
 
-        $sale_material = Sale::with(['material_product_sale' => function($query){
+        $sale_material = Sale::with(['material_product_sale.material.color', 'material_product_sale' => function($query){
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
                 }]
         )->findOrFail($id);

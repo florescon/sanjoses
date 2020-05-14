@@ -16,7 +16,7 @@ class MaterialTableSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            factory(Material::class, 1000)->create();
+            factory(Material::class, 10000)->create();
         }
 
         $this->enableForeignKeys();
