@@ -31,9 +31,9 @@
                   <div class="card border-secondary">
                     <div class="card-header">Precio</div>
                     <div class="card-body">
-                    	<strong> Precio ingresado: </strong> {!! $materialhistory->price_entered ?  $materialhistory->price_entered : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>' !!} <br>
-                    	<strong> Precio actual: </strong> {!! $materialhistory->price_actual ? $materialhistory->price_actual : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>' !!} <br>
-                    	<strong> Diferencia: </strong> {!! $materialhistory->price_entered - $materialhistory->price_actual !!} <br>
+                    	<strong> Precio ingresado: </strong> {!! $materialhistory->price_entered ?  $materialhistory->price_entered : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>' !!}<br>
+                    	<strong> Precio actual: </strong> {!! $materialhistory->price_actual ? $materialhistory->price_actual : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>' !!}<br>
+                    	<strong> Diferencia: </strong> {!! $materialhistory->price_entered - $materialhistory->price_actual !!}<br>
                     </div>
                   </div>
                 </div>
