@@ -36,6 +36,9 @@ class MaterialHistoryDataTable extends DataTable
             ->addColumn('material', function (MaterialHistory $material) {
                     return !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
             })
+            ->editColumn('date_entered', function ($dat) {
+                return !empty($dat->date_entered) ? $dat->date_entered : '';
+            })
             ->editColumn('quantity', function ($dat) {
                 return $dat->quantity ? '<strong>'.$dat->quantity.'</strong>' : '';
             })
@@ -44,6 +47,12 @@ class MaterialHistoryDataTable extends DataTable
             })
             ->addColumn('audi', function (MaterialHistory $material) {
                     return !empty($material->audi_id) ? $material->generated_by->name  : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
+            })
+            ->addColumn('show', function($row){
+                $btn = '
+                        <a href="'. route('admin.materialhistory.show', $row->id) .'" data-toggle="tooltip" data-placement="top" title="'. __('buttons.general.crud.view') .'" class="btn btn-info" target="_blank"><i class="fas fa-eye"></i></a>
+                        ';
+                        return $btn;
             })
             ->editColumn('created_at', function ($dat) {
                 return $dat->created_at ? with(new Carbon($dat->created_at))->format('d-m-Y H:i:s') : '';
@@ -55,7 +64,7 @@ class MaterialHistoryDataTable extends DataTable
 
                            return $btn;
             })
-            ->rawColumns(['action', 'material', 'actual', 'quantity', 'audi']);
+            ->rawColumns(['action', 'material', 'date_entered', 'actual', 'quantity', 'show']);
      }
 
     /**

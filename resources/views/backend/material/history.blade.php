@@ -33,19 +33,28 @@
 			    <form autocomplete="off" method="POST" action="{{ route('admin.material.addstock', 'test') }}">
        			@csrf
         		    <div class="row input-daterange">
-		                <div class="col-md-4">
+		                <div class="col-md-3">
 		                    <select type="text" name="material" class="form-control" id="material" required>
 		                    </select>
 		                </div>&nbsp;
 
-		                <div class="col-md-3">
-		                    <input type="number" name="stock_" step="any" id="stock_" class="form-control" placeholder="@lang('labels.backend.access.material.table.quantity')"/>
-		                </div>
+		                <div class="col-md-2">
+		                    <input type="number" name="stock_" step="any" id="stock_" class="form-control border border-success" placeholder="@lang('labels.backend.access.material.table.quantity')"/>
+		                </div>&nbsp;
+                    <div class="col-md-2">
+                        <input type="text" name="date_entered_" step="any" id="date_entered_" class="datepicker form-control" placeholder="@lang('labels.backend.access.material.table.date')" required readonly/>
+                    </div>&nbsp;
+                    <div class="col-md-2">
+                        <input type="number" name="price_entered_" step="any" id="price_entered_" class="form-control" placeholder="@lang('labels.backend.access.material.table.unit_price')"/>
+                    </div>
 		                  &nbsp;
-		                <div class="col-md-3">
+		                <div class="col-md-1">
 		                    <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
-		                    <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
 		                </div>
+                    <div class="col-md-1">
+                        <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
+                    </div>
+
 		            </div>
 	            </form>
             <br>
@@ -75,8 +84,9 @@
                             <th>@lang('labels.backend.access.material.table.previous_stock')</th>
   	                        <th>@lang('labels.backend.access.material.table.operation')</th>
                             <th>@lang('labels.backend.access.material.table.stock')</th>
-                            <th>@lang('labels.backend.access.material.table.created_by')</th>
+                            <th>@lang('labels.backend.access.material.table.date')</th>
                             <th>@lang('labels.backend.access.material.table.created') </th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -185,7 +195,7 @@
           dateFormat: 'dd-mm-yy',
           autoclose: true,
           todayHighlight: true,
-          dateFormat:'yy-mm-dd',
+          dateFormat:'dd-mm-yy',
       });
   });
 
@@ -234,7 +244,7 @@
                         return {
                             id: item.id,
                             name: item.name,
-                            text:  item.part_number.fixed() + ' ' +item.name + ' ' + item.unit.name.sup().fontcolor('#20a8d8') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
+                            text:  item.part_number.bold() + ' ' +item.name + ' ' + item.unit.name.sup().fontcolor('#20a8d8') + (item.color_id  ?  '<br> Color: ' + item.color.name.fixed()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.fixed()  : '')
                         };
                     }),
                     pagination: {
@@ -430,8 +440,10 @@ $(document).ready(function() {
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},
             {data: 'actual', name: 'actual'},
-            {data: 'audi', name: 'audi', class: 'text-center'},
+            {data: 'date_entered', name: 'date_entered'},
+            // {data: 'show', name: 'audi', class: 'text-center'},
             {data: 'created_at', name: 'created_at'},
+            {data: 'show', name: 'show', printable: false, orderable: false, searchable: false},
             // {data: 'action', name: 'action', printable: false, orderable: false, searchable: false},
         ]
       });

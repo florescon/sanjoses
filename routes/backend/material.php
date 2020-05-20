@@ -12,6 +12,8 @@ Route::group(['namespace' => 'Material'], function () {
     Route::get('material/{id}', [MaterialController::class, 'destroy'])->name('material.destroy');
 
     Route::get('materialhistory', [MaterialController::class, 'history'])->name('materialhistory.index');
+    Route::get('materialhistory/{id}/show', [MaterialController::class, 'historyshow'])->name('materialhistory.show');
+
     Route::post('material/addstock/{id}', [MaterialController::class, 'addstock'])->name('material.addstock');
 
 });

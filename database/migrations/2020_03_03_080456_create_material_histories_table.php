@@ -19,6 +19,9 @@ class CreateMaterialHistoriesTable extends Migration
             $table->double('old_quantity')->nullable();
             $table->double('quantity')->nullable();
             $table->tinyInteger('type')->nullable();
+            $table->double('price_actual')->nullable();
+            $table->double('price_entered')->nullable();
+            $table->date('date_entered')->nullable();
             $table->unsignedInteger('audi_id')->nullable();
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 use App\Material;
+use Carbon;
 
 class MaterialHistory extends Model
 {
@@ -16,7 +17,7 @@ class MaterialHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'material_id', 'old_quantity', 'quantity', 'type', 'audi_id'
+        'material_id', 'old_quantity', 'quantity', 'type', 'price_actual', 'price_entered', 'date_entered', 'audi_id'
     ];
 
     public function material()
@@ -29,5 +30,23 @@ class MaterialHistory extends Model
         return $this->belongsTo(User::class, 'audi_id');
     }
 
+
+    public function setDateEnteredAttribute($value): void
+    {
+      $this->attributes['date_entered'] =
+        Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
+    }
+
+
+    /**
+     * Get the inscription's start_date.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getDateEnteredAttribute($value)
+    {
+        return !is_null($value) ? Carbon::parse($value)->format('d-m-Y') : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
+    }
 
 }

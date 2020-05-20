@@ -145,6 +145,14 @@ class MaterialController extends Controller
         return $dataTable->render('backend.material.history');
     }
 
+
+    public function historyshow($material)
+    {
+        $materialhistory = MaterialHistory::with('material')->findOrFail($material);
+
+        return view('backend.material.historyshow', compact('materialhistory'));
+    }
+
     public function addstock(Request $request)
     {
         $this->validate($request, [
@@ -152,6 +160,7 @@ class MaterialController extends Controller
         ]);
         $product = Material::findOrFail($request->material);
         $actualstock = $product->stock;
+        $actualprice = $product->price;
         $product->stock = $actualstock  + $request->stock_;
         if ($product->update()) {
             $log = new MaterialHistory();
@@ -159,6 +168,9 @@ class MaterialController extends Controller
             $log->old_quantity = $actualstock;
             $log->quantity = $request->stock_;
             $log->type = 1;
+            $log->date_entered = $request->date_entered_ ?  $request->date_entered_ : Carbon::now()->format('d-m-Y');
+            $log->price_actual = $actualprice;
+            $log->price_entered = $request->price_entered_;
             $log->audi_id = Auth::id();
             $log->saveOrFail();
             return redirect()->route('admin.materialhistory.index')->withFlashSuccess('Cantidad actualizada con exito');
