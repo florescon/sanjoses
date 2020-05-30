@@ -87,6 +87,7 @@ return [
             'list_products' => 'Lista de productos padre',
             'list_products_stock' => 'Lista de productos',
             'history_product' => 'Entradas de productos',
+            'consumption_products' => 'Consumos de producto',
             'services' => 'Servicios',
             'customers' => 'Clientes',
             'schools' => 'Instituciones',

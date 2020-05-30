@@ -96,7 +96,7 @@ ventas@sj-uniformes.com
     <tfoot>
         <tr>
             <td colspan="2"></td>
-            <td align="right">Total $</td>
+            <td align="right">Total </td>
             <td align="right" class="gray">${{ number_format($total, 2, ".", ",") }}</td>
         </tr>
     </tfoot>

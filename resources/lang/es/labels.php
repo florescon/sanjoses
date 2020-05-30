@@ -345,6 +345,7 @@ return [
                 'edit_price' => 'Modificar precio producto',
                 'add_quantity' => 'Agregar/Restar (+/-)',
                 'management' => 'Administración de producto',
+                'management_consumption' => 'Administración de consumos de producto',
                 'product' => 'Producto',
                 'view' => 'Ver producto',
                 'history' => 'Entradas de productos',
@@ -384,6 +385,7 @@ return [
                     'generated_by' => 'Generado por',
                     'movement' => 'Movimiento',
                     'amount_changed' => 'Se modificó cantidad',
+                    'view' => 'ver',
                 ],
             ],
 

@@ -47,9 +47,6 @@ class ProductController extends Controller
 
 
                             ';
-                            $btn = $btn.'
-                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> <i class="fas fa-bomb"></i> </a>
-                            ';
                             if($row->color_size_product->count() == 0){
                             $btn = $btn.'
                                 <a href="'. route('admin.product.product.edit', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('buttons.general.crud.edit') .'" class="btn btn-danger">  '.__('labels.backend.access.product.table.incomplete').' </a>
@@ -69,6 +66,38 @@ class ProductController extends Controller
         return view('backend.product.product.index');
 
     }
+
+
+    public function consumption(Request $request)
+    {
+        // $products = Product::orderBy('updated_at', 'desc')->where('type', 1)->paginate();
+        // return view('backend.product.product.index', compact('products'));
+
+        if ($request->ajax()) {
+            // select('id', 'name', 'address', 'created_at', 'updated_at')
+            $data = Product::query()->where('type', 1);
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    // ->editColumn('created_at', function ($dat) {
+                    //     return $dat->created_at ? with(new Carbon($dat->created_at))->format('d-m-Y H:i:s') : '';
+                    // })
+                    ->editColumn('quantity', function ($dat) {
+                        return $dat->getTotalStock();
+                    })
+                    ->addColumn('action', function($row){
+                            $btn = '
+                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> <i class="fas fa-bomb"></i>  '.__('labels.backend.access.product.table.view').' </a>
+                            ';
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+      
+        return view('backend.product.product.consumption');
+
+    }
+
 
     public function store(ProductRequest $request)
     {

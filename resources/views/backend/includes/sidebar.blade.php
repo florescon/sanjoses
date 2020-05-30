@@ -94,6 +94,18 @@
                     @can('productos')
                     <li class="nav-item">
                         <a class="nav-link {{
+                            active_class(Active::checkUriPattern('admin/product/productconsumption'))
+                        }}" href="{{ route('admin.product.productconsumption.consumption') }}">
+                            @lang('menus.backend.sidebar.consumption_products')
+                        </a>
+                    </li>
+                    @endcan
+               </ul>
+
+                <ul class="nav-dropdown-items">
+                    @can('productos')
+                    <li class="nav-item">
+                        <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/list'))
                         }}" href="{{ route('admin.product.productlist.index') }}">
                             @lang('menus.backend.sidebar.list_products_stock')

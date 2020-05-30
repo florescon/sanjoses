@@ -91,7 +91,7 @@ ventas@sj-uniformes.com
     <tfoot>
         <tr>
             <td colspan="1"></td>
-            <td align="right">Total $</td>
+            <td align="right">Total </td>
             <td align="right" class="gray">${{ $subscription->price }}</td>
         </tr>
     </tfoot>

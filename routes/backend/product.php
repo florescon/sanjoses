@@ -21,8 +21,9 @@ Route::group([
         Route::get('product', [ProductController::class, 'index'])->name('product.index');
         Route::post('product', [ProductController::class, 'store'])->name('product.store');
         Route::get('product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
-
         Route::patch('product', [ProductController::class, 'update'])->name('product.update');
+
+        Route::get('productconsumption', [ProductController::class, 'consumption'])->name('productconsumption.consumption');
 
         Route::patch('productinitialstock', [ProductController::class, 'updateInitialStock'])->name('product.updateinitialstock');
 

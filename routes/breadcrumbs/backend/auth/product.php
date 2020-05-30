@@ -13,6 +13,11 @@ Breadcrumbs::for('admin.product.product.edit', function ($trail, $id) {
     $trail->push(__('labels.backend.access.product.edit'), route('admin.product.product.edit', $id));
 });
 
+Breadcrumbs::for('admin.product.productconsumption.consumption', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push(__('labels.backend.access.product.management_consumption'), route('admin.product.productconsumption.consumption'));
+});
+
 Breadcrumbs::for('admin.product.color.index', function ($trail) {
     $trail->parent('admin.dashboard');
     $trail->push(__('labels.backend.access.color.management'), route('admin.product.color.index'));

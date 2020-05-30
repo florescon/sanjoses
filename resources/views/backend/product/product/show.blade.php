@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <div class="card {{ $product->detail->count() ? '' : 'border-danger' }}">
+  <div class="card {{ $product->color_size_product->count() ? '' : 'border-danger' }}">
     <div class="card-header">
       <strong>Folio: #{{ $product->id }}</strong> 
       <strong style="float:right;"><a class="btn btn-outline-light text-info " href="{{ route('admin.product.product.index') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
@@ -25,7 +25,7 @@
           <br>
           <div>
             <strong>@lang('labels.backend.access.product.colors'):</strong>
-            @if($product->detail->count())
+            @if($product->color_size_product->count())
               <a href="" data-id="{{ $product->id }}" data-toggle="modal" data-target="#newColor" class="btn btn-secondary active btn-sm float-right">@lang('labels.backend.access.product.add_color')</a>
             @endif
           </div>
@@ -40,7 +40,7 @@
 
           <div>
             <strong>@lang('labels.backend.access.product.sizes'):</strong>
-            @if($product->detail->count())
+            @if($product->color_size_product->count())
               <a href="" data-id="{{ $product->id }}" data-toggle="modal" data-target="#newSize" class="btn btn-secondary active btn-sm float-right">@lang('labels.backend.access.product.add_size')</a>
             @endif
           </div>
