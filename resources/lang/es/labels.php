@@ -50,6 +50,7 @@ return [
         'from' => 'Desde',
         'to' => 'Hasta',
         'add' => 'Agregar',
+        'substract' => 'Sustraer',
         'clear' => 'Limpiar',
         'upload' => 'Subir',
         'back_dashboard' => 'Regresar a la pantalla de inicio',
@@ -164,8 +165,10 @@ return [
                 'edit' => 'Modificar materia prima',
                 'management' => 'Administración de materia prima',
                 'history_management' => 'Entradas de materia prima',
+                'historyout_management' => 'Salidas de materia prima',
                 'show_history' => 'Mostrar historial',
                 'material' => 'Materia prima',
+                'material_by_size' => 'Materia prima por talla',
                 'back_all_material' => 'Regresar a todas las materias primas',
 
                 'table' => [
@@ -897,6 +900,7 @@ return [
                 'edit' => 'Modificar explosión de materiales',
                 'management' => 'Administración explosión de materiales',
                 'bom' => 'Explosión de materiales',
+                'bom_by_size' => 'Por talla',
                 'table' => [
                     'id' => 'ID',
                     'key' => 'Clave',

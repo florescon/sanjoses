@@ -105,6 +105,11 @@ Route::group([
         Route::post('bomcart/{id}/save', [BomController::class, 'storeCart'])->name('bom.storecart');
         Route::delete('cartbom/{id}', [BomController::class, 'destroyCart'])->name('cartbom.destroy');
 
+        Route::get('bom/{product}/addtosize/{size}', [BomController::class, 'addtosize'])->name('bom.addtosize');
+        Route::post('bom/save/{product}/{size}', [BomController::class, 'storeAddtosize'])->name('bom.bomsizestore');
+
+        Route::delete('cartbombysize/{id}', [BomController::class, 'destroyCartBysize'])->name('cartbombysize.destroy');
+
     });
 
 

@@ -48,6 +48,11 @@ class StatusController extends Controller
     public function update(Request $request)
     {
 
+        $this->validate($request, [
+            'percentage' => 'required|integer|between:1,100',
+            'to_add_users' => 'boolean',
+        ]);
+
         $status = Status::findOrFail($request->id);
         $status->update($request->all());
 

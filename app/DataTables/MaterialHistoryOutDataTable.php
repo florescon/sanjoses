@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
 use Carbon;
 
-class MaterialHistoryDataTable extends DataTable
+class MaterialHistoryOutDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,7 +21,7 @@ class MaterialHistoryDataTable extends DataTable
     public function dataTable($query)
     {
 
-        $query = $query->with('material', 'generated_by')->where('type', 1);
+       $query = $query->with('material', 'generated_by')->where('type', 2);
         if(request('start_date') && request('end_date')){
             $query->whereBetween('updated_at', [request('start_date'), request('end_date')]);
             // $data->whereBetween('updated_at', array(request('from_date'), request('end_date')))
@@ -48,12 +48,6 @@ class MaterialHistoryDataTable extends DataTable
             ->addColumn('audi', function (MaterialHistory $material) {
                     return !empty($material->audi_id) ? $material->generated_by->name  : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
             })
-            ->addColumn('show', function($row){
-                $btn = '
-                        <a href="'. route('admin.materialhistory.show', $row->id) .'" data-toggle="tooltip" data-placement="top" title="'. __('buttons.general.crud.view') .'" class="btn btn-info" target="_blank"><i class="fas fa-eye"></i></a>
-                        ';
-                        return $btn;
-            })
             ->editColumn('created_at', function ($dat) {
                 return $dat->created_at ? with(new Carbon($dat->created_at))->format('d-m-Y H:i:s') : '';
             })
@@ -64,7 +58,7 @@ class MaterialHistoryDataTable extends DataTable
 
                            return $btn;
             })
-            ->rawColumns(['action', 'material', 'date_entered', 'actual', 'quantity', 'show']);
+            ->rawColumns(['action', 'material', 'date_entered', 'actual', 'quantity']);
      }
 
     /**
@@ -132,6 +126,6 @@ class MaterialHistoryDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'MaterialHistorial_' . date('YmdHis');
+        return 'MaterialHistoryOut_' . date('YmdHis');
     }
 }

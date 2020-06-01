@@ -17,3 +17,8 @@ Breadcrumbs::for('admin.materialhistory.show', function ($trail, $id) {
     $trail->parent('admin.materialhistory.index');
     $trail->push(__('labels.backend.access.material.show_history'), route('admin.materialhistory.show', $id));
 });
+
+Breadcrumbs::for('admin.materialhistoryout.index', function ($trail) {
+    $trail->parent('admin.material.index');
+    $trail->push(__('labels.backend.access.material.historyout_management'), route('admin.materialhistoryout.index'));
+});

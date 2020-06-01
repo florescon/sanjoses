@@ -14,13 +14,18 @@
       </div>
       <div class="card-body">
 
-        <form id="cart" action="{{ route('admin.product.bom.storecart', $product->id) }}" method="POST">
+        <form id="cart" action="{{ route('admin.product.bom.bomsizestore', [$product->id , $size]) }}" method="POST">
         @csrf
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
                   <strong> {!! $product->code !!}</strong> {!! $product->name !!} <a href="{{ route('admin.product.product.show', $product->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.product.table.view') }}" class="btn btn-info ml-1 btn-sm" target="_blank"> <i class="fa fa-eye"></i> </a>
                 </div>
+
+                <div class="form-group">
+                  <strong> Talla: {!! $size->name !!}</strong>
+                </div>
+
               </div>
 
               <div class="col-sm-12">
@@ -48,21 +53,6 @@
       </div>    
     </div>
 
-
-    @if($product->color_size_product->count())
-      <div class="card">
-        <div class="card-header">
-          <small>@lang('labels.backend.access.material.material_by_size')</small>
-        </div>
-        <div class="card-body">
-          <div class="list-group">
-            @foreach ($product->sizes as $size)
-              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $size->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">{{ $size->name }}<span class="badge badge-primary badge-pill"></span></a>
-            @endforeach
-          </div>
-        </div>  
-      </div>
-    @endif
 
   </div>
   <!-- /.col-->
@@ -96,7 +86,7 @@
               <td>${{ $product->total_price }}
               </td>
               <td>
-                    <a href="{{ route('admin.product.cartbom.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                    <a href="{{ route('admin.product.cartbombysize.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
                         @lang('labels.backend.access.sell.delete')
                     </a> 
                </td>

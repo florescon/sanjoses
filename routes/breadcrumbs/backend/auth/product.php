@@ -62,3 +62,8 @@ Breadcrumbs::for('admin.product.producthistory.index', function ($trail) {
     $trail->parent('admin.product.product.index');
     $trail->push(__('labels.backend.access.product.history'), route('admin.product.producthistory.index'));
 });
+
+Breadcrumbs::for('admin.product.bom.addtosize', function ($trail, $product, $size) {
+    $trail->parent('admin.product.bom.create', $product);
+    $trail->push(__('labels.backend.access.bom.bom_by_size'), route('admin.product.bom.addtosize', [$product, $size]));
+});

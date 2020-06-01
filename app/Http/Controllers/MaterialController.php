@@ -11,6 +11,7 @@ use DataTables;
 use Carbon;
 use App\DataTables\MaterialsDataTable;
 use App\DataTables\MaterialHistoryDataTable;
+use App\DataTables\MaterialHistoryOutDataTable;
 
 class MaterialController extends Controller
 {
@@ -145,6 +146,11 @@ class MaterialController extends Controller
         return $dataTable->render('backend.material.history');
     }
 
+    public function historyout(MaterialHistoryOutDataTable $dataTable)
+    {
+        return $dataTable->render('backend.material.historyout');
+    }
+
 
     public function historyshow($material)
     {
@@ -176,6 +182,32 @@ class MaterialController extends Controller
             return redirect()->route('admin.materialhistory.index')->withFlashSuccess('Cantidad actualizada con exito');
         } else {
             return redirect()->route('admin.materialhistory.index')->withFlashDanger('Error');
+        }
+    }
+
+
+
+    public function substractstock(Request $request)
+    {
+        $this->validate($request, [
+            'stock_' => 'required',
+        ]);
+        $product = Material::findOrFail($request->material);
+        $actualstock = $product->stock;
+        $actualprice = $product->price;
+        $product->stock = $actualstock  - $request->stock_;
+        if ($product->update()) {
+            $log = new MaterialHistory();
+            $log->material_id = $product->id;
+            $log->old_quantity = $actualstock;
+            $log->quantity =  -$request->stock_;
+            $log->type = 2;
+            $log->price_actual = $actualprice;
+            $log->audi_id = Auth::id();
+            $log->saveOrFail();
+            return redirect()->route('admin.materialhistoryout.index')->withFlashSuccess('Cantidad actualizada con exito');
+        } else {
+            return redirect()->route('admin.materialhistoryout.index')->withFlashDanger('Error');
         }
     }
 

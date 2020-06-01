@@ -249,10 +249,18 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{
-                    active_class(Active::checkUriPattern('admin/material/history'))
+                    active_class(Active::checkUriPattern('admin/material/materialhistory'))
                 }}" href="{{ route('admin.materialhistory.index') }}">
-                    <i class="nav-icon fa fa-adjust"> </i>
+                    <i class="nav-icon fa fa-plus-square"> </i>
                     @lang('menus.backend.sidebar.history_material')
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{
+                    active_class(Active::checkUriPattern('admin/material/materialhistoryout'))
+                }}" href="{{ route('admin.materialhistoryout.index') }}">
+                    <i class="nav-icon fa fa-minus-square"> </i>
+                    @lang('menus.backend.sidebar.historyout_material')
                 </a>
             </li>
             @endcan

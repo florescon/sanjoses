@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', app_name() . ' | ' . __('labels.backend.access.material.history_management'))
+@section('title', app_name() . ' | ' . __('labels.backend.access.material.historyout_management'))
 
 @section('content')
 
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <h4 class="card-title mb-0">
-                    {{ __('labels.backend.access.material.history_management') }}
+                    {{ __('labels.backend.access.material.historyout_management') }}
                 </h4>
             </div><!--col-->
 
@@ -27,10 +27,10 @@
 
             <div class="col">
             <h4 class="card-title mb-0">
-              <small class="text-muted"><em>Agregar materia prima</em></small>
+              <small class="text-muted"><em>Restar materia prima</em></small>
             </h4>
             <br>
-			    <form autocomplete="off" method="POST" action="{{ route('admin.material.addstock', 'test') }}">
+			    <form autocomplete="off" method="POST" action="{{ route('admin.material.substractstock', 'test') }}">
        			@csrf
         		    <div class="row input-daterange">
 		                <div class="col-md-3">
@@ -39,17 +39,10 @@
 		                </div>&nbsp;
 
 		                <div class="col-md-2">
-		                    <input type="number" name="stock_" min="0" step="any" id="stock_" class="form-control border border-success" placeholder="@lang('labels.backend.access.material.table.quantity')"/>
+		                    <input type="number" min="0" name="stock_" step="any" id="stock_" class="form-control border border-danger" placeholder="@lang('labels.backend.access.material.table.quantity')"/>
 		                </div>&nbsp;
-                    <div class="col-md-2">
-                        <input type="text" name="date_entered_" step="any" id="date_entered_" class="datepicker form-control" placeholder="@lang('labels.backend.access.material.table.date')" required readonly/>
-                    </div>&nbsp;
-                    <div class="col-md-2">
-                        <input type="number" name="price_entered_" step="any" id="price_entered_" class="form-control" placeholder="@lang('labels.backend.access.material.table.unit_price')"/>
-                    </div>
-		                  &nbsp;
 		                <div class="col-md-1">
-		                    <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
+		                    <button ype="submit" class="btn btn-danger">@lang('labels.general.substract')</button>
 		                </div>
                     <div class="col-md-1">
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
@@ -86,7 +79,6 @@
                             <th>@lang('labels.backend.access.material.table.stock')</th>
                             <th>@lang('labels.backend.access.material.table.date')</th>
                             <th>@lang('labels.backend.access.material.table.created') </th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -405,7 +397,7 @@ $(document).ready(function() {
         autoWidth: false,
         order: ['7', 'desc'], 
         ajax: {
-          url: "{{ route('admin.materialhistory.index') }}",
+          url: "{{ route('admin.materialhistoryout.index') }}",
           method: 'get',
           data: function (d) {
             d.start_date = $('#start-date').val(); // Pass along start date and end date here
@@ -443,7 +435,7 @@ $(document).ready(function() {
             {data: 'date_entered', name: 'date_entered'},
             // {data: 'show', name: 'audi', class: 'text-center'},
             {data: 'created_at', name: 'created_at'},
-            {data: 'show', name: 'show', printable: false, orderable: false, searchable: false},
+            // {data: 'show', name: 'show', printable: false, orderable: false, searchable: false},
             // {data: 'action', name: 'action', printable: false, orderable: false, searchable: false},
         ]
       });

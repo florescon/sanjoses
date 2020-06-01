@@ -186,7 +186,7 @@
           </div>
           <div class="checkbox d-flex align-items-center">
               <label class="switch switch-label switch-pill switch-primary switch-sm">
-                <input class="switch-input" type="checkbox" value="1" id="to_add_users" name="to_add_users">
+                <input class="switch-input" type="checkbox" value="1" name="to_add_users">
                 <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
               </label>
               <label>&nbsp; @lang('labels.backend.access.status.to_add_users')</label>

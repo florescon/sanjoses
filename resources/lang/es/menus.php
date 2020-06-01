@@ -101,6 +101,7 @@ return [
             'general' => 'Generales',
             'material' => 'Materia prima',
             'history_material' => 'Entradas de materia prima',
+            'historyout_material' => 'Salidas de materia prima',
             'orders' => 'Ordenes',
         ],
     ],
