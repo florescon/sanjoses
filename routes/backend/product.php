@@ -105,6 +105,10 @@ Route::group([
         Route::post('bomcart/{id}/save', [BomController::class, 'storeCart'])->name('bom.storecart');
         Route::delete('cartbom/{id}', [BomController::class, 'destroyCart'])->name('cartbom.destroy');
 
+        Route::post('bom/replicate/{product}', [BomController::class, 'bomMainDuplicate'])->name('bom.replicate');
+
+        Route::patch('bom/updateconsumption', [BomController::class, 'updateconsumption'])->name('bom.updateconsumption');
+
         Route::get('bom/{product}/addtosize/{size}', [BomController::class, 'addtosize'])->name('bom.addtosize');
         Route::post('bom/save/{product}/{size}', [BomController::class, 'storeAddtosize'])->name('bom.bomsizestore');
 

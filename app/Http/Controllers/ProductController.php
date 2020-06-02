@@ -86,7 +86,7 @@ class ProductController extends Controller
                     })
                     ->addColumn('action', function($row){
                             $btn = '
-                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> <i class="fas fa-bomb"></i>  '.__('labels.backend.access.product.table.view').' </a>
+                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> <i class="fas fa-bomb"></i> </a>
                             ';
                             return $btn;
                     })

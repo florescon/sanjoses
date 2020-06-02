@@ -14,7 +14,7 @@
       </div>
       <div class="card-body">
 
-        <form id="cart" action="{{ route('admin.product.bom.bomsizestore', [$product->id , $size]) }}" method="POST">
+        <form id="cart" action="{{ route('admin.product.bom.bomsizestore', [$product->id , $size->id]) }}" method="POST">
         @csrf
             <div class="row">
               <div class="col-sm-12">
@@ -52,12 +52,26 @@
       </form>
       </div>    
     </div>
-
-
   </div>
   <!-- /.col-->
-  @if($materials->count())
+
   <div class="col-lg-8">
+
+    <div class="card">
+      <div class="card-header"><strong>Materia prima principal</strong>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ route('admin.product.bom.replicate', 'test') }}">
+          @csrf
+          <input type="hidden" name="product" id="product" value="{{ $product->id }}">
+          <input type="hidden" name="size" id="size" value="{{ $size->id }}">
+          <button type="submit" class="btn btn-primary"><small>Replicar materia prima</small></button>
+        </form>
+
+      </div>
+    </div>
+
+    @if($materials->count())
     <div class="card">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> @lang('labels.backend.access.material.table.list_material')</div>
@@ -86,9 +100,13 @@
               <td>${{ $product->total_price }}
               </td>
               <td>
+                <div class="btn-group" role="group">
+                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary btn-sm" data-id="{{ $product->id }}" data-myquantity="{{ $product->quantity }}" data-target="#editConsumption"><i class="fas fa-edit"></i></a>
+
                     <a href="{{ route('admin.product.cartbombysize.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
-                        @lang('labels.backend.access.sell.delete')
+                        <i class="fas fa-eraser"></i>
                     </a> 
+                </div>
                </td>
             </tr>
             @php($total+=$product->quantity*$product->material->price)
@@ -109,16 +127,66 @@
 
       </div>
     </div>
+    @endif
 
   </div>
-  @endif
   <!-- /.col-->
 </div>
 
 </div><!--card-->
+
+
+<div class="modal fade" id="editConsumption" tabindex="-1" role="dialog" aria-labelledby="createTagLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createTagLabel">@lang('labels.backend.access.material.edit_consumption')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form autocomplete="off" method="POST" action="{{ route('admin.product.bom.updateconsumption', 'test') }}">
+        {{method_field('patch')}}
+        {{ csrf_field() }}
+      <div class="modal-body">
+          <div class="form-group">
+
+            <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="text" class="form-control" value="" name="quantity" id="quantity" required>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('after-scripts')
+
+<script>
+    $('#editConsumption').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var quantity = button.data('myquantity')
+      var id = button.data('id')
+      var modal = $(this)
+
+
+      modal.find('.modal-body #quantity').val(quantity)
+      modal.find('.modal-body #id').val(id)
+    });
+
+
+</script>
+
 <script>
     $(document).ready(function() {
     $('#product').select2({

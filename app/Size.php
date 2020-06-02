@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\SizeBom;
 
 class Size extends Model
 {
@@ -18,5 +19,17 @@ class Size extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function size_bymaterial()
+    {
+        return $this->hasMany(SizeBom::class)->orderBy('updated_at', 'desc');
+    }
+
+
+    public function getTotalStock()
+    {
+        return $this->size_bymaterial->count() ? $this->size_bymaterial->count() : '';
+    }
+
 
 }

@@ -163,6 +163,7 @@ return [
                 'raw_material' => 'Materia prima',
                 'create' => 'Crear materia prima',
                 'edit' => 'Modificar materia prima',
+                'edit_consumption' => 'Modificar consumo materia prima',
                 'management' => 'Administración de materia prima',
                 'history_management' => 'Entradas de materia prima',
                 'historyout_management' => 'Salidas de materia prima',

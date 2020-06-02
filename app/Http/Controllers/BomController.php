@@ -25,7 +25,6 @@ class BomController extends Controller
         $payments = PaymentMethod::all();
         $product = Product::with('color_size_product', 'sizes')->find($id);
 
-        // dd($products);
         return view('backend.product.bom.create', compact('materials', 'payments', 'product'));
     }
 
@@ -37,9 +36,31 @@ class BomController extends Controller
         $product = Product::with('color_size_product', 'sizes')->find($productid);
         $size = Size::find($sizeid);
 
-        // dd($products);
         return view('backend.product.bom.create_bysize', compact('materials', 'payments', 'product', 'size'));
     }
+
+
+    public function storeCart(Request $request, $id)
+    {
+        $this->validate($request, [
+            'product' => 'required',
+            'quantity' => 'required|required|not_in:0',
+        ]);
+        
+        $dup = DB::table('boms')->where(['material_id'=>$request->product])->where('product_id', $id)->count();
+        
+        if($dup>=1){
+            return redirect()->back()->withFlashDanger('Material duplicado');
+        }
+
+        $cart = new Bom();
+        $cart->product_id = $id;
+        $cart->material_id = $request->product;
+        $cart->quantity = $request->quantity;
+        $cart->save();
+
+        return redirect()->back()->withFlashSuccess('Material agregado con éxito');
+    }   
 
 
     public function storeAddtosize(Request $request, $productid, $sizeid)
@@ -68,27 +89,39 @@ class BomController extends Controller
 
     }
 
-    public function storeCart(Request $request, $id)
+    public function bomMainDuplicate(Request $request)
     {
-        $this->validate($request, [
-            'product' => 'required',
-            'quantity' => 'required|required|not_in:0',
-        ]);
-        
-        $dup = DB::table('boms')->where(['material_id'=>$request->product])->where('product_id', $id)->count();
-        
-        if($dup>=1){
-            return redirect()->back()->withFlashDanger('Material duplicado');
+
+
+        $actualmaterials = SizeBom::where('product_id', $request->product)->where('size_id', $request->size)->get();
+
+        if($actualmaterials->count()){
+            foreach($actualmaterials as $actualmaterial){
+                $actualmaterial->delete();            
+            }
+
         }
 
-        $cart = new Bom();
-        $cart->product_id = $id;
-        $cart->material_id = $request->product;
-        $cart->quantity = $request->quantity;
-        $cart->save();
+        $materials = Bom::where('product_id', $request->product)->get();
+        foreach($materials as $material){
+            $clone = $material->replicate();
+            $clone->size_id = $request->size;
+            $clone->setTable('size_boms')->save();
+        }
 
-        return redirect()->back()->withFlashSuccess('Material agregado con éxito');
-    }   
+        return redirect()->back()->withFlashSuccess('Material replicado con éxito');
+
+    }    
+
+
+    public function updateconsumption(Request $request, SizeBom $color)
+    {
+        $color = SizeBom::findOrFail($request->id);
+        $color->update($request->all());
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo actualizado con éxito');
+    }
 
     public function destroyCart($id)
     {
