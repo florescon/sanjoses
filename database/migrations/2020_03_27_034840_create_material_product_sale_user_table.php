@@ -18,6 +18,7 @@ class CreateMaterialProductSaleUserTable extends Migration
             $table->unsignedMediumInteger('sale_id')->nullable();
             $table->unsignedInteger('material_id')->nullable();
             $table->double('quantity')->nullable();
+            $table->double('ready_quantity')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->integer('folio')->nullable();   

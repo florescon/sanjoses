@@ -159,16 +159,12 @@
             cache: true,
             delay: 250
         },
-        placeholder: 'Material',
+        placeholder: 'Materia prima',
         width: 'resolve',
         escapeMarkup: function(m) { return m; }
 
       });
 });
-
-
-
-
 </script>
 @endpush
 

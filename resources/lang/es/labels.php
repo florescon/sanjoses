@@ -50,6 +50,7 @@ return [
         'from' => 'Desde',
         'to' => 'Hasta',
         'add' => 'Agregar',
+        'aggregate' => 'agregado',
         'substract' => 'Sustraer',
         'clear' => 'Limpiar',
         'upload' => 'Subir',
@@ -169,6 +170,7 @@ return [
                 'historyout_management' => 'Salidas de materia prima',
                 'show_history' => 'Mostrar historial',
                 'material' => 'Materia prima',
+                'add_material_to_order' => 'Agregar materia prima a la orden',
                 'material_by_size' => 'Materia prima por talla',
                 'back_all_material' => 'Regresar a todas las materias primas',
 
@@ -359,6 +361,7 @@ return [
                 'clone' => 'Clonar',
                 'products' => 'Productos',
                 'parent_products' => 'Productos padre',
+                'ready_product' => 'Producto terminado',
                 'colors' => 'Colores',
                 'sizes' => 'Tallas',
                 'add_color' => 'Agregar color',
@@ -900,7 +903,7 @@ return [
                 'create' => 'Crear explosión de materiales',
                 'edit' => 'Modificar explosión de materiales',
                 'management' => 'Administración explosión de materiales',
-                'bom' => 'Explosión de materiales',
+                'bom' => 'Consumo de materiales',
                 'bom_by_size' => 'Por talla',
                 'table' => [
                     'id' => 'ID',

@@ -242,6 +242,30 @@ class OrderController extends Controller
     }
 
 
+    public function addmaterialselect(Request $request, $id)
+    {
+        $this->validate($request, [
+            'product' => 'required',
+            'quantity' => 'required|required|not_in:0',
+        ]);
+        
+        $dup = DB::table('material_product_sale')->where('sale_id', $id)->where(['material_id'=>$request->product])->count();
+        
+        if($dup>=1){
+            return redirect()->back()->withFlashDanger('Material ya existente en la orden, modifique cantidad en el listado');
+        }
+
+        $cart = new MaterialProductSale();
+        $cart->sale_id = $id;
+        $cart->material_id = $request->product;
+        $cart->product_id = NULL;
+        $cart->quantity = $request->quantity;
+        $cart->save();
+
+        return redirect()->back()->withFlashSuccess('Materia prima agregada con éxito');
+    }   
+
+
     public function addtostaff($id, $staff)
     {
 
@@ -307,22 +331,35 @@ class OrderController extends Controller
             }
         }
         else{
-            foreach($quantity as $key => $quant) {   
-                $material_staff = new MaterialProductSaleUser();
-                $material_staff->sale_id = $request->id;
-                $material_staff->material_id = $material_id[$key];
-                $material_staff->quantity = $quant ? $quant : 0;
-                $material_staff->user_id = $request->user;
-                $material_staff->status_id = $request->status;
-                $material_staff->folio = $value;
-                $material_staff->audi_id = Auth::id();
-                $material_staff->saveOrFail();
+            foreach($quantity as $key => $quant) {
+                if(!empty($quant)){
+                    $material_staff = new MaterialProductSaleUser();
+                    $material_staff->sale_id = $request->id;
+                    $material_staff->material_id = $material_id[$key];
+                    $material_staff->quantity = $quant ? $quant : 0;
+                    $material_staff->user_id = $request->user;
+                    $material_staff->status_id = $request->status;
+                    $material_staff->folio = $value;
+                    $material_staff->audi_id = Auth::id();
+                    $material_staff->saveOrFail();
+                }
             }
         }
 
         return redirect()->back()->withFlashSuccess('Personal agregado con exito');
 
     }
+
+
+    public function readyproduct(Request $request, MaterialProductSaleUser $ready_product)
+    {
+        $ready_product = MaterialProductSaleUser::findOrFail($request->id);
+        $ready_product->update($request->all());
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo actualizado con éxito');
+    }
+
 
     public function changeStatus(Request $request)
     {

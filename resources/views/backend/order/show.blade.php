@@ -152,6 +152,34 @@
               </tbody>
             </table>
 
+
+            <div class="card-body">
+              <form id="cart" action="{{ route('admin.order.addmaterialselect', $sale->id) }}" method="POST">
+              @csrf
+                  <div class="row">
+                    <div class="col-sm-9">
+                    <div class="form-group">
+                      <label for="product" class="col-form-label">@lang('labels.backend.access.material.add_material_to_order')</label>
+                      <select type="text" name="product" class="form-control" id="product" required>
+                      </select>
+                    </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="quantity">@lang('labels.backend.access.order.table.quantity')</label>
+                        <input class="form-control" style="border-width:0 0 1px 0;" id="quantity" name="quantity" type="number" min="0" step="any" placeholder="Cantidad" value="1">
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- /.row-->
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm">@lang('labels.general.buttons.add')</button>
+                </div>
+              </form>
+            </div>  
+
+
             @if($sale_material->material_product_sale->count() && $sale->latestStatus()->level >= 0)
             <table class="table">
               <thead>
@@ -172,7 +200,7 @@
                 @php($totalmat=0)
                 @foreach($sale_material->material_product_sale as $material)
                   <tr class="table-warning">
-                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} </td>
+                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} {!! ($material->product_id == NULL ? '<span class="badge badge-success"> '.__('labels.general.aggregate').' </span></a>' : '') !!} </td>
                     <td class="right">
                         {{ $material->material->unit->name }}
                     </td>
@@ -186,7 +214,7 @@
 
                     <td class="right">
                       <div class="btn-group" role="group" aria-label="_{{ _('labels.backend.access.users.user_actions') }}"> 
-                        <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-material_id="{{ $material->id }}"data-stock="{{ $material->sum }}" title="@lang('buttons.general.crud.edit')" class="btn btn-outline-light  text-info btn-sm"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a>
+                        <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-material_id="{{ $material->id }}" data-stock="{{ $material->sum }}" title="@lang('buttons.general.crud.edit')" class="btn btn-outline-light  text-info btn-sm"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a>
                       </div>                
                     </td>
                   </tr>
@@ -422,6 +450,44 @@ $('.btn-number').click(function(e){
     }
 });
 
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#product').select2({
+      ajax: {
+            url: '{{ route('admin.product.materialdetails.select') }}',
+            data: function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            dataType: 'json',
+            processResults: function (data) {
+                data.page = data.page || 1;
+                return {
+                    results: data.items.map(function (item) {
+
+                        return {
+                            id: item.id,
+                            text:  item.part_number.fixed() + ' ' +item.name + ' ' + (item.unit_id ? item.unit.name.sup().fontcolor('#20a8d8') : '') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
+                        };
+                    }),
+                    pagination: {
+                        more: data.pagination
+                    }
+                }
+            },
+            cache: true,
+            delay: 250
+        },
+        placeholder: 'Materia prima',
+        width: 'resolve',
+        escapeMarkup: function(m) { return m; }
+
+      });
+});
 </script>
 
 

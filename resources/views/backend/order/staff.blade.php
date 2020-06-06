@@ -95,8 +95,10 @@
                     <tr>
                       <th>Producto</th>
                       <th>Cantidad</th>
+                      <th><i class="fa fa-check-double"></i></th>
                       <th>Usuario</th>
                       <th>Folio</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -104,10 +106,14 @@
                     <tr>
                       <td><strong>{{ $product->product_stock->product_detail->name }}</strong>{{ ' Color:'.$product->product_stock->product_detail_color->name. ' Talla:'.$product->product_stock->product_detail_size->name }}</td>
                       <td align="center">{{ $product->quantity }}</td>
+                      <td align="center">{{ $product->ready_quantity }}</td>
                       <td>{{ $product->staff->name }}</td>
                       <td>
                         <a href="{{ route('admin.inventory.sell.generateproductbystaff', [$sale->id, $product->user_id, $product->folio, $status_url->id]) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info ml-1 btn-sm" target="_blank"># {{ $product->folio }}</a>
                       </td>
+                      <th>
+                        <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary btn-sm" data-id="{{ $product->id }}" data-myquantity="{{ $product->quantity }}" data-target="#editConsumption"><i class="fa fa-check-double"></i></a>
+                      </th>
                     </tr>
                     @endforeach
                   </tbody>
@@ -270,9 +276,55 @@
 </div>
 
 
+
+<div class="modal fade" id="editConsumption" tabindex="-1" role="dialog" aria-labelledby="createTagLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createTagLabel">@lang('labels.backend.access.product.ready_product')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form autocomplete="off" method="POST" action="{{ route('admin.order.readyproduct', 'test') }}">
+        {{method_field('patch')}}
+        {{ csrf_field() }}
+      <div class="modal-body">
+          <div class="form-group">
+
+            <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="text" class="form-control" value="" maxlength="quantity" name="ready_quantity" id="quantity" required>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('after-scripts')
+
+<script>
+    $('#editConsumption').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var quantity = button.data('myquantity')
+      var id = button.data('id')
+      var modal = $(this)
+
+      modal.find('.modal-body #quantity').val(quantity)
+      modal.find('.modal-body #id').val(id)
+    });
+</script>
+
 <script>
 
     $('#stockModal').on('show.bs.modal', function (event) {

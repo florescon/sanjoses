@@ -21,9 +21,13 @@ Route::group(['namespace' => 'Order'], function () {
 
 
     Route::post('order/addmaterial/{id}', [OrderController::class, 'addmaterial'])->name('order.addmaterial');
+    Route::post('order/addmaterialselect/{id}', [OrderController::class, 'addmaterialselect'])->name('order.addmaterialselect');
 
     Route::get('order/{id}/addtostaff/{staff}', [OrderController::class, 'addtostaff'])->name('order.addtostaff');
     Route::post('orderstaff', [OrderController::class, 'storeStaff'])->name('order.orderstaff');
+
+    Route::patch('order/readyproduct', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
+
 
     Route::post('change', [OrderController::class, 'changeStatus'])->name('order.change');
     Route::get('orderproduction/{id}', [OrderController::class, 'toProduction'])->name('order.production');

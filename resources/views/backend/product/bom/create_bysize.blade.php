@@ -10,7 +10,7 @@
       <div class="card-header">
         <strong>@lang('labels.backend.access.order.add')</strong>
         <small>@lang('labels.backend.access.material.material')</small>
-            <strong style="float:right;"><a class="btn btn-outline-light btn-sm text-info " href="{{ route('admin.product.product.index') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
+            <strong style="float:right;"><a class="btn btn-outline-light btn-sm text-info " href="{{ route('admin.product.bom.create', $product->id) }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
       </div>
       <div class="card-body">
 
@@ -183,8 +183,6 @@
       modal.find('.modal-body #quantity').val(quantity)
       modal.find('.modal-body #id').val(id)
     });
-
-
 </script>
 
 <script>
