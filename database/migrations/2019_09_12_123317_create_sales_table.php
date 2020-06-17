@@ -16,6 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->longText('comment')->nullable();
             $table->longText('ticket_text')->nullable();
             $table->unsignedSmallInteger('payment_method_id')->nullable();
             $table->unsignedMediumInteger('audi_id')->nullable();

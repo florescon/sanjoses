@@ -51,9 +51,9 @@
                         <tr>
                             <th>@lang('labels.backend.access.order.table.folio')</th>
                             <th>@lang('labels.backend.access.order.client')</th>
-                            <th>@lang('labels.backend.access.order.payment_method')</th>
                             <th>@lang('labels.backend.access.order.table.to_production')</th>
                             <th>@lang('labels.backend.access.order.table.to_final_order')</th>
+                            <th>@lang('labels.backend.access.order.table.comment')</th>
                             <th>@lang('labels.backend.access.order.table.status')</th>
                             <th>@lang('labels.backend.access.order.table.created')</th>
                             <th>@lang('labels.general.actions') </th>
@@ -270,9 +270,9 @@
         columns: [
             {data: 'folio', name: 'id'},
             {data: 'user', name: 'user.first_name', orderable: false},
-            {data: 'payment', name: 'payment.name', orderable: false},
             {data: 'production', name: 'production', orderable: false, searchable: false, className: 'text-center'},
             {data: 'final', name: 'final', orderable: false, searchable: false, className: 'text-center'},
+            {data: 'comment', name: 'comment', orderable: false},
             {data: 'status', name: 'status', orderable: false, searchable: false, className: 'text-center'},
             {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

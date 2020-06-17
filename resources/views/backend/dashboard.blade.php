@@ -141,8 +141,8 @@
             <div class="progress-group mb-4">
               <div class="progress-group-header">
                 
-                <div><a href="{{ route('admin.order.show', $order->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.show_order') }}" class="btn btn-info btn-sm"> #{{ $order->id }} </a>  {{ !empty($order->user_id) ? $order->user->name : 'no definido' }}  </div>
-                <div class="ml-auto font-weight-bold"><i class="fa fa-cog fa-spin fa-fw"></i> {{ $order->latestStatus()->name.' | '.$order->latestStatus()->percentage }}%</div>
+                <div><a href="{{ route('admin.order.show', $order->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.show_order') }}" class="btn btn-info btn-sm"> #{{ $order->id }} </a>  {{ !empty($order->user_id) ? $order->user->name : '-- No definido --' }} </div>
+                <div class="ml-auto font-weight-bold"> {{ $order->comment ? substr($order->comment, 0, 50). '...' : '' }} <i class="fa fa-cog fa-spin fa-fw"></i> {{ $order->latestStatus()->name.' | '.$order->latestStatus()->percentage }}%</div>
               </div>
               <div class="progress-group-bars">
                 @foreach($order->status_bar  as $all_status)

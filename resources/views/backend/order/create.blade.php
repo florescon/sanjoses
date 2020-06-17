@@ -131,6 +131,10 @@
                         <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.text_ticket'):</label>
                         <textarea rows="2"  class="form-control" name="ticket_text" id="ticket_text"></textarea>
                       </div>
+                      <div class="form-group">
+                        <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.comment_sale'):</label>
+                        <textarea rows="2"  class="form-control border-success" name="comment" id="comment"></textarea>
+                      </div>
 
                   </div>
                   <div class="card-footer">

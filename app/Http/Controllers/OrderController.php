@@ -147,6 +147,7 @@ class OrderController extends Controller
             $sell = new Sale();
             $sell->user_id = $request->user;
             $sell->ticket_text = $request->ticket_text;
+            $sell->comment = $request->comment;
             $sell->payment_method_id = $request->payment;
             $sell->audi_id = Auth::id();
             $sell->type = 2;
@@ -171,8 +172,6 @@ class OrderController extends Controller
 
                     $product_decrement = Material::find($bom->material_id);
                     $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
-
-
                 }
 
                 ProductSale::create([

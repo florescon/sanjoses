@@ -57,20 +57,39 @@
 
   <div class="col-lg-8">
 
-    <div class="card">
-      <div class="card-header"><strong>Materia prima principal</strong>
-      </div>
-      <div class="card-body">
-        <form method="POST" action="{{ route('admin.product.bom.replicate', 'test') }}">
-          @csrf
-          <input type="hidden" name="product" id="product" value="{{ $product->id }}">
-          <input type="hidden" name="size" id="size" value="{{ $size->id }}">
-          <button type="submit" class="btn btn-primary"><small>Replicar materia prima</small></button>
-        </form>
 
+
+    <div class="card-group text-center">
+      <div class="card">
+        <div class="card-footer">
+          <small class="text-muted">
+
+              <form method="POST" action="{{ route('admin.product.bom.replicate', 'test') }}">
+                @csrf
+                <input type="hidden" name="product" id="product" value="{{ $product->id }}">
+                <input type="hidden" name="size" id="size" value="{{ $size->id }}">
+                <button type="submit" class="btn btn-info"><small>Replicar materia prima</small></button>
+              </form>
+          </small>
+        </div>
       </div>
+      @if($materials->count())
+      <div class="card">
+        <div class="card-footer">
+          <small class="text-muted">
+
+              <form method="POST" action="{{ route('admin.product.bom.delete', 'test') }}">
+                @csrf
+                <input type="hidden" name="product" id="product" value="{{ $product->id }}">
+                <input type="hidden" name="size" id="size" value="{{ $size->id }}">
+                <button type="submit" class="btn btn-danger"><small>Eliminar materia prima</small></button>
+              </form>
+          </small>
+        </div>
+      </div>
+      @endif
     </div>
-
+    <br>
     @if($materials->count())
     <div class="card">
       <div class="card-header">

@@ -37,10 +37,6 @@ class OrdersDataTable extends DataTable
                 ->addColumn('user', function (Sale $order) {
                         return !empty($order->user_id) ? $order->user->name  : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
                 })
-                ->addColumn('payment', function (Sale $order) {
-                        return !empty($order->payment_method_id) ? $order->payment->name  : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
-
-                })
                 ->addColumn('production', function (Sale $order) {
                         return $order->latestStatus() ? $order->production_label : '';
 
@@ -52,6 +48,10 @@ class OrdersDataTable extends DataTable
                 ->addColumn('generated_by', function (Sale $order) {
                         return !empty($order->audi_id) ? $order->generated_by->name  : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
 
+                })
+                ->editColumn('comment', function ($dat) {
+                    // return substr($dat->comment, 0, 30).'...';
+                    return $dat->comment ? '<a data-toggle="tooltip" data-placement="top" title="'.$dat->comment.'">'.substr($dat->comment, 0, 30).'...</a>' : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
                 })
                 ->addColumn('status', function (Sale $order) {
                         return $order->latestStatus() ? ( $order->latestStatus()->id == 2 ? '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-success btn-sm" type="button"><i class="fas fa-arrow-right"></i> '.$order->latestStatus()->name.'</button></div>' : '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-primary btn-sm" type="button"><i class="far fa-lightbulb"></i> '.$order->latestStatus()->name.'</button></div>' ) : '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-secondary btn-sm" type="button"><i class="far fa-sad-cry"></i></i> <em>No definido</em></button></div>';
@@ -76,7 +76,7 @@ class OrdersDataTable extends DataTable
                             ';
                             return $btn;
                 })
-                ->rawColumns(['folio', 'user', 'payment', 'generated_by', 'production', 'final', 'status', 'action']);
+                ->rawColumns(['folio', 'user', 'generated_by', 'production', 'final', 'comment', 'status', 'action']);
 
     }
 
@@ -128,7 +128,6 @@ class OrdersDataTable extends DataTable
         return [
             ['data' => 'folio', 'title' => __('labels.backend.access.order.table.folio')],
             ['data' => 'user', 'title' => __('labels.backend.access.order.client')],
-            ['data' => 'payment', 'title' => __('labels.backend.access.order.payment_method'), 'class' =>'text-center'],
             ['data' => 'generated_by', 'title' => __('labels.backend.access.order.table.generated_by')],
             ['data' => 'status', 'title' => __('labels.backend.access.order.table.status')],
             ['data' => 'created_at', 'title' => __('labels.backend.access.order.table.created')],

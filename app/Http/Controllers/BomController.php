@@ -114,6 +114,24 @@ class BomController extends Controller
     }    
 
 
+    public function bomMainDelete(Request $request)
+    {
+
+
+        $actualmaterials = SizeBom::where('product_id', $request->product)->where('size_id', $request->size)->get();
+
+        if($actualmaterials->count()){
+            foreach($actualmaterials as $actualmaterial){
+                $actualmaterial->delete();            
+            }
+
+        }
+
+        return redirect()->back()->withFlashSuccess('Material eliminado con éxito');
+
+    }    
+
+
     public function updateconsumption(Request $request, SizeBom $color)
     {
         $color = SizeBom::findOrFail($request->id);

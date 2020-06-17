@@ -106,6 +106,7 @@ Route::group([
         Route::delete('cartbom/{id}', [BomController::class, 'destroyCart'])->name('cartbom.destroy');
 
         Route::post('bom/replicate/{product}', [BomController::class, 'bomMainDuplicate'])->name('bom.replicate');
+        Route::post('bom/delete/{product}', [BomController::class, 'bomMainDelete'])->name('bom.delete');
 
         Route::patch('bom/updateconsumption', [BomController::class, 'updateconsumption'])->name('bom.updateconsumption');
 
