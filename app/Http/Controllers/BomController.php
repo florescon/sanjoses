@@ -21,22 +21,20 @@ class BomController extends Controller
 
     public function create($id)
     {
-        $materials = Bom::with('material')->where('product_id', $id)->get();
-        $payments = PaymentMethod::all();
-        $product = Product::with('color_size_product', 'sizes')->find($id);
+        $materials = Bom::where('product_id', $id)->get();
+        $product = Product::with('sizes', 'sizes.material_bysize')->find($id);
 
-        return view('backend.product.bom.create', compact('materials', 'payments', 'product'));
+        return view('backend.product.bom.create', compact('materials', 'product'));
     }
 
 
     public function addtosize($productid, $sizeid)
     {
-        $materials = SizeBom::with('material')->where('product_id', $productid)->where('size_id', $sizeid)->get();
-        $payments = PaymentMethod::all();
+        $materials = SizeBom::where('product_id', $productid)->where('size_id', $sizeid)->get();
         $product = Product::with('color_size_product', 'sizes')->find($productid);
         $size = Size::find($sizeid);
 
-        return view('backend.product.bom.create_bysize', compact('materials', 'payments', 'product', 'size'));
+        return view('backend.product.bom.create_bysize', compact('materials', 'product', 'size'));
     }
 
 

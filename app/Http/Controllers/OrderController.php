@@ -162,17 +162,38 @@ class OrderController extends Controller
 
             foreach ($products as $product) {
 
-                foreach($product->boms as $bom){
-                    MaterialProductSale::create([
-                        'sale_id' => $sell->id,
-                        'material_id' => $bom->material_id,
-                        'product_id' => $product->product_id,
-                        'quantity' => $product->quantity * $bom->quantity,
-                    ]);
+                $producto = $product->product->product_id;
+                $size = $product->product->size_id;
 
-                    $product_decrement = Material::find($bom->material_id);
-                    $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
+                if($product->boms_bysize->whereIn('product_id', $producto)->whereIn('size_id', $size)->count()){
+                    foreach($product->boms_bysize as $bom){
+                        if($bom->size_id == $size){
+                            MaterialProductSale::create([
+                                'sale_id' => $sell->id,
+                                'material_id' => $bom->material_id,
+                                'product_id' => $product->product_id,
+                                'quantity' => $product->quantity * $bom->quantity,
+                            ]);
+
+                            $product_decrement = Material::find($bom->material_id);
+                            $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
+                        }
+                    }
                 }
+                else {
+                    foreach($product->boms as $bom){
+                        MaterialProductSale::create([
+                            'sale_id' => $sell->id,
+                            'material_id' => $bom->material_id,
+                            'product_id' => $product->product_id,
+                            'quantity' => $product->quantity * $bom->quantity,
+                        ]);
+
+                        $product_decrement = Material::find($bom->material_id);
+                        $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
+                    }
+                }
+
 
                 ProductSale::create([
                     'sale_id' => $sell->id,

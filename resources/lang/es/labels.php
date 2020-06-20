@@ -198,6 +198,7 @@ return [
                     'created_by' => 'Generado por',
                     'unit' => 'Unidad de medida',
                     'list_material' => 'Listado de materias prima',
+                    'list_material_for_size' => 'Listado de materias prima para la talla',
                     'total' => 'Todas las materias primas',
                 ],
             ],

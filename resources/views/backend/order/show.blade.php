@@ -152,7 +152,7 @@
               </tbody>
             </table>
 
-
+            @if($sale_material->material_product_sale->count() && $sale->latestStatus()->level >= 0)
             <div class="card-body">
               <form id="cart" action="{{ route('admin.order.addmaterialselect', $sale->id) }}" method="POST">
               @csrf
@@ -178,7 +178,7 @@
                 </div>
               </form>
             </div>  
-
+            @endif
 
             @if($sale_material->material_product_sale->count() && $sale->latestStatus()->level >= 0)
             <table class="table">

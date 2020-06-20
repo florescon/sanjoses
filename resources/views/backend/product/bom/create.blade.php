@@ -10,7 +10,7 @@
       <div class="card-header">
         <strong>@lang('labels.backend.access.order.add')</strong>
         <small>@lang('labels.backend.access.material.material')</small>
-            <strong style="float:right;"><a class="btn btn-outline-light btn-sm text-info " href="{{ route('admin.product.product.index') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
+            <strong style="float:right;"><a class="btn btn-outline-light btn-sm text-info " href="{{ route('admin.product.productconsumption.consumption') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
       </div>
       <div class="card-body">
 
@@ -49,7 +49,7 @@
     </div>
 
 
-    @if($product->color_size_product->count())
+    @if($product->sizes->count())
       <div class="card">
         <div class="card-header">
           <small>@lang('labels.backend.access.material.material_by_size')</small>
@@ -57,7 +57,12 @@
         <div class="card-body">
           <div class="list-group">
             @foreach ($product->sizes as $size)
-              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $size->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">{{ $size->name }}<span class="badge badge-primary badge-pill"></span></a>
+              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $size->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">{{ $size->name }}
+
+                @if($size->material_bysize)
+                  <span class="badge badge-primary badge-pill"></span>
+                @endif
+              </a>
             @endforeach
           </div>
         </div>  

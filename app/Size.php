@@ -20,7 +20,8 @@ class Size extends Model
         'name'
     ];
 
-    public function size_bymaterial()
+    //Size::class
+    public function material_bysize()
     {
         return $this->hasMany(SizeBom::class)->orderBy('updated_at', 'desc');
     }
@@ -28,7 +29,7 @@ class Size extends Model
 
     public function getTotalStock()
     {
-        return $this->size_bymaterial->count() ? $this->size_bymaterial->count() : '';
+        return $this->material_bysize->count() ? $this->material_bysize->count() : '';
     }
 
 
