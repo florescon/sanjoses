@@ -35,6 +35,7 @@ Route::group([
         Route::get('sell/create', [SellController::class, 'create'])->name('sell.create');
         Route::post('sellcart', [SellController::class, 'storeCart'])->name('sell.storecart');
         Route::delete('sell/{id}', [SellController::class, 'destroy'])->name('sell.destroy');
+        Route::delete('destroyAllcartsell', [SellController::class, 'destroyAllCart'])->name('sellcartall.destroy');
 
         Route::post('sell', [SellController::class, 'store'])->name('sell.store');
         Route::get('sell/{id}', [SellController::class, 'show'])->name('sell.show');

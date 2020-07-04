@@ -57,18 +57,26 @@
               <!-- /.col-->
               @if($products->count())
               <div class="col-lg-6">
-                <div class="card">
+                <div class="card border-light">
                   <div class="card-header">
-                    <i class="fa fa-align-justify"></i> @lang('labels.backend.access.sell.list_sale')</div>
+                    <i class="fa fa-align-justify"></i> @lang('labels.backend.access.sell.list_sale')
+
+                    <div class="card-header-actions">
+                      <a href="{{ route('admin.inventory.sellcartall.destroy') }}" class="badge badge-danger" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                          <i class="fas fa-trash"></i> @lang('labels.backend.access.order.clean_list')
+                      </a> 
+                    </div>
+
+                  </div>
                   <div class="card-body">
-                    <table class="table table-responsive-sm table-striped">
-                      <thead>
+                    <table class="table table-responsive-sm">
+                      <thead class="thead-light">
                         <tr>
                           <th>@lang('labels.backend.access.sell.table.concept')</th>
                           <th>@lang('labels.backend.access.sell.table.price')</th>
                           <th>@lang('labels.backend.access.sell.table.quantity')</th>
                           <th>@lang('labels.backend.access.sell.table.total_sale')</th>
-                          <th>@lang('labels.general.actions')</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -82,7 +90,7 @@
                           </td>
                           <td>
                                 <a href="{{ route('admin.inventory.cart.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
-                                    @lang('labels.backend.access.sell.delete')
+                                    <i class="fas fa-trash"></i>
                                 </a> 
                            </td>
                         </tr>

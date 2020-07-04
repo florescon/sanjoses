@@ -13,10 +13,12 @@
                   <a href="{{ route('admin.order.index') }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.back_all_order') }}" class="btn btn-outline-light text-info btn-sm"> <i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a>
               </div>
 
+              @if($sale_material->material_product_sale->count() && $sale->latestStatus()->level >= 0)
               <div class="float-right">
                   <a href="{{ route('admin.inventory.sell.generatematerial', $sale->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print_material') }}" class="btn btn-warning ml-1 btn-sm" target="_blank"> <i class="fa fa-print"></i> @lang('labels.backend.access.sell.print_material') </a>
               </div>
-
+              @endif
+              
               <div class="float-right">
                   <a href="{{ route('admin.inventory.sell.generate', $sale->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info ml-1 btn-sm" target="_blank"> <i class="fa fa-print"></i> @lang('labels.backend.access.sell.print') </a>
               </div>
@@ -25,7 +27,7 @@
         <div class="card-body">
           <div class="row mb-4">
               <div class="col-sm-6">
-                @if(isset($sale->user_id))<h5 class="mb-3">@lang('labels.backend.access.order.order_to'):</h5>
+                @if(isset($sale->user_id))<h5 class="mb-3">@lang('labels.backend.access.order.reintegrate_to_stock'):</h5>
                   <div>
                     <strong>{{ optional($sale->user)->name }}</strong>
                   </div>
@@ -55,7 +57,7 @@
                   @lang('labels.backend.access.sell.payment_type'):
                 </div>
                 <div>
-                  <strong>{{ optional($sale->payment)->name }}</strong>
+                  <strong>{!! $sale->payment_method_id ? optional($sale->payment)->name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</strong>
                 </div>
               </div>
               <div class="col-sm-6">
@@ -78,28 +80,32 @@
                         </select>
                       </div>
                       <br>
-                      <button type="submit" class="btn btn-primary btn-sm">@lang('labels.general.buttons.add')</button>
+                      <button type="submit" class="btn btn-success btn-sm">@lang('labels.general.buttons.add')</button>
                   </form>
                 <br>
               </div>
-
-              {{-- <div class="col-sm-6">
+              <div class="col-sm-6">
+                @if($sale->comment)
+                  <br>
+                    <div>
+                      @lang('labels.backend.access.order.comment'):
+                    </div>
+                    <div><code class="text-primary">{!! $sale->comment !!}</code></div>
+                @endif
                 <br>
-                  <div>
-                    @lang('labels.backend.access.order.history_status'):
-                  </div>
-                  @foreach($sale->status as $all_status)
-                    <div><strong>{{ $all_status->name }}</strong> | {{ $all_status->pivot->created_at }} </div>
-                  @endforeach
-                <br>
-              </div> --}}
-
+              </div>
           </div>
+
+            <div class="card border-0">
+              <div class="card-header bg-transparent border-light"> 
+                <div class="card-header-actions"><a class="card-header-action" href="{{ route('admin.order.reintegrate', $sale->id) }}"><small class="text-primary">@lang('labels.backend.access.order.reintegrate_stock')</small></a></div>
+              </div>
+            </div>
 
           <div class="table-responsive-sm">
             <table class="table table-striped">
-              <thead>
-                <tr class="table-info">
+              <thead class="thead-dark">
+                <tr>
                   <th>@lang('labels.backend.access.sell.table.concept')</th>
                   <th class="right">@lang('labels.backend.access.sell.table.quantity')</th>
                   <th align="center">@lang('labels.backend.access.sell.table.price')</th>
@@ -288,10 +294,10 @@
                     <div class="col py-2">
                         <div class="card {{ $timelineValue->id == $stat->id ? 'border-success' : '' }} shadow">
                             <div class="card-body">
-                                <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
+                                <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-dark' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
                                 <h4 class="card-title {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}">  {{ $stat->name }} </h4>
                                 <p class="card-text"> {{  $stat->description }} </p>
-                                <p class="card-text"> @if($stat->to_add_users) <a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a> @endif </p>
+                                <p class="card-text"> @if($stat->to_add_users) <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> @endif </p>
                                 @if($timelineValue->id == $stat->id)
                                 <button class="btn btn-sm btn-outline-dark" type="button" data-target="#t2_details" data-toggle="collapse">{!! $timelineValue->id == $stat->id ? '<i class="fa fa-cog fa-spin fa-fw"></i>' : '' !!} @lang('labels.backend.access.order.history_status') ▼</button> 
 

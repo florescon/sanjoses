@@ -277,7 +277,7 @@ class ProductController extends Controller
             $log->type = 1;
             $log->audi_id = Auth::id();
             $log->saveOrFail();
-            return redirect()->back()->withFlashSuccess('Cantidad actualizada con exito');
+            return redirect()->back()->withFlashSuccess('Cantidad actualizada con éxito');
         } else {
             return redirect()->back()->withFlashDanger('Error');
         }
@@ -321,7 +321,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->back()->withFlashSuccess('Color agredo con exito');
+        return redirect()->back()->withFlashSuccess('Color agredo con éxito');
 
     }
 
@@ -359,7 +359,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->back()->withFlashSuccess('Color agredo con exito');
+        return redirect()->back()->withFlashSuccess('Color agredo con éxito');
 
     }
 
@@ -403,7 +403,7 @@ class ProductController extends Controller
             $log->quantity = $request->quantity_;
             $log->audi_id = Auth::id();
             $log->save();
-            return redirect()->route('admin.product.product.index')->withFlashSuccess('Cantidad actualizada con exito');
+            return redirect()->route('admin.product.product.index')->withFlashSuccess('Cantidad actualizada con éxito');
         } else {
             return redirect()->route('admin.product.product.index')->withFlashDanger('Error');
         }

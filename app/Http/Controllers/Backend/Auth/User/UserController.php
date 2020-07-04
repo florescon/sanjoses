@@ -313,6 +313,14 @@ class UserController extends Controller
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
+    public function selectDifferentCustomer(Request $request)
+    {
+        $search = $request->get('search');
+        $data = User::select(['id', 'first_name', 'last_name', 'created_at'])->whereDoesntHave('roles', function($q){ $q->where("name", "user"); })->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $search . '%')->orderBy('created_at', 'desc')->paginate(5);
+        return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
+
     public function search(Request $request){
         $searching = $request->input('search');
 

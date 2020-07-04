@@ -1,4 +1,4 @@
-<header class="app-header navbar">
+<header class="app-header navbar" style="background-color: #e3f2fd;">
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -31,6 +31,10 @@
 
         <li class="nav-item px-3">
             <a class="nav-link" href="{{ route('admin.note.index') }}">@lang('navs.frontend.notes')</a>
+        </li>
+
+        <li class="nav-item px-3">
+            <a class="nav-link" href="{{ route('admin.documentation.index') }}" target="_blank"><i class="fas fa-question-circle"></i></a>
         </li>
 
     </ul>

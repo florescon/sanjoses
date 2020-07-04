@@ -86,7 +86,7 @@ class OrderController extends Controller
 
         $orders = Sale::with('status')->where('type', 2)->whereDoesntHave('status', function ($query) {
             $query->where('level', 'like', 10);
-        })->paginate();
+        })->orderBy('created_at', 'desc')->paginate();
 
 
         return view('backend.order.process', compact('list', 'orders'));
@@ -96,7 +96,7 @@ class OrderController extends Controller
 
     public function create()
     {
-        $products = Cart::with('product')->where('audi_id', Auth::id())->get();
+        $products = Cart::with('product')->where('audi_id', Auth::id())->where('sale_order', 1)->get();
         $payments = PaymentMethod::all();
         // dd($products);
         return view('backend.order.create', compact('products', 'payments'));
@@ -109,8 +109,8 @@ class OrderController extends Controller
             'quantity' => 'required|required|not_in:0',
         ]);
         
-        $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->count();
-        
+        $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->where('sale_order', 1)->count();
+            
         if($dup>=1){
             return redirect()->back()->withFlashDanger('Producto duplicado');
         }
@@ -119,6 +119,7 @@ class OrderController extends Controller
         $cart->product_id = $request->product;
         $cart->quantity = $request->quantity;
         $cart->audi_id = Auth::id();
+        $cart->sale_order = 1;
         $cart->save();
 
         return redirect()->route('admin.order.create')
@@ -139,10 +140,25 @@ class OrderController extends Controller
         return redirect()->route('admin.order.create')->withFlashSuccess('Producto eliminado con éxito');
     }
 
+
+    public function destroyAllCart()
+    {
+
+        try {
+            $cart = Cart::where('audi_id', Auth::id())->where('sale_order', 1);
+            $cart->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->withFlashDanger(__('exceptions.backend.access.general.cant_delete'));
+        }
+
+
+        return redirect()->route('admin.order.create')->withFlashSuccess('Listado eliminado con éxito');
+    }
+
     public function store(Request $request)
     {
 
-        $products = Cart::with('boms')->where('audi_id', Auth::id())->get();
+        $products = Cart::with('boms')->where('audi_id', Auth::id())->where('sale_order', 1)->get();
         try {
             $sell = new Sale();
             $sell->user_id = $request->user;
@@ -203,7 +219,7 @@ class OrderController extends Controller
                 ]);
             }
             // $sell->sale()->attach($products);
-            DB::table('carts')->where('audi_id', Auth::id())->delete();
+            DB::table('carts')->where('audi_id', Auth::id())->where('sale_order', 1)->delete();
         } catch (\Exception $e) {
             return redirect()->back()->withFlashDanger('Error');
 
@@ -230,6 +246,45 @@ class OrderController extends Controller
     }
 
 
+
+    public function reintegrate($id)
+    {
+
+        $sale = Sale::with('products', 'material_product_sale', 'products.boms')->findOrFail($id);
+        return view('backend.order.reintegrate', compact('sale'));
+    }
+
+
+    public function reintegrateproduct($id_product)
+    {
+
+        $product = ProductSale::find($id_product);
+        if($product->reintegrate == false){
+            $product_increment = ColorSizeProduct::find($product->product_id);
+            $product_increment->increment('stock', abs($product->quantity));
+            $product_reintegrated = ProductSale::where('id', $id_product)->update(['reintegrate' => 1]);
+        }
+
+        return redirect()->back()->withFlashSuccess('Producto reintegrado con éxito');
+    }   
+
+    public function reintegrateallproducts($id_order)
+    {
+
+        $sale_products = Sale::with('products')->where('id', $id_order)->first();
+
+        foreach($sale_products->products as $product){
+
+            if($product->reintegrate == false){
+                $product_increment = ColorSizeProduct::find($product->product_id);
+                $product_increment->increment('stock', abs($product->quantity));
+                $product_reintegrated = ProductSale::where('id', $product->id)->update(['reintegrate' => 1]);
+            }
+        }
+
+        return redirect()->back()->withFlashSuccess('Productos reintegrados con éxito');
+    }   
+
     public function addmaterial(Request $request)
     {
         $this->validate($request, [
@@ -255,7 +310,7 @@ class OrderController extends Controller
                 $material_update_stock->decrement('stock', $request->stock_);
             }
 
-            return redirect()->back()->withFlashSuccess('Cantidad actualizada con exito');
+            return redirect()->back()->withFlashSuccess('Cantidad actualizada con éxito');
         } else {
             return redirect()->back()->withFlashDanger('Error');
         }
@@ -291,11 +346,7 @@ class OrderController extends Controller
 
         // $sale = Sale::with('products', 'products.boms', 'products.boms.material', 'products.product_detail', 'products.product_detail.product_detail_size', 'products.product_detail.product_detail_color')->findOrFail($id);
 
-        $sale = Sale::with(['products', 'material_product_sale', 'products.product_detail', 
-            'product_sale_staff' => function ($query) use ($staff) {
-                $query->where('status_id', $staff)->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
-            },  
-            'products.boms'])->findOrFail($id);
+        $sale = Sale::find($id)->with(['products', 'material_product_sale', 'products.product_detail'])->findOrFail($id);
 
         $staff_by_product = Sale::with(['product_sale_staff.product_stock', 'product_sale_staff.staff', 
             'product_sale_staff' => function ($query) use ($staff) {
@@ -303,16 +354,10 @@ class OrderController extends Controller
             }
         ])->find($id);
 
-        $assigned_products = Sale::with(['product_sale_staff' => function($query) use ($staff){
-                    $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
-                }]
-        )->find($id);
-
-
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
 
-        return view('backend.order.staff', compact('sale', 'status_url', 'statuses', 'staff_by_product', 'assigned_products'));
+        return view('backend.order.staff', compact('sale', 'status_url', 'statuses', 'staff_by_product'));
 
     }
 
@@ -366,15 +411,15 @@ class OrderController extends Controller
             }
         }
 
-        return redirect()->back()->withFlashSuccess('Personal agregado con exito');
+        return redirect()->back()->withFlashSuccess('Personal agregado con éxito');
 
     }
 
 
-    public function readyproduct(Request $request, MaterialProductSaleUser $ready_product)
+    public function readyproduct(Request $request)
     {
-        $ready_product = MaterialProductSaleUser::findOrFail($request->id);
-        $ready_product->update($request->all());
+        $material_byuser = MaterialProductSaleUser::findOrFail($request->id);
+        $material_byuser->update($request->all());
 
         return redirect()->back()
           ->withFlashSuccess('Consumo actualizado con éxito');
@@ -416,7 +461,7 @@ class OrderController extends Controller
     }
 
     public function latestSell(){
-        $latest = Sale::latest('created_at')->first();
+        $latest = Sale::latest('created_at')->where('type', 2)->first();
         try{       
             return $this->generatePDF($latest->id);
         }catch (\Exception $e) {

@@ -8,7 +8,6 @@ use App\ProductDetail;
 use App\ColorSizeProduct;
 use App\Color;
 use App\Size;
-use App\Stock;
 use Carbon;
 
 class Product extends Model
@@ -89,11 +88,6 @@ class Product extends Model
         return $this->belongsToMany(Size::class, 'product_sizes', 'product_id', 'size_id')->withTrashed()->withTimestamps();
     }
 
-    // public function stocks()
-    // {
-    //     return $this->hasMany(Stock::class, 'product_id', 'id');
-    // }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -109,20 +103,6 @@ class Product extends Model
     {
         return $this->belongsToMany(Size::class, 'color_size_product', 'product_id', 'size_id')->withTimestamps();
     }
-
-
-    public function stocks()
-    {
-        return $this->hasMany(Stock::class, 'product_id', 'id');
-    }
-
-
-    // public function getTotalStock()
-    // {
-    //     return $this->product_stock->sum(function($product_stock) {
-    //       return $product_stock->stock;
-    //     });
-    // }
 
 
     public function getTotalStock()

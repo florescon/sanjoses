@@ -94,17 +94,6 @@
                             </div><!--col-->
                         </div><!--form-group-->
 
-                        <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.access.users.birthdate'))->class('col-md-2 form-control-label')->for('age') }}
-                            <div class="col-md-10">
-                               {{-- Carbon::today()->toDateString() --}}
-                                {{ html()->date('age')
-                                    ->class('form-control')
-                                    ->placeholder(__('validation.attributes.backend.access.users.birthdate'))
-                                    ->attribute('maxlength', 3)
-                                     }}
-                            </div><!--col-->
-                        </div><!--form-group-->
 
                         <div class="form-group row">
                         {{ html()->label(__('validation.attributes.backend.access.users.address'))->class('col-md-2 form-control-label')->for('address') }}

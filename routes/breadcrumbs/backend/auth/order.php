@@ -16,6 +16,10 @@ Breadcrumbs::for('admin.order.show', function ($trail, $id) {
     $trail->parent('admin.order.index');
     $trail->push(__('labels.backend.access.order.view'), route('admin.order.show', $id));
 });
+Breadcrumbs::for('admin.order.reintegrate', function ($trail, $id) {
+    $trail->parent('admin.order.show', $id);
+    $trail->push(__('labels.backend.access.order.reintegrate_stock'), route('admin.order.reintegrate', $id));
+});
 Breadcrumbs::for('admin.order.addtostaff', function ($trail, $id, $staff) {
     $trail->parent('admin.order.show', $id);
     $trail->push(__('labels.backend.access.order.add_staff'), route('admin.order.addtostaff', [$id, $staff]));

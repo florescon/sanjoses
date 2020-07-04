@@ -1,5 +1,21 @@
 @extends('backend.layouts.app')
 
+@push('after-styles')
+  <style type="text/css">
+    .blinking{
+      animation:blinkingText 3.2s infinite;
+    }
+    @keyframes blinkingText{
+        0%{     color: #000;    }
+        49%{    color: #000; }
+        80%{    color: transparent; }
+        99%{    color:#000;  }
+        100%{   color: #000;    }
+    }
+
+  </style>
+@endpush
+
 @section('content')
 
 <div class="row">
@@ -17,6 +33,8 @@
     </div>
 
     <div class="card">
+      @if($sale->material_product_sale->count() && $sale->latestStatus()->level >= 0)
+
       <div class="card-header">
         Folio @lang('labels.backend.access.order.sale'):  <strong>#{{ $sale->id }}</strong> 
         <i class="fa fa-cog fa-spin fa-fw"></i>
@@ -32,16 +50,15 @@
         <div class="float-right">
           <a href="#" data-toggle="modal" data-myid="{{ $sale->id }}" data-mystatus="{{ $status_url->id }}" title="{{ __('labels.general.assign_staff') }}" class="btn btn-success ml-1 btn-sm" data-target="#addStaff" > <i class="fa fa-user"></i> @lang('labels.general.assign_staff') </a>
         </div>
-
-
       </div>
+      @endif
       <div class="card-body">
         <div class="table-responsive-sm">
           @if($sale->material_product_sale->count() && $sale->latestStatus()->level >= 0)
-          <table class="table">
-            <thead>
-              <tr class="table-dark">
-                <th>Materia prima | Concentrado</th>
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Producto</th>
                 <th class="right">@lang('labels.backend.access.sell.table.quantity')</th>
                 <th class="right">@lang('labels.backend.access.sell.table.price')</th>
                 <th class="right">@lang('labels.backend.access.sell.table.total_sale')</th>
@@ -51,7 +68,7 @@
           <tbody>
             @php($totalmat=0)
             @foreach($sale->products as $material)
-            <tr class="table-warning">
+            <tr>
               <td class="left"><strong><a href="{{ route('admin.product.product.show', $material->product_detail->product_detail->id) }}"> {{ $material->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$material->product_detail->product_detail_color->name. ' Talla:'.$material->product_detail->product_detail_size->name }}</td>
               <td class="right" align="center">
                 <em>
@@ -86,9 +103,9 @@
         @if($staff_by_product->product_sale_staff->count())
         <div class="row">
           <div class="col-lg-12">
-            <div class="card">
+            <div class="card border border-primary">
               <div class="card-header">
-                <i class="fa fa-align-justify"></i> Productos asignados</div>
+                <i class="fa fa-align-justify"></i> <span class="blinking">Productos asignados</span></div>
               <div class="card-body">
                 <table class="table table-responsive-sm table-sm">
                   <thead>
@@ -158,10 +175,10 @@
                     <div class="col py-2">
                         <div class="card {{ $timelineValue->id == $stat->id ? 'border-success' : '' }} shadow">
                             <div class="card-body">
-                                <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
+                                <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-dark' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
                                 <h4 class="card-title {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}">  {{ $stat->name }} </h4>
                                 <p class="card-text"> {{  $stat->description }} </p>
-                                <p class="card-text"> @if($stat->to_add_users) <a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a> @endif </p>
+                                <p class="card-text"> @if($stat->to_add_users) <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> @endif </p>
                                 @if($timelineValue->id == $stat->id)
                                 <button class="btn btn-sm btn-outline-dark" type="button" data-target="#t2_details" data-toggle="collapse">{!! $timelineValue->id == $stat->id ? '<i class="fa fa-cog fa-spin fa-fw"></i>' : '' !!} @lang('labels.backend.access.order.history_status') ▼</button> 
 
@@ -222,7 +239,7 @@
           <table class="table table-responsive-sm table-sm">
             <thead>
               <tr>
-                <th>Materia</th>
+                <th>Producto</th>
                 <th>Disponible</th>
                 <th>Precio</th>
                 <th>Total</th>
@@ -295,7 +312,7 @@
 
             <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
             <input type="hidden" name="id" id="id" value="">
-            <input type="text" class="form-control" value="" maxlength="quantity" name="ready_quantity" id="quantity" required>
+            <input type="number" class="form-control" value="" name="ready_quantity" id="quantity" required>
           </div>
 
       </div>
@@ -326,18 +343,6 @@
 </script>
 
 <script>
-
-    $('#stockModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget)
-      var id = button.data('material_id')
-      var stock_ = button.data('stock')
-      var modal = $(this)
-
-      modal.find('.modal-body #id').val(id)
-      modal.find('.modal-body #stock').val(stock_)
-      modal.find('.modal-title').text('@lang('labels.backend.access.product.add_quantity') ')
-    });
-
 
     $('#addStaff').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
@@ -386,7 +391,7 @@
 $(document).ready(function() {
     $('#user').select2({
       ajax: {
-            url: '{{ route('admin.user.select') }}',
+            url: '{{ route('admin.user.selectdiferentcustomer') }}',
             data: function (params) {
                 return {
                     search: params.term,

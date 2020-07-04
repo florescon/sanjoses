@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-sm-6 col-lg-3">
           <div class="brand-card">
-            <div class="brand-card-header bg-xing">
+            <div class="brand-card-header bg-tumblr">
               <i class="nav-icon far fa-user-circle"></i>
               <div class="chart-wrapper">
                 <canvas id="social-box-chart-1" height="90"></canvas>
@@ -40,7 +40,7 @@
 
         <div class="col-sm-6 col-lg-3">
           <div class="brand-card">
-            <div class="brand-card-header bg-xing">
+            <div class="brand-card-header bg-tumblr">
               <i class="nav-icon fas fa-cubes"></i>
               <div class="chart-wrapper">
                 <canvas id="social-box-chart-1" height="90"></canvas>
@@ -63,7 +63,7 @@
 
         <div class="col-sm-6 col-lg-3">
           <div class="brand-card">
-            <div class="brand-card-header bg-xing">
+            <div class="brand-card-header bg-tumblr">
               <i class="nav-icon fas fa-cube"></i>
               <div class="chart-wrapper">
                 <canvas id="social-box-chart-1" height="90"></canvas>
@@ -87,7 +87,7 @@
 
         <div class="col-sm-6 col-lg-3">
           <div class="brand-card">
-            <div class="brand-card-header bg-xing">
+            <div class="brand-card-header bg-tumblr">
               <i class="nav-icon fa fa-fill-drip"></i>
               <div class="chart-wrapper">
                 <canvas id="social-box-chart-1" height="90"></canvas>
@@ -141,8 +141,8 @@
             <div class="progress-group mb-4">
               <div class="progress-group-header">
                 
-                <div><a href="{{ route('admin.order.show', $order->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.show_order') }}" class="btn btn-info btn-sm"> #{{ $order->id }} </a>  {{ !empty($order->user_id) ? $order->user->name : '-- No definido --' }} </div>
-                <div class="ml-auto font-weight-bold"> {{ $order->comment ? substr($order->comment, 0, 50). '...' : '' }} <i class="fa fa-cog fa-spin fa-fw"></i> {{ $order->latestStatus()->name.' | '.$order->latestStatus()->percentage }}%</div>
+                <div><a href="{{ route('admin.order.show', $order->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.show_order') }}" class="btn btn-info btn-sm"> #{{ $order->id }} </a>  {{ !empty($order->user_id) ? $order->user->name : '-- No definido --' }} <code class="text-primary">  {{ $order->comment ? substr($order->comment, 0, 120) : '' }} </code> </div>
+                <div class="ml-auto font-weight-bold"> {{ $order->latestStatus()->name.' | '.$order->latestStatus()->percentage }}%</div>
               </div>
               <div class="progress-group-bars">
                 @foreach($order->status_bar  as $all_status)
@@ -164,6 +164,7 @@
                 <div class="col-5">
                     <div class="float-right">
                         {{ $orders->links() }}
+                        <p><small>Orden descendente</small></p>
                     </div>
                 </div><!--col-->
             </div><!--row-->

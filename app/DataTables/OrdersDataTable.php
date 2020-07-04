@@ -50,8 +50,7 @@ class OrdersDataTable extends DataTable
 
                 })
                 ->editColumn('comment', function ($dat) {
-                    // return substr($dat->comment, 0, 30).'...';
-                    return $dat->comment ? '<a data-toggle="tooltip" data-placement="top" title="'.$dat->comment.'">'.substr($dat->comment, 0, 30).'...</a>' : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
+                    return $dat->comment ? '<code class="text-primary"><a data-toggle="tooltip" data-placement="top" title="'.$dat->comment.'">'.substr($dat->comment, 0, 30).'</a></code>' : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>';
                 })
                 ->addColumn('status', function (Sale $order) {
                         return $order->latestStatus() ? ( $order->latestStatus()->id == 2 ? '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-success btn-sm" type="button"><i class="fas fa-arrow-right"></i> '.$order->latestStatus()->name.'</button></div>' : '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-primary btn-sm" type="button"><i class="far fa-lightbulb"></i> '.$order->latestStatus()->name.'</button></div>' ) : '<div class="col-6 col-sm-4 col-md mb-3 mb-xl-0 text-center"><button class="btn btn-secondary btn-sm" type="button"><i class="far fa-sad-cry"></i></i> <em>No definido</em></button></div>';

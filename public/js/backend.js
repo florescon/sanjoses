@@ -5628,10 +5628,12 @@ $('body').on('click', '.btn-delete', function (event) {
     e.preventDefault();
     var link = $(this);
     var title = link.attr('data-trans-title') ? link.attr('data-trans-title') : 'Are you sure you want to do this?';
+    var text = link.attr('data-trans-text') ? link.attr('data-trans-text') : '';
     var cancel = link.attr('data-trans-button-cancel') ? link.attr('data-trans-button-cancel') : 'Cancel';
     var confirm = link.attr('data-trans-button-confirm') ? link.attr('data-trans-button-confirm') : 'Continue';
     Swal.fire({
       title: title,
+      text: text,
       showCancelButton: true,
       confirmButtonText: confirm,
       cancelButtonText: cancel,

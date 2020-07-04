@@ -81,4 +81,4 @@ Route::group([
 });
 
 Route::get('select2-load-user', [UserController::class, 'select2LoadMore'])->name('user.select');
-
+Route::get('selectDifferentCustomer', [UserController::class, 'selectDifferentCustomer'])->name('user.selectdiferentcustomer');

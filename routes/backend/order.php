@@ -17,7 +17,13 @@ Route::group(['namespace' => 'Order'], function () {
     Route::get('order/{id}/show', [OrderController::class, 'show'])->name('order.show');
 
 
-    Route::delete('destroyorder/{id}', [OrderController::class, 'destroyCart'])->name('ordercart.destroy');
+    Route::get('order/{id}/reintegrate', [OrderController::class, 'reintegrate'])->name('order.reintegrate');
+    Route::get('order/reintegrateproduct/{product}', [OrderController::class, 'reintegrateproduct'])->name('order.reintegrateproduct');
+
+    Route::get('order/reintegrateallproducts/{product}', [OrderController::class, 'reintegrateallproducts'])->name('order.reintegrateallproducts');
+
+    Route::delete('destroycart/{id}', [OrderController::class, 'destroyCart'])->name('ordercart.destroy');
+    Route::delete('destroycartAll', [OrderController::class, 'destroyAllCart'])->name('ordercartall.destroy');
 
 
     Route::post('order/addmaterial/{id}', [OrderController::class, 'addmaterial'])->name('order.addmaterial');
@@ -26,7 +32,7 @@ Route::group(['namespace' => 'Order'], function () {
     Route::get('order/{id}/addtostaff/{staff}', [OrderController::class, 'addtostaff'])->name('order.addtostaff');
     Route::post('orderstaff', [OrderController::class, 'storeStaff'])->name('order.orderstaff');
 
-    Route::patch('order/readyproduct', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
+    Route::patch('order/readyproduct/{id}', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
 
 
     Route::post('change', [OrderController::class, 'changeStatus'])->name('order.change');

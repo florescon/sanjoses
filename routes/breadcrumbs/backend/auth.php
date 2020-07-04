@@ -10,3 +10,4 @@ require __DIR__.'/auth/setting.php';
 require __DIR__.'/auth/product.php';
 require __DIR__.'/auth/material.php';
 require __DIR__.'/auth/order.php';
+require __DIR__.'/auth/documentation.php';

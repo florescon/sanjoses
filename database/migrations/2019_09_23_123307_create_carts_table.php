@@ -19,6 +19,7 @@ class CreateCartsTable extends Migration
             $table->integer('quantity')->nullable();
             $table->double('price')->nullable();
             $table->unsignedMediumInteger('audi_id')->nullable();
+            $table->boolean('sale_order')->default(0);
             $table->timestamps();
         });
 

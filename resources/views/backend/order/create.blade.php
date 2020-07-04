@@ -12,15 +12,12 @@
                     <small>@lang('labels.backend.access.order.order')</small>
 
                     <div class="card-header-actions">
-                      <a class="card-header-action" href="{{ route('admin.order.create') }}" target="_blank">
-                        {{-- <small class="text-muted">imprimir</small> --}}
                         <a href="{{ route('admin.order.index') }}" class="badge badge-warning">
                         <i class="fa fa-shopping-cart"></i>
                         @lang('labels.backend.access.order.go_list_sale')</a>
                         <a href="{{ route('admin.order.latest') }}" class="badge badge-primary" target="_blank">
                         <i class="fa fa-print"></i>
                         @lang('labels.backend.access.order.print_last_sale')</a>
-                      </a>
                     </div>
 
                   </div>
@@ -59,16 +56,24 @@
               <div class="col-lg-6">
                 <div class="card">
                   <div class="card-header">
-                    <i class="fa fa-align-justify"></i> @lang('labels.backend.access.order.list_sale')</div>
+                    <i class="fa fa-align-justify"></i> @lang('labels.backend.access.order.list_sale')
+
+                     <div class="card-header-actions">
+                        <a href="{{ route('admin.ordercartall.destroy') }}" class="badge badge-danger" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                            <i class="fas fa-trash"></i> @lang('labels.backend.access.order.clean_list')
+                        </a> 
+                    </div>
+
+                  </div>
                   <div class="card-body">
                     <table class="table table-responsive-sm table-striped">
-                      <thead>
+                      <thead class="thead-dark">
                         <tr>
                           <th>@lang('labels.backend.access.order.table.concept')</th>
                           <th>@lang('labels.backend.access.order.table.price')</th>
                           <th>@lang('labels.backend.access.order.table.quantity')</th>
                           <th>@lang('labels.backend.access.order.table.total_sale')</th>
-                          <th>@lang('labels.general.actions')</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -82,7 +87,7 @@
                           </td>
                           <td>
                                 <a href="{{ route('admin.ordercart.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
-                                    @lang('labels.backend.access.sell.delete')
+                                    <i class="fas fa-trash"></i>
                                 </a> 
                            </td>
                         </tr>
@@ -104,7 +109,7 @@
                 </div>
                 <div class="card">
                   <div class="card-header">
-                    <strong>@lang('labels.backend.access.sell.last')</strong> @lang('labels.backend.access.sell.sale_setting')</div>
+                    <strong>@lang('labels.backend.access.sell.last')</strong> @lang('labels.backend.access.order.sale_setting')</div>
                   <form class="form-horizontal" action="{{route('admin.order.store')}}" method="POST">
                     @csrf
                   <div class="card-body">
@@ -115,7 +120,7 @@
                           <span class="help-block">@lang('labels.backend.access.order.enter_client')</span>
                         </div>
                         <div class="col-sm-6">
-                         <select type="text" name="payment" class="form-control" id="payment" required>
+                         <select type="text" name="payment" class="form-control" id="payment">
                          </select>
                           <span class="help-block">@lang('labels.backend.access.sell.enter_payment_type')</span>
                         </div>
@@ -128,12 +133,12 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.text_ticket'):</label>
-                        <textarea rows="2"  class="form-control" name="ticket_text" id="ticket_text"></textarea>
+                        <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.comment_sale'):</label>
+                        <textarea rows="2"  class="form-control border-primary" name="comment" id="comment"></textarea>
                       </div>
                       <div class="form-group">
-                        <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.comment_sale'):</label>
-                        <textarea rows="2"  class="form-control border-success" name="comment" id="comment"></textarea>
+                        <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.text_ticket'):</label>
+                        <textarea rows="1"  class="form-control" name="ticket_text" id="ticket_text"></textarea>
                       </div>
 
                   </div>

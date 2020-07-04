@@ -19,6 +19,7 @@ class CreateProductSaleTable extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->double('quantity')->nullable();
             $table->double('price')->nullable();
+            $table->boolean('reintegrate')->default(0);
             $table->timestamps();
         });
 

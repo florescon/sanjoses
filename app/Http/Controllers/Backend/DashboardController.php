@@ -36,7 +36,7 @@ class DashboardController extends Controller
         //     $query->where('level', 'like', 10);
         // })->paginate();
 
-        $orders = Sale::with('status_bar', 'user')->where('type', 2)->orderBy('created_at', 'desc')->paginate(15);
+        $orders = Sale::with('status_bar', 'user')->where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
 
         
 

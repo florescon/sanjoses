@@ -26,7 +26,7 @@ class SellController extends Controller
 
     public function create()
     {
-        $products = Cart::with('product')->where('audi_id', Auth::id())->get();
+        $products = Cart::with('product')->where('audi_id', Auth::id())->where('sale_order', 0)->get();
         $payments = PaymentMethod::all();
         // dd($products);
         return view('backend.inventory.sell.create', compact('products', 'payments'));
@@ -41,10 +41,10 @@ class SellController extends Controller
 
         $product = ColorSizeProduct::where(['id'=>$request->product])->first();
 
-            if($product->stock<$request->quantity){
-                return redirect()->back()->withFlashDanger('Cantidad menor a la existente');
-            }
-        $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->count();
+        if($product->stock<$request->quantity){
+            return redirect()->back()->withFlashDanger('Cantidad menor a la existente');
+        }
+        $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->where('sale_order', 0)->count();
         if($dup>=1){
             return redirect()->back()->withFlashDanger('Producto duplicado');
         }
@@ -73,10 +73,27 @@ class SellController extends Controller
         return redirect()->route('admin.inventory.sell.create')->withFlashSuccess('Producto eliminado con éxito');
     }
 
+
+    public function destroyAllCart()
+    {
+
+        try {
+            $cart = Cart::where('audi_id', Auth::id())->where('sale_order', 0);
+            $cart->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->withFlashDanger(__('exceptions.backend.access.general.cant_delete'));
+        }
+
+
+        return redirect()->route('admin.inventory.sell.create')->withFlashSuccess('Listado eliminado con éxito');
+    }
+
+
     public function store(Request $request)
     {
 
-        $products = Cart::with('product')->where('audi_id', Auth::id())->get();
+        $products = Cart::with('product')->where('audi_id', Auth::id())->where('sale_order', 0)->get();
+
         try {
             $sell = new Sale();
             $sell->user_id = $request->user;
@@ -101,7 +118,7 @@ class SellController extends Controller
                 ]);
             }
             // $sell->sale()->attach($products);
-            DB::table('carts')->where('audi_id', Auth::id())->delete();
+            DB::table('carts')->where('audi_id', Auth::id())->where('sale_order', 0)->delete();
         } catch (\Exception $e) {
             return redirect()->back()->withFlashDanger('Error');
 
@@ -120,7 +137,7 @@ class SellController extends Controller
 
 
     public function latestSell(){
-        $latest = Sale::latest('created_at')->first();
+        $latest = Sale::latest('created_at')->where('type', 1)->first();
         try{       
             return $this->generatePDF($latest->id);
         }catch (\Exception $e) {

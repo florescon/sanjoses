@@ -106,4 +106,16 @@ class Sale extends Model
     }
 
 
+    /**
+     * @return string
+     */
+    public function getReintegrateAllLabelAttribute()
+    {
+
+
+        return '<a href="'.route('admin.order.reintegrateallproducts', $this).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.backend.access.users.confirm').'" data-trans-button-cancel="'.__('buttons.general.cancel').'"  data-trans-button-confirm="'.__('buttons.general.continue').'" data-trans-title="'.__('strings.backend.general.are_you_sure').'" data-trans-text="'.__('labels.backend.access.order.alert_reintegrate').'" name="confirm_item"><span class="btn btn-success ml-1 btn-sm" style="cursor:pointer">'.__('labels.backend.access.order.reintegrate_all_to_stock').'</span></a>';
+    }
+
+
+
 }
