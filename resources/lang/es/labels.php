@@ -475,6 +475,7 @@ return [
                 'edit' => 'Modificar orden',
                 'add' => 'Agregar',
                 'view' => 'Ver orden',
+                'order' => 'Orden',
                 'management' => 'Administración de órdenes',
                 'add_staff' => 'Agregar personal',
                 'reintegrate_stock' => 'Agregar cantidades al stock',
@@ -914,7 +915,7 @@ return [
                 'create' => 'Crear explosión de materiales',
                 'edit' => 'Modificar explosión de materiales',
                 'management' => 'Administración explosión de materiales',
-                'bom' => 'Consumo de materiales',
+                'bom' => 'Explosión de materiales',
                 'bom_by_size' => 'Por talla',
                 'table' => [
                     'id' => 'ID',

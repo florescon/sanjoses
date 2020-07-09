@@ -147,7 +147,7 @@
               <div class="progress-group-bars">
                 @foreach($order->status_bar  as $all_status)
                 <div class="progress progress-xs">
-                  <div class="progress-bar {{ $all_status->level_label_bar }} progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ $all_status->percentage }}%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="{{ $all_status->name. ' '.$all_status->pivot->created_at }}"></div>
+                  <div class="progress-bar {{ $all_status->level_label_bar }}" role="progressbar" style="width: {{ $all_status->percentage }}%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="{{ $all_status->name. ' '.$all_status->pivot->created_at }}"></div>
                 </div>
                 @endforeach
               </div>

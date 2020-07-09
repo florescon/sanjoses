@@ -9,11 +9,11 @@
         font-family: Verdana, Arial, sans-serif;
     }
     table{
-        font-size: x-small;
+        font-size: medium;
     }
     tfoot tr td{
         font-weight: bold;
-        font-size: x-small;
+        font-size: medium;
     }
     .gray {
         background-color: lightgray
@@ -72,7 +72,7 @@ ventas@sj-uniformes.com
   <br/>
 
   <table width="100%">
-    <thead style="background-color: lightgray;">
+    <thead style="background-color: gray;">
       <tr align="center">
         <th>Concepto</th>
         <th>Cantidad</th>
@@ -101,7 +101,6 @@ ventas@sj-uniformes.com
         </tr>
     </tfoot>
   </table>
-
   <table width="100%">
     <tr>
         <td>{{ $sale->ticket_text }}</td>

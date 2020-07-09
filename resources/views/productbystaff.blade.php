@@ -9,11 +9,11 @@
         font-family: Verdana, Arial, sans-serif;
     }
     table{
-        font-size: x-small;
+        font-size: medium;
     }
     tfoot tr td{
         font-weight: bold;
-        font-size: x-small;
+        font-size: medium;
     }
     .gray {
         background-color: lightgray
@@ -32,7 +32,7 @@
     <tr>
         <td align="center">
             <h3>San Jose Uniformes</h3>
-            <h4> @lang('labels.backend.access.order.order_production') | {{ $status->name }}</h4>
+            <h4 style=" background: #eee; "> @lang('labels.backend.access.order.order') | {{ $status->name }}</h4>
 {{--             <pre>
 sanjoseuniformes.com
 Margarito Gonzalez Rubio #857
@@ -69,7 +69,7 @@ ventas@sj-uniformes.com
   <br/>
 
   <table width="100%">
-    <thead style="background-color: lightgray;">
+    <thead style="background-color: gray;">
       <tr align="center">
         <th>Producto</th>
         <th>Cantidad</th>

@@ -150,10 +150,9 @@ class SellController extends Controller
     {
         $data = ['title' => 'Bienvenido a '];
         // $pdf = PDF::loadView('mypdf', $data);
-        $sale = Sale::findOrFail($id);
+        $sale = Sale::with('products', 'products.product_detail')->findOrFail($id);
 
-        $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '267.7')->setOption('page-width', '55.9')->setOption('margin-right', '3')->setOption('margin-left', '3')->setOption('margin-top', '7')->loadView('sale', compact('data', 'sale'));
+        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('sale', compact('data', 'sale'));
 
         return $pdf->stream($sale->id.'-venta.pdf');
     }
@@ -163,7 +162,7 @@ class SellController extends Controller
     {
         $data = ['title' => 'Bienvenido a '];
         // $pdf = PDF::loadView('mypdf', $data);
-        $sale = Sale::findOrFail($id);
+        $sale = Sale::with('products', 'products.product_detail')->findOrFail($id);
 
         $sale_material = Sale::with(['material_product_sale' => function($query){
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
@@ -171,7 +170,7 @@ class SellController extends Controller
         )->findOrFail($id);
 
         $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '267.7')->setOption('page-width', '55.9')->setOption('margin-right', '3')->setOption('margin-left', '3')->setOption('margin-top', '7')->loadView('material', compact('data', 'sale', 'sale_material'));
+        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('material', compact('data', 'sale', 'sale_material'));
 
         return $pdf->stream($sale->id.'-venta.pdf');
     }
@@ -183,7 +182,7 @@ class SellController extends Controller
         // $pdf = PDF::loadView('mypdf', $data);
         $sale = Sale::with('product_sale_staff')->findOrFail($id);
 
-        $sale_product_by_staff = Sale::with([
+        $sale_product_by_staff = Sale::with(['product_sale_staff.product_stock.product_detail', 
             'product_sale_staff' => function ($query) use ($staff, $status_id) {
                 $query->where('user_id', $staff)->where('status_id', $status_id)->where('quantity', '<>', 0);
             }
@@ -194,7 +193,7 @@ class SellController extends Controller
         $user = User::where('id', $staff)->first();
 
         $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '267.7')->setOption('page-width', '55.9')->setOption('margin-right', '3')->setOption('margin-left', '3')->setOption('margin-top', '7')->loadView('productbystaff', compact('sale', 'sale_product_by_staff', 'folio', 'status', 'user'));
+        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('productbystaff', compact('sale', 'sale_product_by_staff', 'folio', 'status', 'user'));
 
         return $pdf->stream($sale->id.'-venta.pdf');
     }

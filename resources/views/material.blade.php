@@ -9,11 +9,11 @@
         font-family: Verdana, Arial, sans-serif;
     }
     table{
-        font-size: x-small;
+        font-size: medium;
     }
     tfoot tr td{
         font-weight: bold;
-        font-size: x-small;
+        font-size: medium;
     }
     .gray {
         background-color: lightgray
@@ -32,7 +32,7 @@
     <tr>
         <td align="center">
             <h3>San Jose Uniformes</h3>
-            <h4>@lang('labels.backend.access.bom.bom')</h4>
+            <h4 style=" background: #eee; ">@lang('labels.backend.access.bom.bom')</h4>
 
 {{--             <pre>
 sanjoseuniformes.com
@@ -69,6 +69,25 @@ ventas@sj-uniformes.com
   </table>
 
   <br/>
+
+  <table width="100%">
+    <thead style="background-color: gray;">
+      <tr align="center">
+        <th>Concepto</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($sale->products as $sales)
+      <tr>
+        <td scope="row">{!! '<strong>'.$sales->product_detail->product_detail->name.'</strong> '.$sales->product_detail->code.' '.$sales->product_detail->product_detail_color->name. ' Talla: '.$sales->product_detail->product_detail_size->name !!}</tf>
+        <td align="center">{{ $sales->quantity }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  <br>
 
   <table width="100%">
     <thead style="background-color: lightgray;">

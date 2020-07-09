@@ -21,8 +21,8 @@ class BomController extends Controller
 
     public function create($id)
     {
-        $materials = Bom::where('product_id', $id)->get();
-        $product = Product::with('sizes', 'sizes.material_bysize')->find($id);
+        $materials = Bom::with('material')->where('product_id', $id)->get();
+        $product = Product::with('sizes.material_bysize')->find($id);
 
         return view('backend.product.bom.create', compact('materials', 'product'));
     }

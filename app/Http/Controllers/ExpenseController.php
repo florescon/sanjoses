@@ -88,7 +88,7 @@ class ExpenseController extends Controller
         $subscription = Expense::findOrFail($id);
 
         $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '267.7')->setOption('page-width', '55.9')->setOption('margin-right', '3')->setOption('margin-left', '3')->setOption('margin-top', '7')->loadView('expense', compact('subscription'));
+        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('expense', compact('subscription'));
 
         return $pdf->stream('#'.$subscription->id.'-inscripcion.pdf');
     }

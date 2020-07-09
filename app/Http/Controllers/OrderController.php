@@ -225,17 +225,16 @@ class OrderController extends Controller
 
         }
         return redirect()->route('admin.order.create')
-          ->withFlashSuccess('Venta realizada con éxito');
+          ->withFlashSuccess('Orden realizada con éxito');
     }
 
 
     public function show($id)
     {
 
-        // $sale = Sale::with('products', 'products.boms', 'products.boms.material', 'products.product_detail', 'products.product_detail.product_detail_size', 'products.product_detail.product_detail_color')->findOrFail($id);
-        $sale = Sale::with('products', 'material_product_sale', 'products.boms')->findOrFail($id);
+        $sale = Sale::with('products.product_detail.product_detail', 'products.product_detail.product_detail_size', 'products.product_detail.product_detail_color', 'material_product_sale', 'products.boms')->findOrFail($id);
 
-        $sale_material = Sale::with(['material_product_sale.material.color', 'material_product_sale' => function($query){
+        $sale_material = Sale::with(['material_product_sale.material.unit', 'material_product_sale' => function($query){
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
                 }]
         )->findOrFail($id);
@@ -344,11 +343,9 @@ class OrderController extends Controller
     public function addtostaff($id, $staff)
     {
 
-        // $sale = Sale::with('products', 'products.boms', 'products.boms.material', 'products.product_detail', 'products.product_detail.product_detail_size', 'products.product_detail.product_detail_color')->findOrFail($id);
+        $sale = Sale::find($id)->with(['material_product_sale', 'products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $sale = Sale::find($id)->with(['products', 'material_product_sale', 'products.product_detail'])->findOrFail($id);
-
-        $staff_by_product = Sale::with(['product_sale_staff.product_stock', 'product_sale_staff.staff', 
+        $staff_by_product = Sale::with(['product_sale_staff.product_stock', 'product_sale_staff.product_stock.product_detail_color', 'product_sale_staff.product_stock.product_detail_size', 'product_sale_staff.staff', 
             'product_sale_staff' => function ($query) use ($staff) {
                 $query->where('status_id', $staff)->where('quantity', '<>', 0);
             }
@@ -477,8 +474,7 @@ class OrderController extends Controller
         $sale = Sale::findOrFail($id);
 
         $format["title"] = "A4";
-        $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '267.7')->setOption('page-width', '55.9')->setOption('margin-right', '3')->setOption('margin-left', '3')->setOption('margin-top', '7')->loadView('sale', compact('data', 'sale'), [], $format);
+        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('sale', compact('data', 'sale'), [], $format);
 
         return $pdf->stream($sale->id.'-venta.pdf');
     }
@@ -497,14 +493,6 @@ class OrderController extends Controller
     {
         $products = ProductSale::where('sale_id', $id)->get();
         try {
-
-            foreach ($products as $entry) {
-
-                $prod = Product::find($entry->product_id);
-                if($prod->type==1){
-                    $prod->increment('quantity', $entry->quantity);
-                }
-            }
 
             $delete = Sale::findOrFail($id);
             $delete->delete();
