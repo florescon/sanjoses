@@ -22,6 +22,7 @@ class CreateSalesTable extends Migration
             $table->unsignedMediumInteger('audi_id')->nullable();
             $table->unsignedInteger('box')->nullable();
             $table->unsignedInteger('type')->nullable();
+            $table->date('date_entered')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

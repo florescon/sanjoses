@@ -131,6 +131,12 @@
                          </select>
                           <span class="help-block">@lang('labels.backend.access.order.enter_status')</span>
                         </div>
+
+                        <div class="col-md-6">
+                          <input type="text" name="date_entered" step="any" id="date_entered" class="datepicker form-control" placeholder="@lang('labels.backend.access.material.table.date')" required readonly/>
+                          <span class="help-block">@lang('labels.backend.access.sell.enter_date')</span>
+                        </div>
+
                       </div>
                       <div class="form-group">
                         <label for="ticket_text" class="col-form-label">@lang('labels.backend.access.sell.comment_sale'):</label>
@@ -160,6 +166,47 @@
 @endsection
 
 @push('after-scripts')
+
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+  
+    $(document).ready(function() {
+      $('.datepicker').datepicker({
+          language: 'es',
+          dateFormat: 'dd-mm-yy',
+          autoclose: true,
+          todayHighlight: true,
+          dateFormat:'dd-mm-yy',
+      });
+  });
+
+    $.datepicker.regional['es'] = {
+      closeText: 'Cerrar',
+      prevText: '&#x3C;Ant',
+      nextText: 'Sig&#x3E;',
+      currentText: 'Hoy',
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+        'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      weekHeader: 'Sm',
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: ''
+    };
+
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+
+</script>
+
+
 <script>
 
 

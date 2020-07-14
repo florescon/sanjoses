@@ -118,4 +118,11 @@ class Sale extends Model
 
 
 
+    public function setDateEnteredAttribute($value): void
+    {
+      $this->attributes['date_entered'] =
+        Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
+    }
+
+
 }

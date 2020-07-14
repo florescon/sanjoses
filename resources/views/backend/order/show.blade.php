@@ -5,9 +5,8 @@
 <div class="row">
   <div class="col-sm-12 col-xl-8">
       <div class="card">
-        <div class="card-header">
-          Folio @lang('labels.backend.access.order.sale'):  <strong>#{{ $sale->id }}</strong> 
-          <i class="fa fa-cog fa-spin fa-fw"></i>
+        <div class="card-header"> Folio orden: <strong class="text-info"> #{{ $sale->id }}</strong> 
+          <i class="fa fa-cog fa-spin fa-fw"></i> <i>@lang('labels.backend.access.sell.table.created'): {{ $sale->created_at }}</i>
 
               <div class="float-right">
                   <a href="{{ route('admin.order.index') }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.back_all_order') }}" class="btn btn-outline-light text-info btn-sm"> <i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a>
@@ -27,25 +26,44 @@
         <div class="card-body">
           <div class="row mb-4">
               <div class="col-sm-6">
-                @if(isset($sale->user_id))<h5 class="mb-3">@lang('labels.backend.access.order.reintegrate_to_stock'):</h5>
+               <i> @lang('labels.backend.access.order.client'): </i>
+                @if(isset($sale->user_id)) 
                   <div>
                     <strong>{{ optional($sale->user)->name }}</strong>
                   </div>
                   <div>
                     <strong>{{ optional($sale->user)->email }}</strong>
                   </div>
+                @else 
+                <div>
+                  <span class="badge badge-pill badge-secondary"> <em>No definido</em></span>
+                </div>
+                @endif  
                 <br>
+
+                <div>
+                  <i>@lang('labels.backend.access.order.date'):</i>
+                </div>
+                  
+                @if($sale->date_entered)
+                <div>
+                  <strong>{{ $sale->date_entered }}</strong>
+                </div>
+                @else
+                <form autocomplete="off" method="POST" action="{{ route('admin.order.dateadd', 'test') }}">
+                @csrf
+                  <div class="w-50">
+                    <input type="hidden" name="id" id="id" value="{{ $sale->id }}">
+                    <input type="text" name="date_entered" step="any" id="date_entered" class="datepicker form-control" placeholder="@lang('labels.backend.access.material.table.date')" required readonly/>
+                  </div>
+                  <br>
+                  <button type="submit" class="btn btn-success btn-sm">@lang('labels.general.buttons.add')</button>
+                </form>
                 @endif
-                
-                <div>
-                  @lang('labels.backend.access.sell.table.created'):
-                </div>
-                <div>
-                  <strong>{{ $sale->created_at }}</strong>
-                </div>
+
               </div>
               <div class="col-sm-6">
-                <h6 class="mb-3">@lang('labels.backend.access.order.issued_by'):</h6>
+                <i>@lang('labels.backend.access.order.issued_by'):</i>
                   <div>
                     <strong>{{ $sale->generated_by->name }}</strong>
                   </div>
@@ -54,7 +72,7 @@
                   </div>
                 <br>
                 <div>
-                  @lang('labels.backend.access.sell.payment_type'):
+                  <i>@lang('labels.backend.access.sell.payment_type'):</i>
                 </div>
                 <div>
                   <strong>{!! $sale->payment_method_id ? optional($sale->payment)->name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</strong>
@@ -64,7 +82,7 @@
                 @if($sale->latestStatus())
                   <br>
                     <div>
-                      @lang('labels.backend.access.order.actual_status'):
+                      <i>@lang('labels.backend.access.order.actual_status'):</i>
                     </div>
                     <div><strong>{{ optional($sale->latestStatus())->name }}</strong>  {{ optional($sale->latestStatus())->pivot->created_at }}</div>
                 @endif
@@ -72,7 +90,7 @@
                   <form id="cart" action="{{route('admin.order.change')}}" method="POST">
                     @csrf
                       <div>
-                        @lang('labels.backend.access.order.change_status'):
+                        <i>@lang('labels.backend.access.order.change_status'):</i>
                       </div>
                       <div>                          
                         <input type="hidden" name="id" id="id" value="{{ $sale->id }}">
@@ -85,12 +103,19 @@
                 <br>
               </div>
               <div class="col-sm-6">
+                <br>
                 @if($sale->comment)
-                  <br>
                     <div>
-                      @lang('labels.backend.access.order.comment'):
+                      <i>@lang('labels.backend.access.order.comment'):</i>
                     </div>
-                    <div><code class="text-primary">{!! $sale->comment !!}</code></div>
+                    <div>
+                      <span data-toggle="modal" data-target="#commentModal" data-id="{{ $sale->id }}" data-comment="{{ $sale->comment }}">
+                        <a  data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.order.update_comment') }}"> <code class="text-primary">{!! $sale->comment !!}</code></a>
+                      </span>
+                    </div>
+                @else 
+                  <a data-toggle="modal" data-target="#commentModal" data-id="{{ $sale->id }}" data-comment="{{ $sale->comment }}"><small class="text-success">@lang('labels.backend.access.order.enter_comment')</small></a>
+
                 @endif
                 <br>
               </div>
@@ -383,9 +408,72 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form autocomplete="off" method="POST" action="{{ route('admin.order.comment', 'test') }}">
+        @csrf
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id" value="">
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Comentario:</label>
+              <textarea class="form-control" id="comment" name="comment"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+          <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.update')</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('after-scripts')
+
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+  
+    $(document).ready(function() {
+      $('.datepicker').datepicker({
+          language: 'es',
+          dateFormat: 'dd-mm-yy',
+          autoclose: true,
+          todayHighlight: true,
+          dateFormat:'dd-mm-yy',
+      });
+  });
+
+    $.datepicker.regional['es'] = {
+      closeText: 'Cerrar',
+      prevText: '&#x3C;Ant',
+      nextText: 'Sig&#x3E;',
+      currentText: 'Hoy',
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+        'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      weekHeader: 'Sm',
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: ''
+    };
+
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+
+</script>
+
+
 <script>
 
     $('#stockModal').on('show.bs.modal', function (event) {
@@ -397,6 +485,18 @@
       modal.find('.modal-body #id').val(id)
       modal.find('.modal-body #stock').val(stock_)
       modal.find('.modal-title').text('@lang('labels.backend.access.product.add_quantity') ')
+    });
+
+
+    $('#commentModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var id = button.data('id')
+      var comment_ = button.data('comment')
+      var modal = $(this)
+
+      modal.find('.modal-body #id').val(id)
+      modal.find('.modal-body #comment').val(comment_)
+      modal.find('.modal-title').text('@lang('labels.general.buttons.update') ')
     });
 
   $(document).ready(function() {

@@ -9,6 +9,7 @@ use App\Repositories\Backend\Auth\RoleRepository;
 use App\Repositories\Backend\Auth\UserRepository;
 use App\Repositories\Backend\Auth\PermissionRepository;
 use App\Http\Requests\Backend\Auth\User\StoreUserRequest;
+use App\Http\Requests\Backend\Auth\User\StoreCustomerRequest;
 use App\Http\Requests\Backend\Auth\User\ManageUserRequest;
 use App\Http\Requests\Backend\Auth\User\UpdateUserRequest;
 use App\Customer;
@@ -159,7 +160,7 @@ class UserController extends Controller
      * @throws \Throwable
      * @return mixed
      */
-    public function storeCustomer(Request $request)
+    public function storeCustomer(StoreCustomerRequest $request)
     {
         $this->userRepository->createCustomer($request->only(
             'first_name',

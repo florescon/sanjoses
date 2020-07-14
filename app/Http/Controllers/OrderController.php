@@ -167,6 +167,7 @@ class OrderController extends Controller
             $sell->payment_method_id = $request->payment;
             $sell->audi_id = Auth::id();
             $sell->type = 2;
+            $sell->date_entered = $request->date_entered ?  $request->date_entered : Carbon::now()->format('d-m-Y');
             $sell->save();
 
             if(isset($request->status)){
@@ -313,6 +314,25 @@ class OrderController extends Controller
         } else {
             return redirect()->back()->withFlashDanger('Error');
         }
+    }
+
+    public function comment(Request $request)
+    {
+        $sale = Sale::findOrFail($request->id);
+        $sale->comment = $request->comment;
+        $sale->update();
+
+        return redirect()->back()->withFlashSuccess('Comentario actualizado');
+    }
+
+
+    public function dateadd(Request $request)
+    {
+        $sale = Sale::findOrFail($request->id);
+        $sale->date_entered = $request->date_entered;
+        $sale->update();
+
+        return redirect()->back()->withFlashSuccess('Fecha actualizada');
     }
 
 

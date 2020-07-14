@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-sm-12 col-xl-12">
         <div class="card">
-          <div class="card-header bg-transparent">@lang('labels.backend.access.order.reintegrate_stock') -- <small class="text-danger"> Orden Folio #{{ $sale->id }}</small> --
+          <div class="card-header">@lang('labels.backend.access.order.reintegrate_stock') -- <small class="text-danger"> Orden Folio #{{ $sale->id }}</small> --
 
             <div class="float-right">
               <a href="{{ route('admin.order.show', $sale->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.back_order') }}" class="btn btn-outline-light text-info btn-sm"> <i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a>

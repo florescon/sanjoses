@@ -33,7 +33,10 @@ Route::group(['namespace' => 'Order'], function () {
     Route::post('orderstaff', [OrderController::class, 'storeStaff'])->name('order.orderstaff');
 
     Route::patch('order/readyproduct/{id}', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
-
+    
+    Route::post('ordercomment/{id}', [OrderController::class, 'comment'])->name('order.comment');
+    Route::post('orderdate/{id}', [OrderController::class, 'dateadd'])->name('order.dateadd');
+    
 
     Route::post('change', [OrderController::class, 'changeStatus'])->name('order.change');
     Route::get('orderproduction/{id}', [OrderController::class, 'toProduction'])->name('order.production');

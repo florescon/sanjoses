@@ -68,6 +68,14 @@ ventas@sj-uniformes.com
     </tr>
   </table>
 
+  @if($sale->comment)
+  <table width="100%">
+    <tr>
+        <td><strong>Comentario:</strong> {{ $sale->comment }}</td>
+    </tr>
+  </table>
+  @endif
+
   <br/>
 
   <table width="100%">
