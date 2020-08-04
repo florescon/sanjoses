@@ -7,10 +7,10 @@
 <div class="row">
   <div class="col-sm-4">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header bg-primary">
         <strong>@lang('labels.backend.access.order.add')</strong>
         <small>@lang('labels.backend.access.material.material')</small>
-            <strong style="float:right;"><a class="btn btn-outline-light btn-sm text-info " href="{{ route('admin.product.productconsumption.consumption') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
+            <strong style="float:right;"><a class="btn btn-light btn-sm  " href="{{ route('admin.product.productconsumption.consumption') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
       </div>
       <div class="card-body">
 
@@ -35,14 +35,15 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
+                  <input type="hidden" name="id" id="id" value="">
                   <label for="quantity">@lang('labels.backend.access.material.table.consumption')</label>
-                  <input class="form-control" id="quantity" name="quantity" type="number" min="0" placeholder="Cantidad"  step="any" value="1">
+                  <input class="form-control" id="quantity" name="quantity" type="number" min="0" placeholder="Cantidad" step="any">
                 </div>
               </div>
             </div>
             <!-- /.row-->
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary btn-sm">@lang('labels.general.buttons.add')</button>
+            <button type="submit" class="btn btn-success btn-sm">@lang('labels.general.buttons.add')</button>
           </div>
       </form>
       </div>    
@@ -51,7 +52,7 @@
 
     @if($product->sizes->count())
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-primary">
           <small>@lang('labels.backend.access.material.material_by_size')</small>
         </div>
         <div class="card-body">
@@ -71,12 +72,34 @@
 
   </div>
   <!-- /.col-->
-  @if($materials->count())
   <div class="col-lg-8">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header bg-primary">
         <i class="fa fa-align-justify"></i> @lang('labels.backend.access.material.table.list_material')</div>
       <div class="card-body">
+        @if($product->cloth_material)
+          <div class="float-right">
+          
+          <a href="#" class="text-dark" data-toggle="modal" data-placement="top"  data-placement="top" title="modificar" data-target="#addCloth" data-id="{{ $product->cloth_material->id }}" data-myquantity="{{ $product->cloth_material->quantity }}">
+            <i class="fas fa-tshirt"></i> <em>Su consumo de tela general es: </em> <strong>{{ $product->cloth_material->quantity }}</strong>
+          </a>
+         </div>
+        @else
+          <form id="cart" class="form-inline float-right" action="{{ route('admin.product.bom.bomstorecloth', $product->id) }}" method="POST">
+          @csrf
+            <div class="form-group mb-2">
+              <label for="ingrese" class="sr-only">Ingrese</label>
+              <input type="text" readonly class="form-control-plaintext" id="ingrese" value="Ingrese consumo de tela">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="quantity" class="sr-only">Cantidad</label>
+              <input class="form-control" style="border-width:0 0 1px 0;" id="quantity" name="quantity" type="number" min="0" step="any" placeholder="Cantidad">
+            </div>
+            <button type="submit" class="btn btn-square btn-outline-dark mb-2"><i class="fas fa-tshirt"></i> Confirmar</button>
+          </form>
+        @endif
+
+        @if($materials->count())
         <table class="table table-responsive-sm table-striped">
           <thead>
             <tr>
@@ -121,19 +144,70 @@
               </tfoot>
           </tbody>
         </table>
+        @endif
+
+      </div>
+      <div class="card-footer text-muted text-center">
 
       </div>
     </div>
 
   </div>
-  @endif
   <!-- /.col-->
 </div>
 
 </div><!--card-->
+
+<!-- Modal Cloth-->
+<div class="modal fade" id="addCloth" tabindex="-1" role="dialog" aria-labelledby="addClothLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addClothLabel">Modificar consumo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form autocomplete="off" method="POST" action="{{ route('admin.product.bom.bomupdatecloth', 'test') }}">
+        {{method_field('patch')}}
+        {{ csrf_field() }}
+      <div class="modal-body">
+          <div class="form-group">
+
+            <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="number" class="form-control" value="" name="quantity" id="quantity" required min="0" placeholder="Cantidad" step="any">
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+
 @endsection
 
 @push('after-scripts')
+
+<script>
+    $('#addCloth').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var id = button.data('id')
+      var quantity = button.data('myquantity')
+      var modal = $(this)
+
+      modal.find('.modal-body #id').val(id)
+      modal.find('.modal-body #quantity').val(quantity)
+    });
+</script>
+
 <script>
     $(document).ready(function() {
     $('#product').select2({
@@ -171,5 +245,6 @@
       });
 });
 </script>
+
 @endpush
 

@@ -248,13 +248,13 @@
             </thead>
             <tbody>
 
-          <div class="checkbox d-flex align-items-center float-right">
-              <label>&nbsp; <strong class="text-success">Asignar todas las cantidades de la orden al usuario seleccionado</strong> </label>&nbsp;
-              <label class="switch switch-label switch-pill switch-primary switch-sm">
-                <input class="switch-input" type="checkbox" value="1" name="all_quantities">
-                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
-              </label>
-          </div>
+              <div class="checkbox d-flex align-items-center float-right">
+                  <label>&nbsp; <strong class="text-success">Asignar todas las cantidades de la orden al usuario seleccionado</strong> </label>&nbsp;
+                  <label class="switch switch-label switch-pill switch-primary switch-sm">
+                    <input class="switch-input" type="checkbox" value="1" name="all_quantities">
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+              </div>
 
               @foreach($sale->products as $material)
               <input type="hidden" name="id" id="id" value="">
@@ -262,13 +262,13 @@
               <input type="hidden" name="material[]" id="material" value="{{ $material->product_id }}">
               <tr>
                 <td class="left"><strong><a href="{{ route('admin.product.product.show', $material->product_detail->product_detail->id) }}">  {{ $material->product_id.' | '. $material->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$material->product_detail->product_detail_color->name. ' Talla:'.$material->product_detail->product_detail_size->name }}</td>
-                    <td class="right" align="center">
-                      <em>
-                        {{ $material->quantity}}
-                      </em>
-                    </td>
-                    <td class="right">P.U: <strong>${{ $material->product_detail->price }}</strong></td>
-                    <td class="right"><strong>${{ $material->quantity*$material->product_detail->price }}</td>
+                <td class="right" align="center">
+                  <em>
+                    {{ $material->quantity}}
+                  </em>
+                </td>
+                <td class="right">P.U: <strong>${{ $material->product_detail->price }}</strong></td>
+                <td class="right"><strong>${{ $material->quantity*$material->product_detail->price }}</td>
                 <td>
                   <input class="form-control" id="quantity" type="number" step="any" min="0" max="{{ $material->quantity}}" name="quantity[]">
                 </td>

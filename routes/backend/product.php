@@ -39,6 +39,7 @@ Route::group([
         Route::post('productclone/{id}', [ProductController::class, 'clone'])->name('product.clone');
 
         Route::patch('productprice', [ProductController::class, 'updateprice'])->name('product.updateprice');
+        Route::patch('productcloth', [ProductController::class, 'productcloth'])->name('product.productcloth');
 
         Route::get('product/{id}', [ProductController::class, 'show'])->name('product.show');
 
@@ -112,6 +113,12 @@ Route::group([
 
         Route::get('bom/{product}/addtosize/{size}', [BomController::class, 'addtosize'])->name('bom.addtosize');
         Route::post('bom/save/{product}/{size}', [BomController::class, 'storeAddtosize'])->name('bom.bomsizestore');
+
+        Route::post('bom/clothsave/{product}', [BomController::class, 'storeCloth'])->name('bom.bomstorecloth');
+        Route::patch('bom/updatecloth/{id}', [BomController::class, 'updateCloth'])->name('bom.bomupdatecloth');
+
+        Route::post('bom/clothsizesave/{product}/{size}', [BomController::class, 'storeClothSize'])->name('bom.bomstoreclothsize');
+        Route::patch('bom/updateclothsize/{id}', [BomController::class, 'updateClothSize'])->name('bom.bomupdateclothsize');
 
         Route::delete('cartbombysize/{id}', [BomController::class, 'destroyCartBysize'])->name('cartbombysize.destroy');
 

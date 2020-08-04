@@ -9,6 +9,6 @@ Route::group(['namespace' => 'Note'], function () {
     Route::patch('note', [NoteController::class, 'update'])->name('note.update');
     Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
-    Route::get('search', [NoteController::class, 'search'])->name('note.search');
+    Route::get('searchnote', [NoteController::class, 'searchnote'])->name('note.searchnote');
 
 });

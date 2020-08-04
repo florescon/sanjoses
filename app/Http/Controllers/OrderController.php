@@ -21,6 +21,7 @@ use DB;
 use PDF;
 use DataTables;
 use App\DataTables\OrdersDataTable;
+use Carbon;
 
 class OrderController extends Controller
 {
@@ -181,6 +182,30 @@ class OrderController extends Controller
 
                 $producto = $product->product->product_id;
                 $size = $product->product->size_id;
+
+                if($product->product->cloth_material_id){
+                    if($product->bom_bysizecloth->whereIn('product_id', $producto)->whereIn('size_id', $size)->count()){
+                        foreach($product->bom_bysizecloth as $bom){
+
+                            MaterialProductSale::create([
+                                    'sale_id' => $sell->id,
+                                    'material_id' => $product->product->cloth_material_id,
+                                    'product_id' => $product->product_id,
+                                    'quantity' => $product->quantity * $bom->quantity,
+                                ]);
+                        }
+                    }
+                    else{
+                        foreach($product->bom_cloth as $bom){
+                            MaterialProductSale::create([
+                                        'sale_id' => $sell->id,
+                                        'material_id' => $product->product->cloth_material_id,
+                                        'product_id' => $product->product_id,
+                                        'quantity' => $product->quantity * $bom->quantity,
+                            ]);
+                        }
+                    }
+                }
 
                 if($product->boms_bysize->whereIn('product_id', $producto)->whereIn('size_id', $size)->count()){
                     foreach($product->boms_bysize as $bom){

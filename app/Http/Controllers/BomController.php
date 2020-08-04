@@ -13,6 +13,8 @@ use App\SizeBom;
 use App\ColorSizeProduct;
 use App\ProductSale;
 use App\PaymentMethod;
+use App\ClothBoms;
+use App\SizeClothBoms;
 use DB;
 use PDF;
 
@@ -22,7 +24,7 @@ class BomController extends Controller
     public function create($id)
     {
         $materials = Bom::with('material')->where('product_id', $id)->get();
-        $product = Product::with('sizes.material_bysize')->find($id);
+        $product = Product::with('cloth_material', 'sizes.material_bysize')->find($id);
 
         return view('backend.product.bom.create', compact('materials', 'product'));
     }
@@ -32,9 +34,12 @@ class BomController extends Controller
     {
         $materials = SizeBom::where('product_id', $productid)->where('size_id', $sizeid)->get();
         $product = Product::with('color_size_product', 'sizes')->find($productid);
+
+        $cloth = SizeClothBoms::where('product_id', $productid)->where('size_id', $sizeid)->first();
+        
         $size = Size::find($sizeid);
 
-        return view('backend.product.bom.create_bysize', compact('materials', 'product', 'size'));
+        return view('backend.product.bom.create_bysize', compact('materials', 'product', 'size', 'cloth'));
     }
 
 
@@ -86,6 +91,63 @@ class BomController extends Controller
         return redirect()->back()->withFlashSuccess('Material agregado con éxito');
 
     }
+
+    public function storeCloth(Request $request, $id){
+
+        $this->validate($request, [
+            'quantity' => 'required|required|not_in:0',
+        ]);
+
+        $product = new ClothBoms;
+        $product->product_id = $id;
+        $product->quantity = $request->quantity;
+        $product->save();
+
+        return redirect()->back()->withFlashSuccess('Consumo de tela guardado');
+
+    }
+
+    public function updateCloth(Request $request)
+    {
+        $updatecloth = ClothBoms::findOrFail($request->id);
+        $updatecloth->update($request->all());
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo de tela actualizado con éxito');
+    }
+
+
+    public function storeClothSize(Request $request, $productid, $sizeid){
+
+        $this->validate($request, [
+            'quantity' => 'required|required|not_in:0',
+        ]);
+        
+        $dup = DB::table('size_cloth_boms')->where('product_id', $productid)->where('size_id', $sizeid)->count();
+        
+        if($dup>=1){
+            return redirect()->back()->withFlashDanger('Consumo ya agregado');
+        }
+
+        $cart = new SizeClothBoms();
+        $cart->product_id = $productid;
+        $cart->size_id = $sizeid;
+        $cart->quantity = $request->quantity;
+        $cart->save();
+
+        return redirect()->back()->withFlashSuccess('Consumo de tela agregada con éxito');
+    }
+
+    public function updateClothSize(Request $request)
+    {
+        $updatecloth = SizeClothBoms::findOrFail($request->id);
+        $updatecloth->update($request->all());
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo de tela actualizado con éxito');
+    }
+
+
 
     public function bomMainDuplicate(Request $request)
     {

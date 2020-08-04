@@ -61,7 +61,7 @@ class NoteController extends Controller
         }
     }
 
-    public function search(Request $request){
+    public function searchnote(Request $request){
         $searching = $request->input('search');
 
         //now get all user and services in one go without looping using eager loading

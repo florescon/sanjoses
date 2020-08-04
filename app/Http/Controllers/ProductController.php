@@ -257,7 +257,28 @@ class ProductController extends Controller
         $productstock->update($request->all());
 
         return redirect()->back()
-          ->withFlashSuccess('Color actualizado con éxito');
+          ->withFlashSuccess('Precio actualizado con éxito');
+    }
+
+
+    public function productcloth(Request $request, ColorSizeProduct $productstock)
+    {
+
+
+        if($request->all_colors){
+            $productstock = ColorSizeProduct::findOrFail($request->id);
+            $products = ColorSizeProduct::where('product_id', $productstock->product_id)->where('color_id', $productstock->color_id)->get();
+            foreach ($products as $product) {
+                $product->update(['cloth_material_id' => $request->cloth_material_id]);
+            }
+
+        }
+        else{
+            $productstock = ColorSizeProduct::findOrFail($request->id);
+            $productstock->update($request->all());
+        }
+        return redirect()->back()
+          ->withFlashSuccess('Tela actualizada con éxito');
     }
 
 

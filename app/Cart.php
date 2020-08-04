@@ -31,5 +31,17 @@ class Cart extends Model
         return $this->hasManyThrough(SizeBom::class, ColorSizeProduct::class, 'id', 'product_id', 'product_id', 'product_id');
     }
 
+    public function bom_cloth()
+    {
+        return $this->hasManyThrough(ClothBoms::class, ColorSizeProduct::class, 'id', 'product_id', 'product_id', 'product_id');
+    }
+
+
+    public function bom_bysizecloth()
+    {
+        return $this->hasManyThrough(SizeClothBoms::class, ColorSizeProduct::class, 'id', 'product_id', 'product_id', 'product_id');
+    }
+
+
 
 }

@@ -8,6 +8,7 @@ use App\Sale;
 use App\Product;
 use App\Color;
 use App\Size;
+use App\Material;
 
 class ColorSizeProduct extends Model
 {
@@ -17,7 +18,7 @@ class ColorSizeProduct extends Model
     protected $table = 'color_size_product';
 
 	protected $fillable = [
-        'product_id', 'color_id', 'size_id', 'stock', 'price'
+        'product_id', 'color_id', 'size_id', 'cloth_material_id', 'stock', 'price'
     ];
 
     public function product_detail()
@@ -25,16 +26,19 @@ class ColorSizeProduct extends Model
         return $this->belongsTo(Product::class, 'product_id')->withTrashed();
     }
 
-
     public function product_detail_color()
     {
         return $this->belongsTo(Color::class, 'color_id')->withTrashed();
     }
 
-
     public function product_detail_size()
     {
         return $this->belongsTo(Size::class, 'size_id')->withTrashed();
+    }
+
+    public function product_detail_cloth_material()
+    {
+        return $this->belongsTo(Material::class, 'cloth_material_id')->withTrashed();
     }
 
 

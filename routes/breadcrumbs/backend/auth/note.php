@@ -15,7 +15,7 @@ Breadcrumbs::for('admin.note.indexpersonal', function ($trail) {
     $trail->push(__('labels.backend.access.note.management_personal'), route('admin.note.indexpersonal'));
 });
 
-Breadcrumbs::for('admin.note.search', function ($trail) {
+Breadcrumbs::for('admin.note.searchnote', function ($trail) {
     $trail->parent('admin.dashboard');
-    $trail->push(__('labels.backend.access.note.management'), route('admin.note.search'));
+    $trail->push(__('labels.backend.access.note.management'), route('admin.note.searchnote'));
 });

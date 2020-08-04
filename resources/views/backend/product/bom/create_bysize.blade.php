@@ -47,7 +47,7 @@
             </div>
             <!-- /.row-->
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary btn-sm">@lang('labels.general.buttons.add')</button>
+            <button type="submit" class="btn btn-success btn-sm">@lang('labels.general.buttons.add')</button>
           </div>
       </form>
       </div>    
@@ -90,11 +90,33 @@
       @endif
     </div>
     <br>
-    @if($materials->count())
     <div class="card">
       <div class="card-header">
         <i class="fa fa-align-justify"></i> @lang('labels.backend.access.material.table.list_material_for_size') {!! $size->name !!}</div>
       <div class="card-body">
+
+        @if($cloth)
+          <div class="float-right">
+          <a href="#" class="text-dark" data-toggle="modal" data-placement="top"  data-placement="top" title="modificar" data-target="#addCloth" data-id="{{ $cloth->id }}" data-myquantity="{{ $cloth->quantity }}">
+            <i class="fas fa-tshirt"></i> <em>Su consumo de tela por talla es: </em> <strong>{{ $cloth->quantity }}</strong>
+          </a>
+         </div>
+        @else
+          <form id="cart" class="form-inline float-right" action="{{ route('admin.product.bom.bomstoreclothsize', [$product->id , $size->id]) }}" method="POST">
+          @csrf
+            <div class="form-group mb-2">
+              <label for="ingrese" class="sr-only">Ingrese</label>
+              <input type="text" readonly class="form-control-plaintext" id="ingrese" value="Ingrese consumo de tela">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="quantity" class="sr-only">Cantidad</label>
+              <input class="form-control" style="border-width:0 0 1px 0;" id="quantity" name="quantity" type="number" min="0" step="any" placeholder="Cantidad">
+            </div>
+            <button type="submit" class="btn btn-square btn-outline-dark mb-2"><i class="fas fa-tshirt"></i> Confirmar</button>
+          </form>
+        @endif
+
+        @if($materials->count())
         <table class="table table-responsive-sm table-striped">
           <thead>
             <tr>
@@ -143,10 +165,10 @@
               </tfoot>
           </tbody>
         </table>
+        @endif
 
       </div>
     </div>
-    @endif
 
   </div>
   <!-- /.col-->
@@ -187,9 +209,54 @@
   </div>
 </div>
 
+<!-- Modal Cloth-->
+<div class="modal fade" id="addCloth" tabindex="-1" role="dialog" aria-labelledby="addClothLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addClothLabel">Modificar consumo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form autocomplete="off" method="POST" action="{{ route('admin.product.bom.bomupdateclothsize', 'test') }}">
+        {{method_field('patch')}}
+        {{ csrf_field() }}
+      <div class="modal-body">
+          <div class="form-group">
+
+            <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="number" class="form-control" value="" name="quantity" id="quantity" required min="0" placeholder="Cantidad" step="any">
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('after-scripts')
+
+<script>
+    $('#addCloth').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var id = button.data('id')
+      var quantity = button.data('myquantity')
+      var modal = $(this)
+
+      modal.find('.modal-body #id').val(id)
+      modal.find('.modal-body #quantity').val(quantity)
+    });
+</script>
 
 <script>
     $('#editConsumption').on('show.bs.modal', function (event) {

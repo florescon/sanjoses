@@ -8,6 +8,8 @@ use App\ProductDetail;
 use App\ColorSizeProduct;
 use App\Color;
 use App\Size;
+use App\ClothBoms;
+use App\SizeClothBoms;
 use Carbon;
 
 class Product extends Model
@@ -104,6 +106,17 @@ class Product extends Model
         return $this->belongsToMany(Size::class, 'color_size_product', 'product_id', 'size_id')->withTimestamps();
     }
 
+
+    public function cloth_material()
+    {
+        return $this->belongsTo(ClothBoms::class, 'id', 'product_id');
+    }
+
+
+    public function size_cloth_material()
+    {
+        return $this->belongsTo(SizeClothBoms::class, 'id', 'product_id');
+    }
 
     public function getTotalStock()
     {

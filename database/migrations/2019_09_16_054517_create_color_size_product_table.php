@@ -19,6 +19,7 @@ class CreateColorSizeProductTable extends Migration
             $table->unsignedSmallInteger('product_id')->nullable();
             $table->unsignedMediumInteger('color_id')->nullable();
             $table->unsignedSmallInteger('size_id')->nullable();
+            $table->unsignedBigInteger('cloth_material_id')->nullable();
             $table->integer('stock')->nullable();
             $table->double('price')->nullable();
             $table->timestamps();

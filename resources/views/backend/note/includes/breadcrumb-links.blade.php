@@ -2,7 +2,7 @@
 
     <div class="btn-group" role="group" aria-label="Button group">
 
-        <form action="{{ route('admin.note.search') }}" method="GET">
+        <form action="{{ route('admin.note.searchnote') }}" method="GET">
             <input class="form-control form-control-sm" type="text" name="search" placeholder=" @lang('labels.backend.access.note.search_general_notes')" required/>
         </form>
 

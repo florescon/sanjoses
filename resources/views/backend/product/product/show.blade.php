@@ -1,11 +1,27 @@
 @extends('backend.layouts.app')
 
+@push('after-styles')
+  <style type="text/css">
+    .blinking{
+      animation:blinkingText 3.2s infinite;
+    }
+    @keyframes blinkingText{
+        0%{     color: #000;    }
+        49%{    color: #000; }
+        80%{    color: transparent; }
+        99%{    color:#000;  }
+        100%{   color: #000;    }
+    }
+
+  </style>
+@endpush
+
 @section('content')
 <div class="container">
   <div class="card {{ $product->color_size_product->count() ? '' : 'border-danger' }}">
     <div class="card-header">
       <strong>Folio: #{{ $product->id }}</strong> 
-      <strong style="float:right;"><a class="btn btn-outline-light text-info " href="{{ route('admin.product.product.index') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
+      <strong style="float:right;"><a class="btn btn-outline-light text-info" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.product.back_list_product') }}" href="{{ route('admin.product.product.index') }}"><i class="fas fa-long-arrow-alt-left"></i> @lang('labels.general.back')  </a></strong> 
    </div>
     <div class="card-body">
       <div class="row mb-4">
@@ -129,6 +145,7 @@
             <th>@lang('labels.backend.access.product.table.specific_code')</th>
             <th class="right">@lang('labels.backend.access.product.table.color')</th>
             <th class="right">@lang('labels.backend.access.product.table.size')</th>
+            <th class="right">@lang('labels.backend.access.product.table.cloth')</th>
             <th class="right">@lang('labels.backend.access.product.table.stock')</th>
             <th class="right">@lang('labels.backend.access.product.table.price')</th>
             <th class="right">@lang('labels.backend.access.product.table.last_updated')</th>
@@ -141,13 +158,14 @@
               <td class="left">{{ $pro->product_detail->code.''.substr(optional($pro->product_detail_color)->name, 0, 2).''.substr(optional($pro->product_detail_size)->name, 0, 2) }}</td>
               <td class="right">{{ optional($pro->product_detail_color)->name }}</td>
               <td class="right">{{ optional($pro->product_detail_size)->name }}</td>
+              <td class="right">{!! $pro->cloth_material_id ? '<a href="#" data-toggle="modal" data-placement="top"  data-placement="top" title="editar" data-target="#addCloth" data-product_id="'.$pro->id.'" data-mycolor="'.$pro->color_id.'" class="text-dark">'.$pro->product_detail_cloth_material->full_name.' </a>'  : '<a href="#" data-toggle="modal" data-placement="top"  data-placement="top" title="agregar" data-target="#addCloth" data-product_id="'.$pro->id.'" data-mycolor="'.$pro->color_id.'"><span class="badge badge-pill badge-secondary blinking"> <em>No definida</em></span></a>'  !!}</td>
               <td class="right">{{ $pro->stock }}</td>
               <td class="right">${{ number_format($pro->price, 2, ".", ",") }}</td>
               <td class="right">{{ $pro->updated_at }}</td>
               <td class="right">
                 <div class="btn-group" role="group" aria-label="_{{ _('labels.backend.access.users.user_actions') }}"> 
                   <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary" data-id="{{ $pro->id }}" data-myprice="{{ $pro->price }}" data-target="#editColor"><i class="fas fa-edit"></i></a>
-                  <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-product_id="{{ $pro->id }}" data-code="{{ $pro->code }}" data-stock="{{ $pro->stock }}" title="@lang('buttons.general.crud.edit')" class="btn btn-outline-info"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a>
+                  {{-- <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-product_id="{{ $pro->id }}" data-code="{{ $pro->code }}" data-stock="{{ $pro->stock }}" title="@lang('buttons.general.crud.edit')" class="btn btn-outline-info"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a> --}}
                 </div>                
               </td>
             </tr>
@@ -190,6 +208,51 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
         <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
       </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Cloth-->
+<div class="modal fade" id="addCloth" tabindex="-1" role="dialog" aria-labelledby="addClothLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addClothLabel">@lang('labels.backend.access.product.add_cloth')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form autocomplete="off" method="POST" action="{{ route('admin.product.product.productcloth', 'test') }}">
+        {{method_field('patch')}}
+        {{ csrf_field() }}
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="material" class="col-form-label">@lang('labels.backend.access.product.table.cloth'):</label>
+            <input type="hidden" name="id" id="id" value="">
+            <input type="hidden" name="color_id" id="color" value="">
+            <select type="text" name="cloth_material_id" class="form-control" id="material" style="width:100%;" required>
+            </select>
+          </div>
+
+          <div class="checkbox d-flex align-items-center float-right">
+              <label><strong class="text-success">Asignar tela a todas las combinaciones del mismo color en este producto </strong>&nbsp;</label>
+              <label class="switch switch-label switch-pill switch-primary switch-sm">
+                <input class="switch-input" type="checkbox" value="1" name="all_colors" checked>
+                <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+              </label>
+          </div>
+          <br>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+
     </form>
 
     </div>
@@ -301,9 +364,7 @@
     <form autocomplete="off" method="POST" action="{{ route('admin.product.product.addsize', 'test') }}">
        @csrf
       <div class="modal-body">
-
           <input type="hidden" name="id" id="id" value="">
-          
           <div class="form-group">
             <label for="size" class="col-form-label">@lang('labels.backend.access.product.table.size'):</label>
             <select type="text" style="width: 100% !important;" name="size" class="form-control" id="size">
@@ -351,6 +412,15 @@
       modal.find('.modal-title').text('@lang('labels.backend.access.product.add_quantity') - ' + code)
     });
 
+    $('#addCloth').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var id = button.data('product_id')
+      var color = button.data('mycolor')
+      var modal = $(this)
+
+      modal.find('.modal-body #id').val(id)
+      modal.find('.modal-body #color').val(color)
+    });
 
     $('#newColor').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
@@ -467,4 +537,45 @@ $('.btn-number').click(function(e){
 });
 
 </script>
+
+
+
+<script>
+    $(document).ready(function() {
+    $('#material').select2({
+      ajax: {
+            url: '{{ route('admin.product.materialdetails.select') }}',
+            data: function (params) {
+                return {
+                    search: params.term,
+                    page: params.page || 1
+                };
+            },
+            dataType: 'json',
+            processResults: function (data) {
+                data.page = data.page || 1;
+                return {
+                    results: data.items.map(function (item) {
+
+                        return {
+                            id: item.id,
+                            text:  item.part_number.fixed() + ' ' +item.name + ' ' + (item.unit_id ? item.unit.name.sup().fontcolor('#20a8d8') : '') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
+                        };
+                    }),
+                    pagination: {
+                        more: data.pagination
+                    }
+                }
+            },
+            cache: true,
+            delay: 250
+        },
+        placeholder: 'Materia prima',
+        width: 'resolve',
+        escapeMarkup: function(m) { return m; }
+
+      });
+});
+</script>
+
 @endpush
