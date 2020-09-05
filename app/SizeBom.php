@@ -25,7 +25,7 @@ class SizeBom extends Model
 
     public function material()
     {
-        return $this->belongsTo(Material::class, 'material_id', 'id');
+        return $this->belongsTo(Material::class, 'material_id', 'id')->withTrashed();
     }
 
 

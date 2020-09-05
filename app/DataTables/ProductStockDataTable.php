@@ -99,7 +99,7 @@ class ProductStockDataTable extends DataTable
             ['data' => 'product_detail', 'title' => __('labels.backend.access.product.table.name')],
             ['data' => 'stock', 'title' => __('labels.backend.access.product.table.stock')],
             ['data' => 'price', 'title' => __('labels.backend.access.product.table.price')],
-            ['data' => 'created_at', 'title' => __('labels.backend.access.product.table.size')],
+            ['data' => 'created_at', 'title' => __('labels.backend.access.product.table.created')],
         ];
     }
 

@@ -19,7 +19,7 @@
               @endif
               
               <div class="float-right">
-                  <a href="{{ route('admin.inventory.sell.generate', $sale->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info ml-1 btn-sm" target="_blank"> <i class="fa fa-print"></i> @lang('labels.backend.access.sell.print') </a>
+                  <a href="{{ route('admin.inventory.sell.generate', $sale->id) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.order.print_order') }}" class="btn btn-info ml-1 btn-sm" target="_blank"> <i class="fa fa-print"></i> @lang('labels.backend.access.order.print') </a>
               </div>
 
         </div>
@@ -117,6 +117,16 @@
                   <a data-toggle="modal" data-target="#commentModal" data-id="{{ $sale->id }}" data-comment="{{ $sale->comment }}"><small class="text-success">@lang('labels.backend.access.order.enter_comment')</small></a>
 
                 @endif
+
+                <br>
+                    <div>
+                      <i>Total de productos:</i>
+                    </div>
+                    <div>
+                      <strong>
+                        {{ $sale->getTotalProducts() }}
+                      </strong>
+                    </div>
                 <br>
               </div>
           </div>
@@ -148,8 +158,8 @@
                   <tr>
                     <td class="left"><strong><a href="{{ route('admin.product.product.show', $products_sale->product_detail->product_detail->id) }}"> {{ $products_sale->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$products_sale->product_detail->product_detail_color->name. ' Talla:'.$products_sale->product_detail->product_detail_size->name }}</td>
                     <td class="right"><strong>{{ $products_sale->quantity }}</strong></td>
-                    <td class="right"><strong>${{ number_format($products_sale->product_detail->price, 2, ".", ",") }}</strong></td>
-                    <td class="right"><strong>${{ number_format($products_sale->quantity*$products_sale->product_detail->price, 2, ".", ",") }}</strong></td>
+                    <td class="right">${{ number_format($products_sale->product_detail->price, 2, ".", ",") }}</td>
+                    <td class="right">${{ number_format($products_sale->quantity*$products_sale->product_detail->price, 2, ".", ",") }}</td>
                     <td></td>
                   </tr>
 
@@ -175,7 +185,7 @@
                 @endforeach
                 <tr>
                   <td class="left"></td>
-                  <td class="right"></td>
+                  <td class="right"><p class="text-primary"><strong>{{ $sale->getTotalProducts() }}</strong></p></td>
                   <td class="right"><strong>Total:</strong></td>
                   <td class="right"><strong>${{ number_format($total, 2, ".", ",") }}</strong></td>
                   <td class="right"></td>
@@ -216,9 +226,9 @@
               <thead>
                 <tr class="table-dark">
                   <th>Materia prima | Concentrado</th>
-                  <th class="right">@lang('labels.backend.access.sell.table.unit')</th>
-                  <th class="right">@lang('labels.backend.access.sell.table.quantity')</th>
-                  <th class="right">@lang('labels.backend.access.sell.table.price')</th>
+                  <th class="right">@lang('labels.backend.access.material.table.unit')</th>
+                  <th class="right">@lang('labels.backend.access.material.table.quantity')</th>
+                  <th class="right">@lang('labels.backend.access.material.table.unit_price')</th>
                   <th class="right">@lang('labels.backend.access.sell.table.total_sale')</th>
                   <th class="right"> 
                     <div class="float-right">
@@ -231,27 +241,28 @@
                 @php($totalmat=0)
                 @foreach($sale_material->material_product_sale as $material)
                   <tr class="table-warning">
-                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} {!! ($material->product_id == NULL ? '<span class="badge badge-success"> '.__('labels.general.aggregate').' </span></a>' : '') !!} </td>
+                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} {!! ($material->product_id == NULL ? '<span class="badge badge-success"> '.__('labels.general.aggregate').' </span></a>' : '') !!} 
+
+                    {!! $material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!}
+
+                    </td>
                     <td class="right">
                         {{ $material->material->unit->name }}
                     </td>
                     <td class="right" align="center">
                       <em>
-                        {{ $material->sum }}
+                        <strong>{{ $material->sum }}</strong>
                       </em>
                     </td>
-                    <td class="right">P.U: <strong>${{ $material->material->price }}</strong></td>
-                    <td class="right"><strong>${{ $material->material->price * $material->sum }}</td>
+                    <td class="right">${{ $material->material->price }}</td>
+                    <td class="right">${{ $material->material->price * $material->sum }}</td>
 
                     <td class="right">
-                      <div class="btn-group" role="group" aria-label="_{{ _('labels.backend.access.users.user_actions') }}"> 
-                        <a href="#" data-toggle="modal" data-target="#stockModal" data-placement="top" data-material_id="{{ $material->id }}" data-stock="{{ $material->sum }}" title="@lang('buttons.general.crud.edit')" class="btn btn-outline-light  text-info btn-sm"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a>
-                      </div>                
+                      <span data-toggle="modal" data-target="#stockModal" data-material_id="{{ $material->id }}" data-stock="{{ $material->sum }}">
+                        <a data-toggle="tooltip" data-placement="top" title="@lang('labels.backend.access.material.add_quantity')" class="btn btn-outline-light text-info btn-sm"><i class="fas fa-minus"></i>  <i class="fas fa-plus"></i></a>
+                      </span>
                     </td>
                   </tr>
-
-
-
 
                     @if($material->history->count())
                       @foreach($material->history as $histo)
@@ -434,7 +445,6 @@
 
 @push('after-scripts')
 
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 <script>

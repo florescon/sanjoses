@@ -186,13 +186,18 @@ class OrderController extends Controller
                 if($product->product->cloth_material_id){
                     if($product->bom_bysizecloth->whereIn('product_id', $producto)->whereIn('size_id', $size)->count()){
                         foreach($product->bom_bysizecloth as $bom){
+                            if($bom->size_id == $size){
+                                MaterialProductSale::create([
+                                        'sale_id' => $sell->id,
+                                        'material_id' => $product->product->cloth_material_id,
+                                        'product_id' => $product->product_id,
+                                        'quantity' => $product->quantity * $bom->quantity,
+                                ]); 
 
-                            MaterialProductSale::create([
-                                    'sale_id' => $sell->id,
-                                    'material_id' => $product->product->cloth_material_id,
-                                    'product_id' => $product->product_id,
-                                    'quantity' => $product->quantity * $bom->quantity,
-                                ]);
+                            $product_decrement = Material::find($product->product->cloth_material_id);
+                            $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
+
+                            }
                         }
                     }
                     else{
@@ -203,6 +208,10 @@ class OrderController extends Controller
                                         'product_id' => $product->product_id,
                                         'quantity' => $product->quantity * $bom->quantity,
                             ]);
+
+                            $product_decrement = Material::find($product->product->cloth_material_id);
+                            $product_decrement->decrement('stock', $product->quantity * $bom->quantity);
+
                         }
                     }
                 }

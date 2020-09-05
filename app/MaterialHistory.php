@@ -22,7 +22,7 @@ class MaterialHistory extends Model
 
     public function material()
     {
-        return $this->belongsTo(Material::class, 'material_id');
+        return $this->belongsTo(Material::class, 'material_id')->withTrashed();
     }
 
     public function generated_by()

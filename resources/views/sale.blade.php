@@ -69,7 +69,16 @@ ventas@sj-uniformes.com
     </tr>
   </table>
 
+
+  <table width="100%">
+    <tr>
+        <td>{{ $sale->ticket_text }}</td>
+    </tr>
+  </table>
+
   <br/>
+
+
 
   <table width="100%">
     <thead style="background-color: gray;">
@@ -95,17 +104,12 @@ ventas@sj-uniformes.com
 
     <tfoot>
         <tr>
-            <td colspan="2"></td>
+            <td align="right"></td>
+            <td align="center" class="gray"><strong>{{ $sale->getTotalProducts() }}</strong></td>
             <td align="right">Total </td>
             <td align="right" class="gray">${{ number_format($total, 2, ".", ",") }}</td>
         </tr>
     </tfoot>
   </table>
-  <table width="100%">
-    <tr>
-        <td>{{ $sale->ticket_text }}</td>
-    </tr>
-  </table>
-
 </body>
 </html>

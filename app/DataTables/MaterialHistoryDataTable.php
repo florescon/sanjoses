@@ -34,7 +34,12 @@ class MaterialHistoryDataTable extends DataTable
                     return !empty($part->material_id) ? $part->material->part_number  : '';
             })
             ->addColumn('material', function (MaterialHistory $material) {
-                    return !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
+                    
+                    $btn = !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
+
+                    $btnn = $btn . ' '.($material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '');
+
+                    return $btnn;
             })
             ->editColumn('date_entered', function ($dat) {
                 return !empty($dat->date_entered) ? $dat->date_entered : '';

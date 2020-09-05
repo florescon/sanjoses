@@ -333,7 +333,7 @@
           
           <div class="form-group">
             <label for="color" class="col-form-label">@lang('labels.backend.access.product.table.color'):</label>
-            <select type="text" style="width: 100% !important;" name="color" class="form-control" id="color">
+            <select type="text" style="width: 100% !important;" name="color" class="form-control" id="colors">
             </select>
           </div>
 
@@ -442,7 +442,7 @@
 
 <script>
 $(document).ready(function() {
-  $('#color').select2({
+  $('#colors').select2({
     placeholder: 'seleccione color',
     width: 'resolve',
     allowClear: true,

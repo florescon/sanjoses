@@ -75,14 +75,14 @@
                   {{ $material->quantity}}
                 </em>
               </td>
-              <td class="right">P.U: <strong>${{ $material->product_detail->price }}</strong></td>
+              <td class="right"><strong>${{ $material->product_detail->price }}</strong></td>
               <td class="right"><strong>${{ $material->quantity*$material->product_detail->price }}</td>
             </tr>
             @php($totalmat += $material->quantity*$material->product_detail->price)
             @endforeach
             <tr>
               <td class="left"></td>
-              <td class="right"></td>
+              <td align="center"><strong>{{ $sale->getTotalProducts() }}</strong></td>
               <td class="right"><strong>Total:</strong></td>
               <td class="right"><strong>${{ $totalmat }}</strong></td>
             </tr>
@@ -267,7 +267,7 @@
                     {{ $material->quantity}}
                   </em>
                 </td>
-                <td class="right">P.U: <strong>${{ $material->product_detail->price }}</strong></td>
+                <td class="right"> <strong>${{ $material->product_detail->price }}</strong></td>
                 <td class="right"><strong>${{ $material->quantity*$material->product_detail->price }}</td>
                 <td>
                   <input class="form-control" id="quantity" type="number" step="any" min="0" max="{{ $material->quantity}}" name="quantity[]">

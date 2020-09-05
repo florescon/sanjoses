@@ -36,8 +36,7 @@
                 </div>
               </div>
             </div>
-            <!-- /.row-->
-            <div class="row">
+            <!-- /.row-->            <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="quantity">@lang('labels.backend.access.material.table.consumption')</label>
@@ -52,6 +51,31 @@
       </form>
       </div>    
     </div>
+
+    @if($product->sizes->count())
+      <div class="card">
+        <div class="card-header">
+          <small>@lang('labels.backend.access.material.material_by_size')</small>
+        </div>
+        <div class="card-body">
+          <div class="list-group">
+            @foreach ($product->sizes as $siz)
+              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $siz->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
+                {{-- <u>{{ $size->id }}</u> --}}
+
+                {{ $siz->name }}
+
+                @if($siz->countAllBySize($product->id))
+                  <span class="badge badge-primary badge-pill"> {{ $siz->countAllBySize($product->id) }} </span>
+                @endif
+
+              </a>
+            @endforeach
+          </div>
+        </div>  
+      </div>
+    @endif
+
   </div>
   <!-- /.col-->
 
@@ -68,7 +92,7 @@
                 @csrf
                 <input type="hidden" name="product" id="product" value="{{ $product->id }}">
                 <input type="hidden" name="size" id="size" value="{{ $size->id }}">
-                <button type="submit" class="btn btn-info"><small>Replicar materia prima</small></button>
+                <button type="submit" class="btn btn-info"><small>Replicar materia prima principal</small></button>
               </form>
           </small>
         </div>
@@ -82,7 +106,7 @@
                 @csrf
                 <input type="hidden" name="product" id="product" value="{{ $product->id }}">
                 <input type="hidden" name="size" id="size" value="{{ $size->id }}">
-                <button type="submit" class="btn btn-danger"><small>Eliminar materia prima</small></button>
+                <button type="submit" class="btn btn-danger"><small>Eliminar listado materia prima</small></button>
               </form>
           </small>
         </div>
@@ -118,6 +142,7 @@
 
         @if($materials->count())
         <table class="table table-responsive-sm table-striped">
+          <caption><em> Talla {!! $size->name !!}</em></caption>
           <thead>
             <tr>
               <th>@lang('labels.backend.access.material.material')</th>
@@ -132,8 +157,13 @@
           <tbody>
             @php($total=0)
             @foreach($materials as $product)
-            <tr>
-              <td> {!! '<em>'.$product->material->part_number.'</em> '.$product->material->name.' '.($product->material->unit_id ? '<sup>'.$product->unit_name .'</sup>' :'') !!} </td>
+            <tr {!! $product->material->trashed() ? 'class="table-danger"' : '' !!} >
+              <td> {!! '<em>'.$product->material->part_number.'</em> '.$product->material->name.' '.($product->material->unit_id ? '<sup>'.$product->unit_name .'</sup>' :'') !!} 
+
+                {!! $product->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!} 
+
+
+              </td>
               <td>{!! $product->material->size_id ? $product->size_name : '<span class="badge badge-pill badge-secondary"> <em>No definida</em></span>' !!}</td>
               <td>{!! $product->material->color_id ? $product->color_name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</td>
               <td>{{ $product->quantity }}</td>

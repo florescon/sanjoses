@@ -39,7 +39,7 @@
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label for="quantity">@lang('labels.backend.access.order.table.quantity')</label>
-                              <input class="form-control" id="quantity" name="quantity" type="number" min="1" placeholder="Cantidad" value="1">
+                              <input class="form-control" id="quantity" name="quantity" type="number" min="1" placeholder="Cantidad" >
                             </div>
                           </div>
                         </div>

@@ -125,4 +125,12 @@ class Sale extends Model
     }
 
 
+    public function getTotalProducts()
+    {
+        return $this->products->sum(function($products) {
+          return $products->quantity;
+        });
+    }
+
+
 }

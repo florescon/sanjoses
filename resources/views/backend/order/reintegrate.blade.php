@@ -48,7 +48,7 @@
                 @endforeach
                 <tr>
                   <td class="left"></td>
-                  <td class="right"></td>
+                  <td class="right"><p class="text-primary"><strong>{{ $sale->getTotalProducts() }}</strong></p></td>
                   <td class="right"><strong>Total:</strong></td>
                   <td class="right"><strong>${{ number_format($total, 2, ".", ",") }}</strong></td>
                   <td class="right"></td>

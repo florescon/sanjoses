@@ -20,6 +20,12 @@ class Size extends Model
         'name'
     ];
 
+
+    public function countAllBySize($value)
+    {
+        return $this->hasMany(SizeBom::class)->whereSizeId($this->id)->whereProductId($value)->count();
+    }
+
     //Size::class
     public function material_bysize()
     {

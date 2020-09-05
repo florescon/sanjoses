@@ -58,11 +58,15 @@
         <div class="card-body">
           <div class="list-group">
             @foreach ($product->sizes as $size)
-              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $size->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">{{ $size->name }}
+              <a href="{{ route('admin.product.bom.addtosize', [$product->id , $size->id]) }}" class="list-group-item d-flex list-group-item-action justify-content-between align-items-center">
+                {{-- <u>{{ $size->id }}</u> --}}
 
-                @if($size->material_bysize)
-                  <span class="badge badge-primary badge-pill"></span>
+                {{ $size->name }}
+
+                @if($size->countAllBySize($product->id))
+                  <span class="badge badge-primary badge-pill"> {{ $size->countAllBySize($product->id) }} </span>
                 @endif
+
               </a>
             @endforeach
           </div>
@@ -101,8 +105,9 @@
 
         @if($materials->count())
         <table class="table table-responsive-sm table-striped">
+          <caption><em>Listado principal</em></caption>
           <thead>
-            <tr>
+            <tr class="bg-secondary">
               <th>@lang('labels.backend.access.material.material')</th>
               <th>@lang('labels.backend.access.material.table.size')</th>
               <th>@lang('labels.backend.access.material.table.color')</th>
@@ -115,8 +120,12 @@
           <tbody>
             @php($total=0)
             @foreach($materials as $product)
-            <tr>
-              <td> {!! '<em>'.$product->material->part_number.'</em> '.$product->material->name.' '.($product->material->unit_id ? '<sup>'.$product->unit_name .'</sup>' :'') !!} </td>
+            <tr {!! $product->material->trashed() ? 'class="table-danger"' : '' !!} >
+              <td> {!! '<em>'.$product->material->part_number.'</em> '.$product->material->name.' '.($product->material->unit_id ? '<sup>'.$product->unit_name .'</sup>' :'') !!} 
+
+                {!! $product->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!} 
+
+              </td>
               <td>{!! $product->material->size_id ? $product->size_name : '<span class="badge badge-pill badge-secondary"> <em>No definida</em></span>' !!}</td>
               <td>{!! $product->material->color_id ? $product->color_name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</td>
               <td>{{ $product->quantity }}</td>

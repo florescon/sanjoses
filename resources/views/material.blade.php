@@ -93,6 +93,14 @@ ventas@sj-uniformes.com
       </tr>
       @endforeach
     </tbody>
+
+    <tfoot>
+        <tr>
+            <td align="right"> </td>
+            <td align="center" class="gray"><strong>{{ $sale->getTotalProducts() }}</strong></td>
+        </tr>
+    </tfoot>
+
   </table>
 
   <br>
@@ -100,7 +108,7 @@ ventas@sj-uniformes.com
   <table width="100%">
     <thead style="background-color: lightgray;">
       <tr align="center">
-        <th>Materia</th>
+        <th>Consumo</th>
         <th>Unidad</th>
         <th>Cantidad</th>
       </tr>
