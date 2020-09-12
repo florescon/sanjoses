@@ -129,8 +129,8 @@ class OrdersDataTable extends DataTable
             ['data' => 'user', 'title' => __('labels.backend.access.order.client')],
             ['data' => 'generated_by', 'title' => __('labels.backend.access.order.table.generated_by')],
             ['data' => 'status', 'title' => __('labels.backend.access.order.table.status')],
+            ['data' => 'comment', 'title' => __('labels.backend.access.order.table.comment')],
             ['data' => 'created_at', 'title' => __('labels.backend.access.order.table.created')],
-            ['data' => 'updated_at', 'title' => __('labels.backend.access.order.table.last_updated')],
         ];
     }
 

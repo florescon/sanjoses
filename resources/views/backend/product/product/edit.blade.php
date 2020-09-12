@@ -90,7 +90,7 @@
               <thead class="thead-dark">
                 <tr>
                   <th>@lang('labels.backend.access.product.table.color'): {{$color->name}}</th>
-                  <th width="25%">@lang('labels.backend.access.product.table.quantity')</th>
+                  <th width="25%">@lang('labels.backend.access.product.table.stock')</th>
                   <th width="25%">@lang('labels.backend.access.product.table.price')</th>
                 </tr>
               </thead>
@@ -102,7 +102,7 @@
                 <tr>
                   <td>@lang('labels.backend.access.product.table.size'): {{ $size->name }} </td>
                   <td> 
-                    <input class="form-control" name="stock_for[]" id="stock_for[]" step="any" type="number" placeholder="@lang('labels.backend.access.product.table.quantity')"> 
+                    <input class="form-control" name="stock_for[]" id="stock_for[]" step="any" type="number" placeholder="@lang('labels.backend.access.product.table.current_stock')"> 
                   </td>
                   <td> 
                     <input class="form-control" name="price_for[]" id="price_for[]" value="{{ $product->price }}" step="any" type="number" placeholder="@lang('labels.backend.access.product.table.price')"> 

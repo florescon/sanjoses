@@ -132,6 +132,7 @@
               <label for="ingrese" class="sr-only">Ingrese</label>
               <input type="text" readonly class="form-control-plaintext" id="ingrese" value="Ingrese consumo de tela">
             </div>
+            <span class="spinner-grow spinner-grow-sm text-primary" role="status" aria-hidden="true"></span>
             <div class="form-group mx-sm-3 mb-2">
               <label for="quantity" class="sr-only">Cantidad</label>
               <input class="form-control" style="border-width:0 0 1px 0;" id="quantity" name="quantity" type="number" min="0" step="any" placeholder="Cantidad">
@@ -282,7 +283,6 @@
       var id = button.data('id')
       var quantity = button.data('myquantity')
       var modal = $(this)
-
       modal.find('.modal-body #id').val(id)
       modal.find('.modal-body #quantity').val(quantity)
     });
@@ -294,8 +294,6 @@
       var quantity = button.data('myquantity')
       var id = button.data('id')
       var modal = $(this)
-
-
       modal.find('.modal-body #quantity').val(quantity)
       modal.find('.modal-body #id').val(id)
     });
@@ -317,7 +315,6 @@
                 data.page = data.page || 1;
                 return {
                     results: data.items.map(function (item) {
-
                         return {
                             id: item.id,
                             text:  item.part_number.fixed() + ' ' +item.name + ' ' + (item.unit_id ? item.unit.name.sup().fontcolor('#20a8d8') : '') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
@@ -334,13 +331,7 @@
         placeholder: 'Material',
         width: 'resolve',
         escapeMarkup: function(m) { return m; }
-
       });
 });
-
-
-
-
 </script>
 @endpush
-

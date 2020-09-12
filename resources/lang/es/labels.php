@@ -387,6 +387,8 @@ return [
                     'general_code' => 'Código general',
                     'specific_code' => 'Código específico',
                     'quantity' => 'Cantidad',
+                    'stock' => 'Stock',
+                    'current_stock' => 'Stock',
                     'bom' => 'Explosión',
                     'incomplete' => 'Incompleto',
                     'actually_quantity' => 'Cantidad actual',

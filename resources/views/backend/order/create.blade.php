@@ -5,7 +5,7 @@
 @section('content')
 
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <div class="card">
                   <div class="card-header">
                     <strong>@lang('labels.backend.access.order.add')</strong>
@@ -53,7 +53,7 @@
               </div>
               <!-- /.col-->
               @if($products->count())
-              <div class="col-lg-6">
+              <div class="col-lg-8">
                 <div class="card">
                   <div class="card-header">
                     <i class="fa fa-align-justify"></i> @lang('labels.backend.access.order.list_sale')
@@ -227,7 +227,7 @@
                     results: data.products.map(function (item) {
                         return {
                             id: item.id,
-                            text: item.product_detail.name + ' ' + ' Color: ' + item.product_detail_color.name + ' ' + ' Talla: ' + item.product_detail_size.name + ' ' + ' $' + item.price
+                            text: item.product_detail.name + ' ' + '<br> Color: ' + item.product_detail_color.name + ' ' + ' Talla: ' + item.product_detail_size.name + ' ' + ' $' + item.price
                         };
                     }),
                     pagination: {
@@ -240,8 +240,8 @@
         },
         placeholder: '@lang('labels.backend.access.order.product')',
         width: 'resolve',
+        escapeMarkup: function(m) { return m; },
         minimumInputLength: 1,
-        allowClear: true,
       });
 });
 

@@ -362,11 +362,16 @@ class OrderController extends Controller
 
     public function dateadd(Request $request)
     {
+
+        $this->validate($request, [
+            'date_entered' => 'required',
+        ]);
+
         $sale = Sale::findOrFail($request->id);
         $sale->date_entered = $request->date_entered;
         $sale->update();
 
-        return redirect()->back()->withFlashSuccess('Fecha actualizada');
+        return redirect()->back()->withFlashSuccess('Fecha agregada');
     }
 
 

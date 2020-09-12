@@ -162,6 +162,9 @@ return [
         'quantity' => 'cantidad',
         'stock' => 'cantidad',
         'stock_' => 'cantidad',
+        'part_number' => 'número de parte',
+        'code' => 'código',
+        'date_entered' => 'fecha',
 
         'backend' => [
             'access' => [

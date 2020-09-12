@@ -83,6 +83,10 @@ class MaterialController extends Controller
     public function store(Request $request)
     {
 
+        $this->validate($request, [
+            'part_number' => 'required|unique:materials,part_number',
+        ]);
+
         $material = new Material;
         $material->part_number = $request->part_number;
         $material->name = $request->name;
@@ -133,6 +137,10 @@ class MaterialController extends Controller
      */
     public function update(Request $request)
     {
+
+        $this->validate($request, [
+            'part_number' => 'required|unique:materials,part_number,'.$request->id,
+        ]);
 
         $service = Material::findOrFail($request->id);
         $service->update($request->all());

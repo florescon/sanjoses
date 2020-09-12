@@ -28,7 +28,7 @@
           <form autocomplete="off" method="POST" action="{{ route('admin.product.producthistory.addstock', 'test') }}">
             @csrf
                 <div class="row input-daterange">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <select type="text" name="material" class="form-control" id="material" required>
                         </select>
                     </div>&nbsp;

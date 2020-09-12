@@ -77,7 +77,6 @@
                             <th>@lang('labels.backend.access.material.table.previous_stock')</th>
   	                        <th>@lang('labels.backend.access.material.table.operation')</th>
                             <th>@lang('labels.backend.access.material.table.stock')</th>
-                            <th>@lang('labels.backend.access.material.table.date')</th>
                             <th>@lang('labels.backend.access.material.table.created') </th>
                         </tr>
                         </thead>
@@ -395,7 +394,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         autoWidth: false,
-        order: ['7', 'desc'], 
+        order: ['6', 'desc'], 
         ajax: {
           url: "{{ route('admin.materialhistoryout.index') }}",
           method: 'get',
@@ -432,7 +431,6 @@ $(document).ready(function() {
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},
             {data: 'actual', name: 'actual'},
-            {data: 'date_entered', name: 'date_entered'},
             // {data: 'show', name: 'audi', class: 'text-center'},
             {data: 'created_at', name: 'created_at'},
             // {data: 'show', name: 'show', printable: false, orderable: false, searchable: false},

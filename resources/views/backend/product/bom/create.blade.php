@@ -81,6 +81,7 @@
       <div class="card-header bg-primary">
         <i class="fa fa-align-justify"></i> @lang('labels.backend.access.material.table.list_material')</div>
       <div class="card-body">
+
         @if($product->cloth_material)
           <div class="float-right">
           
@@ -95,6 +96,7 @@
               <label for="ingrese" class="sr-only">Ingrese</label>
               <input type="text" readonly class="form-control-plaintext" id="ingrese" value="Ingrese consumo de tela">
             </div>
+            <span class="spinner-grow spinner-grow-sm text-primary" role="status" aria-hidden="true"></span>
             <div class="form-group mx-sm-3 mb-2">
               <label for="quantity" class="sr-only">Cantidad</label>
               <input class="form-control" style="border-width:0 0 1px 0;" id="quantity" name="quantity" type="number" min="0" step="any" placeholder="Cantidad">
@@ -104,7 +106,7 @@
         @endif
 
         @if($materials->count())
-        <table class="table table-responsive-sm table-striped">
+        <table class="table table-responsive-sm table-striped ">
           <caption><em>Listado principal</em></caption>
           <thead>
             <tr class="bg-secondary">
@@ -142,10 +144,7 @@
             @endforeach
               <tfoot>
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="4"></td>
                   <th>@lang('labels.backend.access.sell.table.total_sale') <span class="Total"></span></th>
                   <th>${{ $total }}</th>
                   <td></td>

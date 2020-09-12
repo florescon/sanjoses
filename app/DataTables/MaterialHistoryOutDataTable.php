@@ -34,10 +34,11 @@ class MaterialHistoryOutDataTable extends DataTable
                     return !empty($part->material_id) ? $part->material->part_number  : '';
             })
             ->addColumn('material', function (MaterialHistory $material) {
-                    return !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
-            })
-            ->editColumn('date_entered', function ($dat) {
-                return !empty($dat->date_entered) ? $dat->date_entered : '';
+                    $btn = !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
+
+                    $btnn = $btn . ' '.($material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '');
+
+                    return $btnn;
             })
             ->editColumn('quantity', function ($dat) {
                 return $dat->quantity ? '<strong>'.$dat->quantity.'</strong>' : '';
@@ -58,7 +59,7 @@ class MaterialHistoryOutDataTable extends DataTable
 
                            return $btn;
             })
-            ->rawColumns(['action', 'material', 'date_entered', 'actual', 'quantity']);
+            ->rawColumns(['action', 'material', 'actual', 'quantity']);
      }
 
     /**
@@ -112,7 +113,6 @@ class MaterialHistoryOutDataTable extends DataTable
             ['data' => 'old_quantity', 'title' => __('labels.backend.access.material.table.previous_stock')],
             ['data' => 'quantity', 'title' => __('labels.backend.access.material.table.operation')],
             ['data' => 'actual', 'title' => __('labels.backend.access.material.table.stock')],
-            ['data' => 'type', 'title' => __('labels.backend.access.material.table.type')],
             ['data' => 'audi', 'title' => __('labels.backend.access.material.table.created_by')],
             ['data' => 'created_at', 'title' => __('labels.backend.access.material.table.created')],
 

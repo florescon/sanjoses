@@ -114,8 +114,10 @@
                       </span>
                     </div>
                 @else 
-                  <a data-toggle="modal" data-target="#commentModal" data-id="{{ $sale->id }}" data-comment="{{ $sale->comment }}"><small class="text-success">@lang('labels.backend.access.order.enter_comment')</small></a>
-
+                  <div>
+                    <a data-toggle="modal" data-target="#commentModal" data-id="{{ $sale->id }}" data-comment="{{ $sale->comment }}"><small class="text-success">@lang('labels.backend.access.order.enter_comment')</small></a>
+                  </div>
+                  <br>
                 @endif
 
                 <br>
@@ -133,7 +135,7 @@
 
             <div class="card border-0">
               <div class="card-header bg-transparent border-light"> 
-                <div class="card-header-actions"><a class="card-header-action" href="{{ route('admin.order.reintegrate', $sale->id) }}"><small class="text-primary">@lang('labels.backend.access.order.reintegrate_stock')</small></a></div>
+                <div class="card-header-actions"><a class="card-header-action" href="{{ route('admin.order.reintegrate', $sale->id) }}">@lang('labels.backend.access.order.reintegrate_stock')</a></div>
               </div>
             </div>
 
@@ -445,7 +447,7 @@
 
 @push('after-scripts')
 
-
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
   
