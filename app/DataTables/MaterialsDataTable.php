@@ -140,7 +140,7 @@ class MaterialsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Materials_' . date('YmdHis');
+        return 'Materia_prima_' . date('YmdHis');
     }
 
 }
