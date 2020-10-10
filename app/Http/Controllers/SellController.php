@@ -176,24 +176,24 @@ class SellController extends Controller
     }
 
 
-    public function generatePDFproductbystaff($id, $staff, $folio_id, $status_id)
+    public function generatePDFproductbystaff($sale_id, $staff, $folio_id, $status_id)
     {
         $data = ['title' => 'Bienvenido a '];
         // $pdf = PDF::loadView('mypdf', $data);
-        $sale = Sale::with('product_sale_staff')->findOrFail($id);
+        $sale = Sale::with('product_sale_staff_main_')->findOrFail($sale_id);
 
-        $sale_product_by_staff = Sale::with(['product_sale_staff.product_stock.product_detail', 
-            'product_sale_staff' => function ($query) use ($staff, $status_id) {
-                $query->where('user_id', $staff)->where('status_id', $status_id)->where('quantity', '<>', 0);
+        $sale_product_by_staff = Sale::with(['product_sale_staff_main_.product_stock.product_detail', 
+            'product_sale_staff_main_' => function ($query) use ($staff, $status_id) {
+                $query->where('user_id', $staff)->where('status_id', $status_id);
             }
-        ])->findOrFail($id);
+        ])->findOrFail($sale_id);
 
         $status = Status::where('id', $status_id)->first();
         $folio = $folio_id;
         $user = User::where('id', $staff)->first();
 
         $customPaper = array(0,0,667.00,283.80);
-        $pdf = PDF::setOption('page-height', '367.7')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('productbystaff', compact('sale', 'sale_product_by_staff', 'folio', 'status', 'user'));
+        $pdf = PDF::setOption('page-height', '0.5m')->setOption('page-width', '80')->setOption('margin-right', '0.5')->setOption('margin-left', '0.5')->setOption('margin-top', '4')->loadView('productbystaff', compact('sale', 'sale_product_by_staff', 'folio', 'status', 'user'));
 
         return $pdf->stream($sale->id.'-venta.pdf');
     }

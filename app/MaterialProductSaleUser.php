@@ -17,7 +17,7 @@ class MaterialProductSaleUser extends Model
      * @var array
      */
     protected $fillable = [
-        'sale_id', 'material_id', 'quantity', 'ready_quantity', 'user_id', 'status_id'
+        'material_product_sale_user_main_id', 'material_id', 'quantity', 'ready_quantity'
     ];
 
     public function product_stock()

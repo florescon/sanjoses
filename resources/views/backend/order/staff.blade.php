@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @push('after-styles')
-  <style type="text/css">
+  {{-- <style type="text/css">
     .blinking{
       animation:blinkingText 3.2s infinite;
     }
@@ -13,7 +13,7 @@
         100%{   color: #000;    }
     }
 
-  </style>
+  </style> --}}
 @endpush
 
 @section('content')
@@ -86,63 +86,91 @@
               <td class="right"><strong>Total:</strong></td>
               <td class="right"><strong>${{ $totalmat }}</strong></td>
             </tr>
-            {{-- @foreach($sale->product_sale_staff as $prod)
-            <tr class="table-secondary">
-              <td class="right" >{{ $prod->product_stock->product_detail->name  }}</td>
-              <td class="right" align="center">{{ $prod->sum }}</td>
-              <td class="right"><strong></strong></td>
-              <td class="right"><strong>$</strong></td>
-            </tr>
-            @endforeach --}}
-
           </tbody>
           </table>
           @endif
         </div>
+        @if($staff_by_product->product_sale_staff_main_->count())
+          <div class="animated fadeIn">
+            <div class="row">
+            @foreach($staff_by_product->product_sale_staff_main_ as $key => $prod)
+              <div class="col-sm-12">
+                <div class="card border-dark">
+                    <div class="card-body">
+                      <h5 class="card-title"> 
+                        {{ $prod->staff->name }}
+                      </h5>
 
-        @if($staff_by_product->product_sale_staff->count())
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card border border-primary">
-              <div class="card-header">
-                <i class="fa fa-align-justify"></i> <span class="blinking">Productos asignados</span></div>
-              <div class="card-body">
-                <table class="table table-responsive-sm table-sm">
-                  <thead>
-                    <tr>
-                      <th>Producto</th>
-                      <th>Cantidad</th>
-                      <th><i class="fa fa-check-double"></i></th>
-                      <th>Usuario</th>
-                      <th>Folio</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($staff_by_product->product_sale_staff as $product)
-                    <tr>
-                      <td><strong>{{ $product->product_stock->product_detail->name }}</strong>{{ ' Color:'.$product->product_stock->product_detail_color->name. ' Talla:'.$product->product_stock->product_detail_size->name }}</td>
-                      <td align="center">{{ $product->quantity }}</td>
-                      <td align="center">{{ $product->ready_quantity }}</td>
-                      <td>{{ $product->staff->name }}</td>
-                      <td>
-                        <a href="{{ route('admin.inventory.sell.generateproductbystaff', [$sale->id, $product->user_id, $product->folio, $status_url->id]) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info ml-1 btn-sm" target="_blank"># {{ $product->folio }}</a>
-                      </td>
-                      <th>
-                        <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary btn-sm" data-id="{{ $product->id }}" data-myquantity="{{ $product->quantity }}" data-target="#editConsumption"><i class="fa fa-check-double"></i></a>
-                      </th>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
+                      <a href="#" data-toggle="modal" data-myid="{{ $sale->id }}" data-mystatus="{{ $status_url->id }}" data-mymain="{{ $prod->id }}" title="{{ __('labels.general.assign_staff') }}" class="btn btn-success ml-1 btn-sm" data-target="#addStaffMaterial" > <i class="fa fa-user"></i> Asignar consumos </a>
+
+
+                      <a href="{{ route('admin.inventory.sell.generateproductbystaff', [$prod->sale_id, $prod->user_id, $prod->id, $status_url->id]) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info btn-sm" target="_blank">{{ __('labels.backend.access.sell.print') }}</a>
+
+                      <br>
+                      <br>
+                      <h6 class="card-subtitle mb-2 text-muted"></h6>
+                            <table class="table">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col">Producto</th>
+                                  <th scope="col">Cantidad</th>
+                                  <th scope="col" style="background-color:pink;">Finalizado</th>
+                                  <th scope="col">Acciones</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 @foreach($prod->product_ as $producto)
+                                <tr>
+                                  <td>{{ $producto->product_stock->product_detail->name }}</td>
+                                  <td>{{ $producto->quantity }}</td>
+                                  <td style="background-color:pink;">{{ $producto->ready_quantity }}</td>
+                                  <td>
+                                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary btn-sm" data-id="{{ $producto->id }}" data-myquantity="{{ $producto->quantity }}" data-target="#editConsumption"> Finalizar <i class="fa fa-check-double"></i></a>
+                                  </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                            <br>
+                            <br>
+
+                            @if($prod->material_->count())
+                            <table class="table">
+                              <thead class="thead-light">
+                                <tr>
+                                  <th scope="col">Código</th>
+                                  <th scope="col">Material</th>
+                                  <th scope="col">Cantidad</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 @foreach($prod->material_ as $material)
+                                <tr class="table-warning">
+                                  <td>{{ $material->material->part_number }}</td>
+                                    <td>
+                                      {{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!}  
+
+                                      {!! $material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!}
+                                  </td>
+                                  <td>{{ $material->quantity }}</td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                            </table>
+                            @endif
+
+
+
+                      <a href="#" class="card-link float-right">
+                        {{ $prod->created_by->name }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
             </div>
           </div>
-          <!-- /.col-->
-        </div>
-        <!-- /.row-->
-        @endif
-
+          @endif
       </div>
     </div>
   </div>
@@ -294,6 +322,77 @@
 
 
 
+<!-- Modal staff -->
+<div class="modal fade" id="addStaffMaterial" tabindex="-1" role="dialog" aria-labelledby="addStaffMaterialLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addStaffMaterialLabel">Asignar consumos 
+          | <span class="badge badge-success"> {{ $status_url->name }} </span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <form autocomplete="off" method="POST" action="{{ route('admin.order.orderstaffmaterial') }}">
+       {{ csrf_field() }}
+        <div class="modal-body">
+
+            @if($sale_material->material_product_sale->count())
+            <table class="table">
+              <thead>
+                <tr class="table-dark">
+                  <th>Materia prima | Concentrado</th>
+                  <th class="right">@lang('labels.backend.access.material.table.unit')</th>
+                  <th class="right">@lang('labels.backend.access.material.table.quantity')</th>
+                  <th class="right"> 
+                    Asignar
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($sale_material->material_product_sale as $material)
+
+                  <input type="hidden" name="id" id="id" value="">
+                  <input type="hidden" name="status" id="status" value="">
+                  <input type="hidden" name="main" id="main" value="">
+                  <input type="hidden" name="material[]" id="material" value="{{ $material->material_id }}">
+
+                  <tr class="table-warning">
+                    <td class="left"> <strong>{{ $material->material->part_number }}</strong> {!! ($material->material->color_id ? $material->material->color_name : '').' | '.$material->material->name !!} {!! ($material->product_id == NULL ? '<span class="badge badge-success"> '.__('labels.general.aggregate').' </span></a>' : '') !!} 
+
+                    {!! $material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!}
+                    </td>
+                    <td class="right">
+                        {{ $material->material->unit->name }}
+                    </td>
+                    <td class="right" align="center">
+                      <em>
+                        <strong>{{ $material->sum }}</strong>
+                      </em>
+                    </td>
+                    <td class="right">
+                      <input class="form-control" id="quantity" type="number" step="any" min="0" max="{{ $material->sum}}" name="quantity[]">
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+            @endif
+          <div>
+            <label for="note" class="col-form-label"><strong>Nota: </strong><em>El valor de la cantidad por defecto es 0, sólo agregue valores positivos</em></label>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
+        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="editConsumption" tabindex="-1" role="dialog" aria-labelledby="createTagLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -353,6 +452,20 @@
       modal.find('.modal-body #id').val(id)
       modal.find('.modal-body #status').val(status)
     });
+
+
+    $('#addStaffMaterial').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var id = button.data('myid')
+      var status = button.data('mystatus')
+      var main = button.data('mymain')
+      var modal = $(this)
+
+      modal.find('.modal-body #id').val(id)
+      modal.find('.modal-body #status').val(status)
+      modal.find('.modal-body #main').val(main)
+    });
+
 
   $(document).ready(function() {
       $('#status').select2({

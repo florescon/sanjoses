@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Order'], function () {
 
     Route::get('order/{id}/addtostaff/{staff}', [OrderController::class, 'addtostaff'])->name('order.addtostaff');
     Route::post('orderstaff', [OrderController::class, 'storeStaff'])->name('order.orderstaff');
+    Route::post('orderstaffmaterial', [OrderController::class, 'storeStaffMaterial'])->name('order.orderstaffmaterial');
 
     Route::patch('order/readyproduct/{id}', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
     

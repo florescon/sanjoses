@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMaterialProductSaleUserTable extends Migration
+class CreateMaterialProductSaleUserSecondsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMaterialProductSaleUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('material_product_sale_user', function (Blueprint $table) {
+        Schema::create('material_product_sale_user_seconds', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->unsignedMediumInteger('material_product_sale_user_main_id')->nullable();
             $table->unsignedInteger('material_id')->nullable();
             $table->double('quantity')->nullable();
-            $table->double('ready_quantity')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMaterialProductSaleUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_product_sale_user');
+        Schema::dropIfExists('material_product_sale_user_seconds');
     }
 }

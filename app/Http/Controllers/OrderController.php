@@ -16,7 +16,9 @@ use App\Status;
 use App\Material;
 use App\MaterialProductSale;
 use App\MaterialProductSaleHistory;
+use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUser;
+use App\MaterialProductSaleUserSecond;
 use DB;
 use PDF;
 use DataTables;
@@ -402,18 +404,23 @@ class OrderController extends Controller
     public function addtostaff($id, $staff)
     {
 
-        $sale = Sale::find($id)->with(['material_product_sale', 'products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
+        $sale = Sale::find($id)->with(['product_sale_staff_main', 'products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $staff_by_product = Sale::with(['product_sale_staff.product_stock', 'product_sale_staff.product_stock.product_detail_color', 'product_sale_staff.product_stock.product_detail_size', 'product_sale_staff.staff', 
-            'product_sale_staff' => function ($query) use ($staff) {
-                $query->where('status_id', $staff)->where('quantity', '<>', 0);
+        $staff_by_product = Sale::with(['product_sale_staff_main_.product_stock', 'product_sale_staff_main_.product_stock.product_detail_color', 'product_sale_staff_main_.product_stock.product_detail_size', 'product_sale_staff_main_.material_.product_stock', 
+            'product_sale_staff_main_' => function ($query) use ($staff) {
+                $query->where('status_id', $staff);
             }
         ])->find($id);
+
+        $sale_material = Sale::with(['material_product_sale.material.unit', 'material_product_sale' => function($query){
+                    $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
+                }]
+        )->findOrFail($id);
 
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
 
-        return view('backend.order.staff', compact('sale', 'status_url', 'statuses', 'staff_by_product'));
+        return view('backend.order.staff', compact('sale', 'staff_by_product', 'status_url', 'statuses', 'sale_material'));
 
     }
 
@@ -424,14 +431,12 @@ class OrderController extends Controller
             'quantity' => 'required',
         ]); 
 
-        $lastValue = DB::table('material_product_sale_user')->orderBy('folio', 'desc')->first();
-
-        if(!isset($lastValue)){
-            $value = 1;
-        }
-        if(isset($lastValue)){
-            $value = $lastValue->folio + 1;
-        }
+        $sell = new MaterialProductSaleUserMain();
+        $sell->sale_id = $request->id;
+        $sell->user_id = $request->user;
+        $sell->status_id = $request->status;
+        $sell->audi_id = Auth::id();
+        $sell->save();
 
         $quantity = $request->quantity;
         $material_id = $request->material;
@@ -441,13 +446,9 @@ class OrderController extends Controller
         if($request->all_quantities){
             foreach($products->products as $product){
                 $material_staff = new MaterialProductSaleUser();
-                $material_staff->sale_id = $request->id;
+                $material_staff->material_product_sale_user_main_id = $sell->id;
                 $material_staff->material_id = $product->product_id;
                 $material_staff->quantity = $product->quantity;
-                $material_staff->user_id = $request->user;
-                $material_staff->status_id = $request->status;
-                $material_staff->folio = $value;
-                $material_staff->audi_id = Auth::id();
                 $material_staff->saveOrFail();
             }
         }
@@ -455,15 +456,36 @@ class OrderController extends Controller
             foreach($quantity as $key => $quant) {
                 if(!empty($quant)){
                     $material_staff = new MaterialProductSaleUser();
-                    $material_staff->sale_id = $request->id;
+                    $material_staff->material_product_sale_user_main_id = $sell->id;
                     $material_staff->material_id = $material_id[$key];
                     $material_staff->quantity = $quant ? $quant : 0;
-                    $material_staff->user_id = $request->user;
-                    $material_staff->status_id = $request->status;
-                    $material_staff->folio = $value;
-                    $material_staff->audi_id = Auth::id();
                     $material_staff->saveOrFail();
                 }
+            }
+        }
+
+        return redirect()->back()->withFlashSuccess('Personal agregado con éxito');
+
+    }
+
+    public function storeStaffMaterial(Request $request)
+    {
+        $this->validate($request, [
+            'quantity' => 'required',
+        ]); 
+
+        $quantity = $request->quantity;
+        $material_id = $request->material;
+
+        $products = Sale::with('products')->where('id', $request->id)->first();
+
+        foreach($quantity as $key => $quant) {
+            if(!empty($quant)){
+                $material_staff = new MaterialProductSaleUserSecond();
+                $material_staff->material_product_sale_user_main_id = $request->main;
+                $material_staff->material_id = $material_id[$key];
+                $material_staff->quantity = $quant ? $quant : 0;
+                $material_staff->saveOrFail();
             }
         }
 

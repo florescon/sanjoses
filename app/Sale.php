@@ -10,6 +10,10 @@ use App\PaymentMethod;
 use App\ProductSale;
 use App\Product;
 use App\Status;
+use App\ColorSizeProduct;
+use App\MaterialProductSaleUserMain;
+use App\MaterialProductSaleUserSecond;
+use App\MaterialProductSaleUser;
 use Carbon;
 
 class Sale extends Model
@@ -37,25 +41,26 @@ class Sale extends Model
         return $this->hasMany(MaterialProductSale::class);
     }
 
+
     public function product_sale_staff()
     {
         return $this->hasMany(MaterialProductSaleUser::class);
     }
 
+   public function product_sale_staff_main_()
+    {
+        return $this->hasMany(MaterialProductSaleUserMain::class);
+    }
+
+    public function product_sale_staff_main()
+    {
+        return $this->hasManyThrough(MaterialProductSaleUser::class, MaterialProductSaleUserMain::class);
+    }
 
     public function generated_by()
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
-
-    // public function productdeta()
-    // {
-    //     return $this->hasManyThrough(Product::class, ColorSizeProduct::class, 'product_id', 'id', '');
-    // }
-
-    // public function getCreatedAtAttribute($timestamp) {
-    //     return Carbon\Carbon::parse($timestamp)->format('d-m-Y H:i:s');
-    // }
 
 
     public function status() {
