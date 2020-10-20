@@ -159,6 +159,7 @@ return [
         'name' => 'nombre',
         'withdraw' => 'retiro',
         'level' => 'nivel',
+        'percentage' => 'porcentaje',
         'quantity' => 'cantidad',
         'stock' => 'cantidad',
         'stock_' => 'cantidad',

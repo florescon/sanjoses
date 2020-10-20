@@ -54,7 +54,6 @@
       </tr>
     </thead>
     <tbody>
-      @php($total=0)
       @foreach($sale_product_by_staff->product_sale_staff_main_ as $product)
   
        @foreach($product->product_ as $producto)
@@ -74,6 +73,7 @@
   </table>
 
 
+ @if($sale_product_by_staff->product_sale_staff_main_[0]->total_material)
   <table class="table table-sm">
     <thead class="thead-light">
       <tr align="left">
@@ -82,7 +82,6 @@
       </tr>
     </thead>
     <tbody>
-      @php($total=0)
       @foreach($sale_product_by_staff->product_sale_staff_main_ as $product)
   
        @foreach($product->material_ as $material)
@@ -99,6 +98,7 @@
       @endforeach
     </tbody>
   </table>
+@endif
 
 <div>
   <p> <small><strong>Firma</strong></small> </p>

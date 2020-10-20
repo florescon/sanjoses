@@ -19,6 +19,7 @@ use App\MaterialProductSaleHistory;
 use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUser;
 use App\MaterialProductSaleUserSecond;
+use App\StockRevisions;
 use DB;
 use PDF;
 use DataTables;
@@ -109,7 +110,7 @@ class OrderController extends Controller
     {
         $this->validate($request, [
             'product' => 'required',
-            'quantity' => 'required|required|not_in:0',
+            'quantity' => 'required|not_in:0',
         ]);
         
         $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->where('sale_order', 1)->count();
@@ -381,7 +382,7 @@ class OrderController extends Controller
     {
         $this->validate($request, [
             'product' => 'required',
-            'quantity' => 'required|required|not_in:0',
+            'quantity' => 'required|not_in:0',
         ]);
         
         $dup = DB::table('material_product_sale')->where('sale_id', $id)->where(['material_id'=>$request->product])->count();
@@ -404,9 +405,9 @@ class OrderController extends Controller
     public function addtostaff($id, $staff)
     {
 
-        $sale = Sale::find($id)->with(['product_sale_staff_main', 'products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
+        $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $staff_by_product = Sale::with(['product_sale_staff_main_.product_stock', 'product_sale_staff_main_.product_stock.product_detail_color', 'product_sale_staff_main_.product_stock.product_detail_size', 'product_sale_staff_main_.material_.product_stock', 
+        $staff_by_product = Sale::with(['product_sale_staff_main_.product_.product_stock.product_detail', 'product_sale_staff_main_.material_.product_stock', 
             'product_sale_staff_main_' => function ($query) use ($staff) {
                 $query->where('status_id', $staff);
             }
@@ -418,11 +419,28 @@ class OrderController extends Controller
         )->findOrFail($id);
 
         $status_url = Status::where('id', $staff)->first();
+
         $statuses = Status::all();
 
         return view('backend.order.staff', compact('sale', 'staff_by_product', 'status_url', 'statuses', 'sale_material'));
 
     }
+
+
+    public function addtorevisionstock($id, $staff)
+    {
+
+        $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
+
+        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail'])->find($id);
+
+        $status_url = Status::where('id', $staff)->first();
+        $statuses = Status::all();
+
+        return view('backend.order.revisionstock', compact('sale', 'product_revision_stock', 'status_url', 'statuses'));
+
+    }
+
 
     public function storeStaff(Request $request)
     {
@@ -468,6 +486,43 @@ class OrderController extends Controller
 
     }
 
+
+    public function storeStockRevision(Request $request)
+    {
+        $this->validate($request, [
+            'quantity' => 'required',
+        ]); 
+
+        $quantity = $request->quantity;
+        $product_id = $request->product;
+
+        $products = Sale::with('products')->where('id', $request->id)->first();
+
+        if($request->all_quantities){
+            foreach($products->products as $product){
+                $material_staff = new StockRevisions();
+                $material_staff->sale_id = $request->id;
+                $material_staff->product_id = $product->product_id;
+                $material_staff->quantity = $product->quantity;
+                $material_staff->saveOrFail();
+            }
+        }
+        else{
+            foreach($quantity as $key => $quant) {
+                if(!empty($quant)){
+                    $material_staff = new StockRevisions();
+                    $material_staff->sale_id = $request->id;
+                    $material_staff->product_id = $product_id[$key];
+                    $material_staff->quantity = $quant ? $quant : 0;
+                    $material_staff->saveOrFail();
+                }
+            }
+        }
+
+        return redirect()->back()->withFlashSuccess('Productos transferidos con éxito');
+
+    }
+
     public function storeStaffMaterial(Request $request)
     {
         $this->validate($request, [
@@ -503,6 +558,46 @@ class OrderController extends Controller
           ->withFlashSuccess('Consumo actualizado con éxito');
     }
 
+    public function readyallproducts(Request $request)
+    {
+        $product_byuser = MaterialProductSaleUserMain::findOrFail($request->id);
+            
+        foreach ($product_byuser->product_ as $product) {
+
+            $readyproduct = MaterialProductSaleUser::find($product->id);
+            $copyready = MaterialProductSaleUser::where('id', $product->id)->update(['ready_quantity' => $readyproduct->quantity]);
+
+        }            
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo actualizado con éxito');
+    }
+
+
+
+    public function readyproductrevisionstock(Request $request)
+    {
+        $material_byuser = StockRevisions::findOrFail($request->id);
+        $material_byuser->update($request->all());
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo actualizado con éxito');
+    }
+
+    public function readyallproductsrevisionstock(Request $request)
+    {
+        $sale = Sale::findOrFail($request->id);
+            
+        foreach ($sale->product_revision_stock as $product) {
+
+            $readyproduct = StockRevisions::find($product->id);
+            $copyready = StockRevisions::where('id', $product->id)->update(['ready_quantity' => $readyproduct->quantity]);
+
+        }            
+
+        return redirect()->back()
+          ->withFlashSuccess('Consumo actualizado con éxito');
+    }
 
     public function changeStatus(Request $request)
     {

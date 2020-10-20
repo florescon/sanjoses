@@ -24,6 +24,10 @@ Breadcrumbs::for('admin.order.addtostaff', function ($trail, $id, $staff) {
     $trail->parent('admin.order.show', $id);
     $trail->push(__('labels.backend.access.order.add_staff'), route('admin.order.addtostaff', [$id, $staff]));
 });
+Breadcrumbs::for('admin.order.addtorevisionstock', function ($trail, $id, $staff) {
+    $trail->parent('admin.order.show', $id);
+    $trail->push(__('labels.backend.access.order.intermediate_review_warehouse'), route('admin.order.addtorevisionstock', [$id, $staff]));
+});
 Breadcrumbs::for('admin.order.search', function ($trail) {
     $trail->parent('admin.dashboard');
     $trail->push(__('labels.backend.access.product.management'), route('admin.order.search'));

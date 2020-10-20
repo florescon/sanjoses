@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
 use Carbon;
 
-class ProductStockHistoryDataTable extends DataTable
+class ProductStockOutHistoryDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,7 +20,7 @@ class ProductStockHistoryDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $query = $query->with('product_stock', 'generated_by')->where('type', 1);
+        $query = $query->with('product_stock', 'generated_by')->where('type', 2);
         if(request('start_date') && request('end_date')){
             $query->whereBetween('updated_at', [request('start_date'), request('end_date')]);
             // $data->whereBetween('updated_at', array(request('from_date'), request('end_date')))
@@ -61,7 +61,7 @@ class ProductStockHistoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ProductStockHistory $model
+     * @param \App\ProductStockOutHistoryDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ProductStockHistory $model)

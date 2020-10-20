@@ -42,4 +42,19 @@ class MaterialProductSaleUserMain extends Model
     }
 
 
+    public function getTotalMaterialAttribute()
+    {
+        return $this->material_->count();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getReadyAllProductsLabelAttribute()
+    {
+        return '<a href="'.route('admin.order.readyallproducts', $this).'" data-toggle="tooltip" data-placement="top" title="Finalizar cantidades de este ticket" data-trans-button-cancel="'.__('buttons.general.cancel').'"  data-trans-button-confirm="'.__('buttons.general.continue').'" data-trans-title="'.__('strings.backend.general.are_you_sure').'" data-trans-text="'.__('labels.backend.access.order.alert_reintegrate').'" name="confirm_item"><span class="btn btn-primary custom-btn btn-sm" style="cursor:pointer">'.__('labels.backend.access.order.ready_all_quantities').'</span></a>';
+    }
+
+
 }

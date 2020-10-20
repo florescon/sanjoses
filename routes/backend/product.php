@@ -28,10 +28,12 @@ Route::group([
         Route::patch('productinitialstock', [ProductController::class, 'updateInitialStock'])->name('product.updateinitialstock');
 
         Route::get('producthistory', [ColorSizeProductController::class, 'history'])->name('producthistory.index');
+        Route::get('productouthistory', [ColorSizeProductController::class, 'historyout'])->name('productouthistory.index');
 
         Route::get('productlist', [ColorSizeProductController::class, 'index'])->name('productlist.index');
 
         Route::post('producthistory/addstock/{id}', [ColorSizeProductController::class, 'addstock'])->name('producthistory.addstock');
+        Route::post('producthistory/decrementstock/{id}', [ColorSizeProductController::class, 'decrementstock'])->name('producthistory.decrementstock');
 
         Route::post('productcolor/addcolor/{id}', [ProductController::class, 'addcolor'])->name('product.addcolor');
         Route::post('productsize/addsize/{id}', [ProductController::class, 'addsize'])->name('product.addsize');

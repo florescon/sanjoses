@@ -30,10 +30,20 @@ Route::group(['namespace' => 'Order'], function () {
     Route::post('order/addmaterialselect/{id}', [OrderController::class, 'addmaterialselect'])->name('order.addmaterialselect');
 
     Route::get('order/{id}/addtostaff/{staff}', [OrderController::class, 'addtostaff'])->name('order.addtostaff');
+
+    Route::get('order/{id}/addtorevisionstock/{staff}', [OrderController::class, 'addtorevisionstock'])->name('order.addtorevisionstock');
+
     Route::post('orderstaff', [OrderController::class, 'storeStaff'])->name('order.orderstaff');
+    Route::post('orderstockrevision', [OrderController::class, 'storeStockRevision'])->name('order.orderstockrevision');
     Route::post('orderstaffmaterial', [OrderController::class, 'storeStaffMaterial'])->name('order.orderstaffmaterial');
 
     Route::patch('order/readyproduct/{id}', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
+    Route::get('order/readyallproducts/{id}', [OrderController::class, 'readyallproducts'])->name('order.readyallproducts');
+    
+
+    Route::patch('order/readyproductrevisionstock/{id}', [OrderController::class, 'readyproductrevisionstock'])->name('order.readyproductrevisionstock');
+    Route::get('order/readyallproductsrevisionstock/{id}', [OrderController::class, 'readyallproductsrevisionstock'])->name('order.readyallproductsrevisionstock');
+
     
     Route::post('ordercomment/{id}', [OrderController::class, 'comment'])->name('order.comment');
     Route::post('orderdate/{id}', [OrderController::class, 'dateadd'])->name('order.dateadd');

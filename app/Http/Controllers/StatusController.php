@@ -28,7 +28,7 @@ class StatusController extends Controller
     {
     
         $this->validate($request, [
-            'level' => 'required|integer|between:1,9|unique:statuses,level',
+            'level' => 'required|integer|between:1,19|unique:statuses,level',
             'percentage' => 'required|integer|between:1,100',
             'to_add_users' => 'boolean',
         ]);
@@ -38,7 +38,7 @@ class StatusController extends Controller
         $status->description = $request->description;
         $status->level = $request->level;
         $status->percentage = $request->percentage;
-        $status->to_add_users = $request->to_add_users;
+        $status->to_add_users = $request->to_add_users ? 1 : 0;
         $status->save();
 
         return redirect()->route('admin.setting.status.index')
@@ -49,6 +49,7 @@ class StatusController extends Controller
     {
 
         $this->validate($request, [
+            'level' => 'required|integer|between:1,19|unique:statuses,level,'.$request->id,
             'percentage' => 'required|integer|between:1,100',
             'to_add_users' => 'boolean',
         ]);

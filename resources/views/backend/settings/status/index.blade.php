@@ -53,7 +53,7 @@
 
                                 <div class="btn-group" role="group" aria-label="_{{ _('labels.backend.access.users.user_actions') }}">
 
-                                    @if($setting->level > 0 && $setting->level < 10)
+                                    @if($setting->level > 0 && $setting->level < 20)
                                     <span data-toggle="modal" data-id="{{ $setting->id }}" data-myname="{{ $setting->name }}" data-mydescription="{{ $setting->description }}" data-myvalue="{{ $setting->level }}" data-mypercentage="{{ $setting->percentage }}" data-myto_add_users="{{ $setting->to_add_users }}" data-target="#editSetting">
                                       <a href="#" data-toggle="tooltip" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                     </span>
@@ -127,7 +127,7 @@
           </div>
           <div class="form-group">
             <label for="level" class="col-form-label">@lang('labels.backend.access.status.table.level'):</label>
-            <input type="number" min="1" max="9" class="form-control" name="level" id="level" required>
+            <input type="number" min="1" max="19" class="form-control" name="level" id="level" required>
           </div>
           <div class="form-group">
             <label for="percentage" class="col-form-label">@lang('labels.backend.access.status.table.percentage_bar'):</label>
@@ -178,7 +178,7 @@
           </div>
          <div class="form-group">
             <label for="level" class="col-form-label">@lang('labels.backend.access.status.table.level'):</label>
-            <input type="number" min="1" max="9" class="form-control" value="" name="level" id="level" required>
+            <input type="number" min="1" max="19" class="form-control" value="" name="level" id="level" required>
           </div>
          <div class="form-group">
             <label for="percentage" class="col-form-label">@lang('labels.backend.access.status.table.percentage_bar'):</label>

@@ -5,13 +5,12 @@
 @section('content')
 
 
-
 <div class="card card-accent-warning">
     <div class="card-body">
         <div class="row">
             <div class="col-sm-5">
                 <h4 class="card-title mb-0">
-                    {{ __('labels.backend.access.product.history') }}
+                    {{ __('labels.backend.access.product.historyout') }}
                 </h4>
             </div><!--col-->
         </div><!--row-->
@@ -21,10 +20,10 @@
 
             <div class="col">
             <h4 class="card-title mb-0">
-              <small class="text-muted"><em>Agregar cantidades de productos</em></small>
+              <small class="text-muted"><em>Restar cantidades de productos</em></small>
             </h4>
             <br>
-          <form autocomplete="off" method="POST" action="{{ route('admin.product.producthistory.addstock', 'test') }}">
+          <form autocomplete="off" method="POST" action="{{ route('admin.product.producthistory.decrementstock', 'test') }}">
             @csrf
                 <div class="row input-daterange">
                     <div class="col-md-5">
@@ -33,11 +32,11 @@
                     </div>&nbsp;
 
                     <div class="col-md-3">
-                        <input type="number" name="stock_" step="any" id="stock_" class="form-control border border-success" placeholder="@lang('labels.backend.access.product.table.quantity')"/>
+                        <input type="number" name="stock_" step="any" id="stock_" class="form-control border border-danger" min="0" placeholder="@lang('labels.backend.access.product.table.quantity')"/>
                     </div>
                       &nbsp;
                     <div class="col-md-3">
-                        <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
+                        <button ype="submit" class="btn btn-danger">@lang('labels.general.substract')</button>
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
                     </div>
                 </div>
@@ -197,7 +196,7 @@
         autoWidth: false,
         order: ['7', 'desc'], 
         ajax: {
-          url: "{{ route('admin.product.producthistory.index') }}",
+          url: "{{ route('admin.product.productouthistory.index') }}",
           method: 'get',
           data: function (d) {
             d.start_date = $('#start-date').val(); // Pass along start date and end date here

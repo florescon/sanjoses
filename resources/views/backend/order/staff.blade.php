@@ -14,6 +14,17 @@
     }
 
   </style> --}}
+
+<style type="text/css">
+  
+.btn-primary.custom-btn {
+  background-color: pink;
+  border-color: #c8ced3;
+  color: #5c6873;
+}
+
+</style>
+
 @endpush
 
 @section('content')
@@ -26,7 +37,8 @@
           <i class="fa fa-users-cog bg-success p-4 px-5 font-3xl mr-3"></i>
           <div>
             <div class="text-value-sm text-success"> {{ $status_url->name }} </div>
-            <div class="text-muted text-uppercase font-weight-bold small">Agregar personal</div>
+            <div class="text-value-md font-weight-bold small"> {{ $status_url->description }} </div>
+            <div class="text-muted font-weight-bold small font-italic">Agregar productos y/o materia prima al personal</div>
           </div>
         </div>
       </div>
@@ -98,23 +110,29 @@
                 <div class="card border-dark">
                     <div class="card-body">
                       <h5 class="card-title"> 
-                        {{ $prod->staff->name }}
+                        {{ ucwords(strtolower($prod->staff->name)) }}
                       </h5>
 
-                      <a href="#" data-toggle="modal" data-myid="{{ $sale->id }}" data-mystatus="{{ $status_url->id }}" data-mymain="{{ $prod->id }}" title="{{ __('labels.general.assign_staff') }}" class="btn btn-success ml-1 btn-sm" data-target="#addStaffMaterial" > <i class="fa fa-user"></i> Asignar consumos </a>
+                      <a href="#" data-toggle="modal" data-myid="{{ $sale->id }}" data-mystatus="{{ $status_url->id }}" data-mystatusname="{{ $status_url->name }}" data-mymain="{{ $prod->id }}" data-myname="{{  $prod->staff->name  }}" title="{{ __('labels.general.assign_staff') }}" class="btn btn-success ml-1 btn-sm" data-target="#addStaffMaterial" > Asignar consumos </a>
 
+                      {{-- <a href="{{ route('admin.order.readyallproducts', $prod->id) }}" class="btn btn-primary custom-btn btn-sm" data-toggle="tooltip" data-placement="top" title="Finalizar cantidades de este ticket" method="post" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                        Finalizar todo
+                      </a> --}}
+                      {!! $prod->ready_all_products_label !!}
 
                       <a href="{{ route('admin.inventory.sell.generateproductbystaff', [$prod->sale_id, $prod->user_id, $prod->id, $status_url->id]) }}" data-toggle="tooltip" data-placement="top" title="{{ __('labels.backend.access.sell.print') }}" class="btn btn-info btn-sm" target="_blank">{{ __('labels.backend.access.sell.print') }}</a>
 
                       <br>
                       <br>
                       <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        <div class="table-responsive">
                             <table class="table">
                               <thead class="thead-light">
                                 <tr>
                                   <th scope="col">Producto</th>
                                   <th scope="col">Cantidad</th>
                                   <th scope="col" style="background-color:pink;">Finalizado</th>
+                                  <th scope="col">Actualizado</th>
                                   <th scope="col">Acciones</th>
                                 </tr>
                               </thead>
@@ -124,15 +142,16 @@
                                   <td>{{ $producto->product_stock->product_detail->name }}</td>
                                   <td>{{ $producto->quantity }}</td>
                                   <td style="background-color:pink;">{{ $producto->ready_quantity }}</td>
+                                  <td>{{ $producto->updated_at }}</td>
                                   <td>
-                                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-primary btn-sm" data-id="{{ $producto->id }}" data-myquantity="{{ $producto->quantity }}" data-target="#editConsumption"> Finalizar <i class="fa fa-check-double"></i></a>
+                                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-outline-dark btn-sm" data-id="{{ $producto->id }}" data-myquantity="{{ $producto->quantity }}" data-target="#editConsumption"> Finalizar <i class="fa fa-check-double"></i></a>
                                   </td>
                                 </tr>
                                 @endforeach
                               </tbody>
                             </table>
-                            <br>
-                            <br>
+                          </div>
+                          <br>
 
                             @if($prod->material_->count())
                             <table class="table">
@@ -141,6 +160,7 @@
                                   <th scope="col">Código</th>
                                   <th scope="col">Material</th>
                                   <th scope="col">Cantidad</th>
+                                  <th scope="col">Creado</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -153,6 +173,7 @@
                                       {!! $material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!}
                                   </td>
                                   <td>{{ $material->quantity }}</td>
+                                  <td>{{ $material->created_at }}</td>
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -161,9 +182,14 @@
 
 
 
-                      <a href="#" class="card-link float-right">
-                        {{ $prod->created_by->name }}
+                      <a href="#" class="card-link float-right text-muted">
+                       <em>Creado por: {{ ucwords(strtolower($prod->created_by->name)) }}</em>
                       </a>
+
+                    </div>
+
+                    <div class="card-footer text-muted text-center">
+                    Fecha de creación:  {{ $prod->created_at }}
                     </div>
                   </div>
                 </div>
@@ -196,7 +222,7 @@
                             <span class="badge badge-pill {{ $timelineValue->id == $stat->id ? 'bg-success' : 'bg-light border' }}">&nbsp;</span>
                         </h5>
                         <div class="row h-50">
-                            @if($stat->level != 10)<div class="col border-right">&nbsp;</div>@endif
+                            @if($stat->level != 20)<div class="col border-right">&nbsp;</div>@endif
                             <div class="col">&nbsp;</div>
                         </div>
                     </div>
@@ -206,7 +232,16 @@
                                 <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-dark' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
                                 <h4 class="card-title {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}">  {{ $stat->name }} </h4>
                                 <p class="card-text"> {{  $stat->description }} </p>
-                                <p class="card-text"> @if($stat->to_add_users) <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> @endif </p>
+                                @if($stat->to_add_users) 
+                                <p class="card-text"> 
+                                    <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> 
+                                </p>
+                                @endif 
+                                @if($stat->level == 10) 
+                                <p class="card-text"> 
+                                    <h5><a href="{{ route('admin.order.addtorevisionstock', [$sale->id , $stat->id]) }}"> <span class="badge badge-info">Transferir productos</span></a></h5> 
+                                </p>
+                                @endif 
                                 @if($timelineValue->id == $stat->id)
                                 <button class="btn btn-sm btn-outline-dark" type="button" data-target="#t2_details" data-toggle="collapse">{!! $timelineValue->id == $stat->id ? '<i class="fa fa-cog fa-spin fa-fw"></i>' : '' !!} @lang('labels.backend.access.order.history_status') ▼</button> 
 
@@ -322,7 +357,7 @@
 
 
 
-<!-- Modal staff -->
+<!-- Modal Material staff -->
 <div class="modal fade" id="addStaffMaterial" tabindex="-1" role="dialog" aria-labelledby="addStaffMaterialLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -459,46 +494,16 @@
       var id = button.data('myid')
       var status = button.data('mystatus')
       var main = button.data('mymain')
+      var name = button.data('myname')
+      var statusname = button.data('mystatusname')
       var modal = $(this)
 
       modal.find('.modal-body #id').val(id)
       modal.find('.modal-body #status').val(status)
       modal.find('.modal-body #main').val(main)
+      modal.find('.modal-title').html('Asignar consumos - ' + name + ' <span class="badge badge-success"> ' + statusname + ' </span>')
+
     });
-
-
-  $(document).ready(function() {
-      $('#status').select2({
-        ajax: {
-              url: '{{ route('admin.setting.status.select') }}',
-              data: function (params) {
-                  return {
-                      search: params.term,
-                      page: params.page || 1
-                  };
-              },
-              dataType: 'json',
-              processResults: function (data) {
-                  data.page = data.page || 1;
-                  return {
-                      results: data.items.map(function (item) {
-                          return {
-                              id: item.id,
-                              text: item.name
-                          };
-                      }),
-                      pagination: {
-                          more: data.pagination
-                      }
-                  }
-              },
-              cache: true,
-              delay: 250
-          },
-          placeholder: '@lang('labels.backend.access.order.status')',
-          width: 'resolve'
-        });
-  });
 
 
 $(document).ready(function() {

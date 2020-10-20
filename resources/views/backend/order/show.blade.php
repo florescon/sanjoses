@@ -325,7 +325,7 @@
                             <span class="badge badge-pill {{ $timelineValue->id == $stat->id ? 'bg-success' : 'bg-light border' }}">&nbsp;</span>
                         </h5>
                         <div class="row h-50">
-                            @if($stat->level != 10)<div class="col border-right">&nbsp;</div>@endif
+                            @if($stat->level != 20)<div class="col border-right">&nbsp;</div>@endif
                             <div class="col">&nbsp;</div>
                         </div>
                     </div>
@@ -335,7 +335,16 @@
                                 <div class="float-right {{ $timelineValue->id == $stat->id ? 'text-dark' : 'text-muted' }}"> {{ $timelineValue->id == $stat->id ? $timelineValue->pivot->created_at : '' }} </div>
                                 <h4 class="card-title {{ $timelineValue->id == $stat->id ? 'text-success' : 'text-muted' }}">  {{ $stat->name }} </h4>
                                 <p class="card-text"> {{  $stat->description }} </p>
-                                <p class="card-text"> @if($stat->to_add_users) <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> @endif </p>
+                               @if($stat->to_add_users) 
+                                <p class="card-text"> 
+                                    <h5><a href="{{ route('admin.order.addtostaff', [$sale->id , $stat->id]) }}"> <span class="badge badge-success">{{ __('labels.general.assign_staff') }}</span></a></h5> 
+                                </p>
+                                @endif 
+                                @if($stat->level == 10) 
+                                <p class="card-text"> 
+                                    <h5><a href="{{ route('admin.order.addtorevisionstock', [$sale->id , $stat->id]) }}"> <span class="badge badge-info">Transferir productos</span></a></h5> 
+                                </p>
+                                @endif 
                                 @if($timelineValue->id == $stat->id)
                                 <button class="btn btn-sm btn-outline-dark" type="button" data-target="#t2_details" data-toggle="collapse">{!! $timelineValue->id == $stat->id ? '<i class="fa fa-cog fa-spin fa-fw"></i>' : '' !!} @lang('labels.backend.access.order.history_status') ▼</button> 
 

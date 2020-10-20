@@ -8,6 +8,7 @@ use App\ColorSizeProduct;
 use App\ProductStockHistory;
 use DataTables;
 use App\DataTables\ProductStockDataTable;
+use App\DataTables\ProductStockOutHistoryDataTable;
 use App\DataTables\ProductStockHistoryDataTable;
 
 class ColorSizeProductController extends Controller
@@ -23,11 +24,15 @@ class ColorSizeProductController extends Controller
         return $dataTable->render('backend.product.product.history');
     }
 
+    public function historyout(ProductStockOutHistoryDataTable $dataTable)
+    {
+        return $dataTable->render('backend.product.product.historyout');
+    }
 
     public function addstock(Request $request)
     {
         $this->validate($request, [
-            'stock_' => 'required',
+            'stock_' => 'required|not_in:0',
         ]);
         $product = ColorSizeProduct::findOrFail($request->material);
         $actualstock = $product->stock;
@@ -38,6 +43,29 @@ class ColorSizeProductController extends Controller
             $log->old_quantity = $actualstock;
             $log->quantity = $request->stock_;
             $log->type = 1;
+            $log->audi_id = Auth::id();
+            $log->saveOrFail();
+            return redirect()->back()->withFlashSuccess('Cantidad actualizada con exito');
+        } else {
+            return redirect()->back()->withFlashDanger('Error');
+        }
+    }
+
+    public function decrementstock(Request $request)
+    {
+        $this->validate($request, [
+            'stock_' => 'required|not_in:0',
+        ]);
+
+        $product = ColorSizeProduct::findOrFail($request->material);
+        $actualstock = $product->stock;
+        $product->decrement('stock', $request->stock_);
+        if ($product->update()) {
+            $log = new ProductStockHistory();
+            $log->product_stock_id = $product->id;
+            $log->old_quantity = $actualstock;
+            $log->quantity = -$request->stock_;
+            $log->type = 2;
             $log->audi_id = Auth::id();
             $log->saveOrFail();
             return redirect()->back()->withFlashSuccess('Cantidad actualizada con exito');
