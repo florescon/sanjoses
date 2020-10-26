@@ -61,6 +61,23 @@ class StatusController extends Controller
           ->withFlashSuccess('Configuracion actualizada con éxito');
     }
 
+
+    public function addUsers($id)
+    {
+        $status = Status::find($id);
+        if($status->to_add_users == false){
+            $status->to_add_users = true;
+        }
+        else{
+            $status->to_add_users = false;
+        }
+
+        $status->save();
+
+        return redirect()->back()->withFlashSuccess('Cambio de agregar/desactivar usuarios definido con exito');
+
+    }
+
     public function restore($id)
     {
 
@@ -81,6 +98,7 @@ class StatusController extends Controller
 
         try {
             $status = Status::findOrFail($id);
+            $status->update(['level' => null]);
             $status->delete();
         } catch (\Exception $e) {
             return redirect()->back()->withFlashDanger(__('exceptions.backend.access.general.cant_delete'));

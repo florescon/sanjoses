@@ -33,8 +33,8 @@ class BomController extends Controller
 
     public function addtosize($productid, $sizeid)
     {
-        $materials = SizeBom::where('product_id', $productid)->where('size_id', $sizeid)->get();
-        $product = Product::with('color_size_product', 'sizes')->find($productid);
+        $materials = SizeBom::with('material')->where('product_id', $productid)->where('size_id', $sizeid)->get();
+        $product = Product::with('sizes')->find($productid);
 
         $cloth = SizeClothBoms::where('product_id', $productid)->where('size_id', $sizeid)->first();
         $size = Size::find($sizeid);

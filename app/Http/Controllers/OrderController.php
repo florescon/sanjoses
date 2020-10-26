@@ -407,7 +407,12 @@ class OrderController extends Controller
 
         $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $staff_by_product = Sale::with(['product_sale_staff_main_.product_.product_stock.product_detail', 'product_sale_staff_main_.material_.product_stock', 
+        $staff_by_product = Sale::with([
+            'product_sale_staff_main_.product_.product_stock.product_detail', 
+            'product_sale_staff_main_.product_.product_stock.product_detail_color', 
+            'product_sale_staff_main_.product_.product_stock.product_detail_size', 
+            'product_sale_staff_main_.staff', 
+            'product_sale_staff_main_.material_.product_stock', 
             'product_sale_staff_main_' => function ($query) use ($staff) {
                 $query->where('status_id', $staff);
             }
@@ -432,7 +437,7 @@ class OrderController extends Controller
 
         $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail'])->find($id);
+        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail', 'product_revision_stock.product_stock.product_detail_color'])->find($id);
 
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
@@ -624,12 +629,6 @@ class OrderController extends Controller
         $order->status()->attach(2, ['audi_id' => Auth::id()]);
 
         return redirect()->back()->withFlashSuccess('Orden finalizada');
-
-    }
-    public function mostrar($id)
-    {
-        $sale = Sale::findOrFail($id);
-        return view('backend.order.mostrar', compact('sale'));
 
     }
 

@@ -27,6 +27,10 @@ return [
                 'unconfirm' => 'Deshacer',
                 'unlink' => 'Desactivar',
             ],
+            'status' => [
+                'confirm' => 'Confirmar',
+                'deactivate' => 'Desactivar',
+            ],
         ],
     ],
 

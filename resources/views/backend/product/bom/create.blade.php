@@ -121,26 +121,26 @@
           </thead>
           <tbody>
             @php($total=0)
-            @foreach($materials as $product)
-            <tr {!! $product->material->trashed() ? 'class="table-danger"' : '' !!} >
-              <td> {!! '<em>'.$product->material->part_number.'</em> '.$product->material->name.' '.($product->material->unit_id ? '<sup>'.$product->unit_name .'</sup>' :'') !!} 
+            @foreach($materials as $material)
+            <tr {!! $material->material->trashed() ? 'class="table-danger"' : '' !!} >
+              <td> {!! '<em>'.$material->material->part_number.'</em> '.$material->material->name.' '.($material->material->unit_id ? '<sup>'.$material->unit_name .'</sup>' :'') !!} 
 
-                {!! $product->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!} 
+                {!! $material->material->trashed() ? '<span class="badge badge-pill badge-danger"> <em>Eliminado</em></span>' : '' !!} 
 
               </td>
-              <td>{!! $product->material->size_id ? $product->size_name : '<span class="badge badge-pill badge-secondary"> <em>No definida</em></span>' !!}</td>
-              <td>{!! $product->material->color_id ? $product->color_name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</td>
-              <td>{{ $product->quantity }}</td>
-              <td>${{ $product->material->price }}</td>
-              <td>${{ $product->total_price }}
+              <td>{!! $material->material->size_id ? $material->size_name : '<span class="badge badge-pill badge-secondary"> <em>No definida</em></span>' !!}</td>
+              <td>{!! $material->material->color_id ? $material->color_name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>' !!}</td>
+              <td>{{ $material->quantity }}</td>
+              <td>${{ $material->material->price }}</td>
+              <td>${{ $material->total_price }}
               </td>
               <td>
-                    <a href="{{ route('admin.product.cartbom.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                    <a href="{{ route('admin.product.cartbom.destroy', $material->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
                         @lang('labels.backend.access.sell.delete')
                     </a> 
                </td>
             </tr>
-            @php($total+=$product->quantity*$product->material->price)
+            @php($total+=$material->quantity*$material->material->price)
             @endforeach
               <tfoot>
                 <tr>

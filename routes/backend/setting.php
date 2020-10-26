@@ -42,8 +42,14 @@ Route::group([
 		Route::get('status/trash', [StatusController::class, 'trash'])->name('status.trash');
 	    Route::post('status', [StatusController::class, 'store'])->name('status.store');
 	    Route::patch('status', [StatusController::class, 'update'])->name('status.update');
+
+	    Route::get('statusaddusers/{id}', [StatusController::class, 'addUsers'])->name('status.statusaddusers');
+
 	    Route::delete('status/{id}', [StatusController::class, 'destroy'])->name('status.destroy');
 	    Route::get('status/{id}/restore', [StatusController::class, 'restore'])->name('status.restore');
+
+
+
 	});
 
     Route::get('select2-load-status', [StatusController::class, 'select2LoadMore'])->name('status.select');

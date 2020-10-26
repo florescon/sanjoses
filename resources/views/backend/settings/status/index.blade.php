@@ -37,6 +37,7 @@
                             <th>@lang('labels.backend.access.status.table.description')</th>
                             <th>@lang('labels.backend.access.status.table.level')</th>
                             <th>@lang('labels.backend.access.status.table.percentage_bar')</th>
+                            <th>@lang('labels.backend.access.status.table.add_users')</th>
                             <th>@lang('labels.backend.access.status.table.last_updated')</th>
                             <th style="width:150px">@lang('labels.general.actions') </th>
                         </tr>
@@ -48,6 +49,7 @@
                                 <td><em>{{ $setting->description }}</em></td>
                                 <td>{{ $setting->level }}</td>
                                 <td>{{ $setting->percentage }}%</td>
+                                <td>{!! $setting->add_users !!}</td>
                                 <td>{{ $setting->updated_at->diffForHumans() }}</td>
                                 <td> 
 
