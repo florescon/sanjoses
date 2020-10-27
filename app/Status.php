@@ -41,7 +41,7 @@ class Status extends Model
             switch ($this->level) {
                 case -1:
                     return 'bg-warning';
-                case 10:
+                case 20:
                     return 'bg-success';
                 default:
                     return 'bg-info';

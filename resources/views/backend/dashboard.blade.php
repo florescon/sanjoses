@@ -4,13 +4,6 @@
 
 @section('content')
 
-    <div class="container">
-        @foreach($list as $lis)
-          <div class="icon"><i class="pic fab {{ $lis }} fa-lg"></i></div>
-        @endforeach
-    </div>
-
-
     <div class="animated fadeIn">
       <div class="row">
         <div class="col-sm-6 col-lg-3">
@@ -145,11 +138,9 @@
                 <div class="ml-auto font-weight-bold"> {{ $order->latestStatus()->name.' | '.$order->latestStatus()->percentage }}%</div>
               </div>
               <div class="progress-group-bars">
-                @foreach($order->status_bar  as $all_status)
-                <div class="progress progress-xs">
-                  <div class="progress-bar {{ $all_status->level_label_bar }}" role="progressbar" style="width: {{ $all_status->percentage }}%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="{{ $all_status->name. ' '.$all_status->pivot->created_at }}"></div>
+                <div class="progress progress-sm">
+                  <div class="progress-bar progress-bar-striped {{ $order->latestStatus()->level_label_bar }}" role="progressbar" style="width: {{ $order->latestStatus()->percentage }}%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="{{ $order->latestStatus()->name. ' '.$order->latestStatus()->created_at }}"></div>
                 </div>
-                @endforeach
               </div>
             </div>
             @endforeach

@@ -23,23 +23,20 @@ class DashboardController extends Controller
     public function index()
     {
 
-        $users = User::role('user')->get()->count();
-        $sales = Sale::all()->count();
-        $parent_products = Product::all()->count();
-        $products = ColorSizeProduct::all()->count();
-        $material = Material::all()->count();
+        $users = User::role('user')->count();
+        $sales = Sale::count();
+        $parent_products = Product::count();
+        $products = ColorSizeProduct::count();
+        $material = Material::count();
 
-        $list = array('fa-evernote', 'fa-firefox-browser', 'fa-digital-ocean', 'fa-whatsapp', 'fa-wolf-pack-battalion', 'fa-youtube', 'fa-tumblr', 'fa-gratipay', 'fa-earlybirds', 'fa-free-code-camp', 'fa-canadian-maple-leaf', 'fa-linux', 'fa-apple', 'fa-apple');
-        shuffle($list);
 
         // $orders = Sale::with('status')->where('type', 2)->whereDoesntHave('status', function ($query) {
         //     $query->where('level', 'like', 10);
         // })->paginate();
 
-        $orders = Sale::with('status_bar', 'user')->where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
+        $orders = Sale::with('user')->where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
 
-        
 
-        return view('backend.dashboard', compact('users', 'sales', 'parent_products', 'products', 'material', 'list', 'orders'));
+        return view('backend.dashboard', compact('users', 'sales', 'parent_products', 'products', 'material', 'orders'));
     }
 }
