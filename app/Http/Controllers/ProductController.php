@@ -86,7 +86,7 @@ class ProductController extends Controller
                     })
                     ->addColumn('action', function($row){
                             $btn = '
-                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> <i class="fas fa-bomb"></i> </a>
+                                <a href="'. route('admin.product.bom.create', $row->id).'" data-toggle="tooltip" data-placement="top" title="'. __('labels.backend.access.product.table.bom') .'" class="btn btn-warning"> Consumo </a>
                             ';
                             return $btn;
                     })
@@ -461,6 +461,14 @@ class ProductController extends Controller
         $search = $request->get('search');
         $data = Product::select(['id', 'name', 'code', 'quantity', 'price'])->where('name', 'like', '%' . $search . '%')->orWhere('code', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
+
+    public function selectGroup(Request $request)
+    {
+        $search = $request->get('search');
+        $data = Product::with('product_stock.product_detail_color', 'product_stock.product_detail_size')->where('name', 'like', '%' . $search . '%')->orWhere('code', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        return response()->json(['products' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
 

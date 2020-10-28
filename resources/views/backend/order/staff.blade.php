@@ -81,7 +81,7 @@
             @php($totalmat=0)
             @foreach($sale->products as $products)
             <tr>
-              <td class="left"><strong><a href="{{ route('admin.product.product.show', $products->product_detail->product_detail->id) }}"> {{ $products->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$products->product_detail->product_detail_color->name. ' Talla:'.$products->product_detail->product_detail_size->name }}</td>
+              <td class="left"><strong><a href="{{ route('admin.product.product.show', $products->product_detail->product_detail->id) }}"> {{ $products->product_detail->product_detail->name }} </a> </strong>{!! $products->product_detail->product_detail_color->name. ' / '.$products->product_detail->product_detail_size->name !!}</td>
               <td class="right" align="center">
                 <em>
                   {{ $products->quantity}}

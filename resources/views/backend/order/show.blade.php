@@ -158,7 +158,7 @@
                 @php($total=0)
                 @foreach($sale->products as $products_sale)
                   <tr>
-                    <td class="left"><strong><a href="{{ route('admin.product.product.show', $products_sale->product_detail->product_detail->id) }}"> {{ $products_sale->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$products_sale->product_detail->product_detail_color->name. ' Talla:'.$products_sale->product_detail->product_detail_size->name }}</td>
+                    <td class="left"><strong><a href="{{ route('admin.product.product.show', $products_sale->product_detail->product_detail->id) }}"> {{ $products_sale->product_detail->product_detail->name }} </a> </strong>{!! $products_sale->product_detail->product_detail_color->name. ' / '.$products_sale->product_detail->product_detail_size->name !!}</td>
                     <td class="right"><strong>{{ $products_sale->quantity }}</strong></td>
                     <td class="right">${{ number_format($products_sale->product_detail->price, 2, ".", ",") }}</td>
                     <td class="right">${{ number_format($products_sale->quantity*$products_sale->product_detail->price, 2, ".", ",") }}</td>

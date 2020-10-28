@@ -52,6 +52,9 @@ Route::group([
     });
     Route::get('select2-load-product', [ProductController::class, 'select2LoadMore'])->name('product.select');
     Route::get('select2-load-product-details', [ColorSizeProductController::class, 'select2LoadMore'])->name('productdetails.select');
+
+    Route::get('select2-load-product-group', [ProductController::class, 'selectGroup'])->name('productdetailsgroup.select');
+
     Route::get('select2-load-material-details', [MaterialController::class, 'select2LoadMore'])->name('materialdetails.select');
 
     Route::group(['namespace' => 'Color', 'middleware' => 'permission:colores'], function () {

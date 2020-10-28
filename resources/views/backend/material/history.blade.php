@@ -83,7 +83,7 @@
                             <th>@lang('labels.backend.access.material.material')</th>
                             <th>@lang('labels.backend.access.material.table.previous_stock')</th>
   	                        <th>@lang('labels.backend.access.material.table.operation')</th>
-                            <th>@lang('labels.backend.access.material.table.stock')</th>
+                            <th>@lang('labels.backend.access.material.table.outcome')</th>
                             <th>@lang('labels.backend.access.material.table.date')</th>
                             <th>@lang('labels.backend.access.material.table.created') </th>
                             <th></th>
@@ -195,7 +195,7 @@
           dateFormat: 'dd-mm-yy',
           autoclose: true,
           todayHighlight: true,
-          dateFormat:'dd-mm-yy',
+          dateFormat:'yy-mm-dd',
       });
   });
 

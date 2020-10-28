@@ -61,7 +61,7 @@
               <input type="hidden" name="id" id="id" value="{{ $sale->id }}">
               <input type="hidden" name="product[]" id="product" value="{{ $product->product_id }}">
               <tr>
-                <td class="left"><strong><a href="{{ route('admin.product.product.show', $product->product_detail->product_detail->id) }}"> {{ $product->product_detail->product_detail->name }} </a> </strong>{{ ' Color:'.$product->product_detail->product_detail_color->name. ' Talla:'.$product->product_detail->product_detail_size->name }}</td>
+                <td class="left"><strong><a href="{{ route('admin.product.product.show', $product->product_detail->product_detail->id) }}"> {{ $product->product_detail->product_detail->name }} </a> </strong>{!! $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name !!}</td>
                 <td class="right" align="center">
                   <em>
                     {{ $product->quantity}}

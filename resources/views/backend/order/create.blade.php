@@ -80,7 +80,7 @@
                         @php($total=0)
                         @foreach($products as $product)
                         <tr>
-                          <td>{{ $product->product->product_detail->name.' Color: '. $product->product->product_detail_color->name.' Talla: '.$product->product->product_detail_size->name  }}</td>
+                          <td>{!! '<strong>'.$product->product->product_detail->name.'</strong> '. $product->product->product_detail_color->name.' / '.$product->product->product_detail_size->name  !!}</td>
                           <td>${{ $product->product->price }}</td>
                           <td>{{ $product->quantity }}</td>
                           <td>${{ $product->quantity*$product->product->price }}
@@ -213,7 +213,7 @@
     $(document).ready(function() {
     $('#product').select2({
       ajax: {
-            url: '{{ route('admin.product.productdetails.select') }}',
+            url: '{{ route('admin.product.productdetailsgroup.select') }}',
             data: function (params) {
                 return {
                     search: params.term,
@@ -226,8 +226,15 @@
                 return {
                     results: data.products.map(function (item) {
                         return {
-                            id: item.id,
-                            text: item.product_detail.name + ' ' + '<br> Color: ' + item.product_detail_color.name + ' ' + ' Talla: ' + item.product_detail_size.name + ' ' + ' $' + item.price
+                            text: item.name,
+                            children: $.map(item.product_stock, function(child, title){
+                                return {
+                                    id: child.id,
+                                    title: item.name,
+                                    text: child.product_detail_color.name + ' / ' + child.product_detail_size.name + ' — ' + ' $' + child.price
+                                }
+                            })
+
                         };
                     }),
                     pagination: {
@@ -240,11 +247,18 @@
         },
         placeholder: '@lang('labels.backend.access.order.product')',
         width: 'resolve',
+        templateSelection: function (data) {
+          if (data.id === '') { // adjust for custom placeholder values
+            return '@lang('labels.backend.access.order.product')';
+          }
+
+          return data.title.bold() + '  ' + data.text;
+        },
         escapeMarkup: function(m) { return m; },
-        minimumInputLength: 1,
+        // minimumInputLength: 1,
+
       });
 });
-
 
 $(document).ready(function() {
     $('#user').select2({

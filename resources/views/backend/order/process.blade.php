@@ -4,13 +4,6 @@
 
 @section('content')
 
-    <div class="container">
-        @foreach($list as $lis)
-          <div class="icon"><i class="pic fab {{ $lis }} fa-lg"></i></div>
-        @endforeach
-    </div>
-    
-
     <div class="row">
       <div class="col">
         <div class="card">

@@ -85,15 +85,12 @@ class OrderController extends Controller
     public function process()
     {
 
-        $list = array('fa-evernote', 'fa-firefox-browser', 'fa-digital-ocean', 'fa-whatsapp', 'fa-wolf-pack-battalion', 'fa-youtube', 'fa-tumblr', 'fa-gratipay', 'fa-earlybirds', 'fa-free-code-camp', 'fa-canadian-maple-leaf', 'fa-linux', 'fa-apple', 'fa-apple');
-        shuffle($list);
-
         $orders = Sale::with('status')->where('type', 2)->whereDoesntHave('status', function ($query) {
-            $query->where('level', 'like', 10);
+            $query->where('level', 'like', 20);
         })->orderBy('created_at', 'desc')->paginate();
 
 
-        return view('backend.order.process', compact('list', 'orders'));
+        return view('backend.order.process', compact('orders'));
 
     }
 

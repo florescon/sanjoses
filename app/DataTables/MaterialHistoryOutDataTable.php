@@ -112,7 +112,7 @@ class MaterialHistoryOutDataTable extends DataTable
             ['data' => 'material', 'title' => __('labels.backend.access.material.material'), 'class' =>'text-center'],
             ['data' => 'old_quantity', 'title' => __('labels.backend.access.material.table.previous_stock')],
             ['data' => 'quantity', 'title' => __('labels.backend.access.material.table.operation')],
-            ['data' => 'actual', 'title' => __('labels.backend.access.material.table.stock')],
+            ['data' => 'actual', 'title' => __('labels.backend.access.material.table.outcome')],
             ['data' => 'audi', 'title' => __('labels.backend.access.material.table.created_by')],
             ['data' => 'created_at', 'title' => __('labels.backend.access.material.table.created')],
 
