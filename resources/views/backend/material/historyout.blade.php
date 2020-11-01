@@ -430,7 +430,7 @@ $(document).ready(function() {
             {data: 'material', name: 'material.name'},
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},
-            {data: 'actual', name: 'actual'},
+            {data: 'actual', name: 'actual', orderable: false,},
             // {data: 'show', name: 'audi', class: 'text-center'},
             {data: 'created_at', name: 'created_at'},
             // {data: 'show', name: 'show', printable: false, orderable: false, searchable: false},

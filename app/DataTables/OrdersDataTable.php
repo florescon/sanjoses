@@ -22,8 +22,10 @@ class OrdersDataTable extends DataTable
     {
 
         $query = $query->with('user', 'payment', 'products', 'generated_by')->where('type', 2)->orderBy('created_at', 'desc');
+
+        $end_date = new Carbon(request('end_date'));
         if(request('start_date') && request('end_date')){
-            $query->whereBetween('created_at', [request('start_date'), request('end_date')]);
+            $query->whereBetween('created_at', [request('start_date'), $end_date->endOfDay()]);
             // $query->whereBetween('updated_at', array(request('from_date'), request('end_date')))
             // ->get();
         }

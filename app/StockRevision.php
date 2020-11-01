@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Product;
 
 
-class StockRevisions extends Model
+class StockRevision extends Model
 {
 
     protected $table = 'stock_revisions';
@@ -26,6 +26,10 @@ class StockRevisions extends Model
         return $this->belongsTo(ColorSizeProduct::class, 'product_id', 'id');
     }
 
+    public function product_detail()
+    {
+        return $this->belongsTo(Product::class, 'product_id')->withTrashed();
+    }
 
 
 }

@@ -19,7 +19,7 @@ use App\MaterialProductSaleHistory;
 use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUser;
 use App\MaterialProductSaleUserSecond;
-use App\StockRevisions;
+use App\StockRevision;
 use DB;
 use PDF;
 use DataTables;
@@ -502,7 +502,7 @@ class OrderController extends Controller
 
         if($request->all_quantities){
             foreach($products->products as $product){
-                $material_staff = new StockRevisions();
+                $material_staff = new StockRevision();
                 $material_staff->sale_id = $request->id;
                 $material_staff->product_id = $product->product_id;
                 $material_staff->quantity = $product->quantity;
@@ -512,7 +512,7 @@ class OrderController extends Controller
         else{
             foreach($quantity as $key => $quant) {
                 if(!empty($quant)){
-                    $material_staff = new StockRevisions();
+                    $material_staff = new StockRevision();
                     $material_staff->sale_id = $request->id;
                     $material_staff->product_id = $product_id[$key];
                     $material_staff->quantity = $quant ? $quant : 0;
@@ -579,7 +579,7 @@ class OrderController extends Controller
 
     public function readyproductrevisionstock(Request $request)
     {
-        $material_byuser = StockRevisions::findOrFail($request->id);
+        $material_byuser = StockRevision::findOrFail($request->id);
         $material_byuser->update($request->all());
 
         return redirect()->back()
@@ -592,8 +592,8 @@ class OrderController extends Controller
             
         foreach ($sale->product_revision_stock as $product) {
 
-            $readyproduct = StockRevisions::find($product->id);
-            $copyready = StockRevisions::where('id', $product->id)->update(['ready_quantity' => $readyproduct->quantity]);
+            $readyproduct = StockRevision::find($product->id);
+            $copyready = StockRevision::where('id', $product->id)->update(['ready_quantity' => $readyproduct->quantity]);
 
         }            
 

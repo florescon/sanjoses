@@ -26,8 +26,11 @@ class MaterialsDataTable extends DataTable
 
 
         $query = $query->with('unit', 'color', 'size');
+
+        $end_date = new Carbon(request('end_date'));
+
         if(request('start_date') && request('end_date')){
-            $query->whereBetween('updated_at', [request('start_date'), request('end_date')]);
+            $query->whereBetween('updated_at', [request('start_date'), $end_date->endOfDay()]);
             // $data->whereBetween('updated_at', array(request('from_date'), request('end_date')))
             // ->get();
         }

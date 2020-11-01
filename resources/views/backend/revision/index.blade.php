@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', app_name() . ' | ' . __('labels.backend.access.product.list'))
+@section('title', app_name() . ' | ' . __('labels.backend.access.revision.management'))
 
 @section('content')
 
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <h4 class="card-title mb-0">
-                    {{ __('labels.backend.access.product.list') }}
+                    {{ __('labels.backend.access.revision.management') }}
                 </h4>
             </div><!--col-->
 
@@ -33,7 +33,7 @@
                     </div>&nbsp;
 
                     <div class="col-md-3">
-                        <input type="number" name="stock_" step="any" id="stock_" class="form-control" placeholder="@lang('labels.backend.access.product.table.quantity')"/>
+                        <input type="number" name="stock_" step="any" id="stock_" class="form-control" placeholder="@lang('labels.backend.access.revision.table.quantity')"/>
                     </div>
                       &nbsp;
                     <div class="col-md-3">
@@ -63,12 +63,12 @@
                         <thead>
                         <tr>
                             {{-- <th></th> --}}
-                            <th>@lang('labels.backend.access.product.table.id')</th>
-                            <th>@lang('labels.backend.access.product.table.code')</th>
-                            <th>@lang('labels.backend.access.product.table.name')</th>
-                            <th>@lang('labels.backend.access.product.table.stock')</th>
-                            <th>@lang('labels.backend.access.product.table.price')</th>
-                            <th>@lang('labels.backend.access.product.table.last_updated') </th>
+                            <th>@lang('labels.backend.access.revision.table.id')</th>
+                            <th>@lang('labels.backend.access.revision.table.code')</th>
+                            <th>@lang('labels.backend.access.revision.table.name')</th>
+                            <th>@lang('labels.backend.access.revision.table.stock')</th>
+                            <th>@lang('labels.backend.access.revision.table.price')</th>
+                            <th>@lang('labels.backend.access.revision.table.last_updated') </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -195,7 +195,7 @@
         autoWidth: false,
         order: ['5', 'desc'], 
         ajax: {
-          url: "{{ route('admin.product.productlist.index') }}",
+          url: "{{ route('admin.revision.index') }}",
           method: 'get',
           data: function (d) {
             d.start_date = $('#start-date').val(); // Pass along start date and end date here
@@ -225,10 +225,10 @@
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
-            {data: 'code', name: 'code', printable: false, visible: false},
+            {data: 'sale_id', name: 'sale_id'},
             {data: 'product_detail', name: 'product_detail.name'},
-            {data: 'stock', name: 'stock'},
-            {data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2, '$' )},
+            {data: 'quantity', name: 'quantity'},
+            {data: 'ready_quantity', name: 'ready_quantity'},
             {data: 'updated_at', name: 'updated_at'},
             // {data: 'action', name: 'action', printable: false, orderable: false, searchable: false},
         ]

@@ -37,6 +37,7 @@
                             <a class="nav-link {{
                                 active_class(Active::checkUriPattern('admin/auth/user*'))
                             }}" href="{{ route('admin.auth.user.index') }}">
+                                <i class="fas fa-long-arrow-alt-right"></i>
                                 @lang('labels.backend.access.users.management')
 
                                 @if ($pending_approval > 0)
@@ -48,6 +49,7 @@
                             <a class="nav-link {{
                                 active_class(Active::checkUriPattern('admin/auth/role*'))
                             }}" href="{{ route('admin.auth.role.index') }}">
+                                <i class="fas fa-long-arrow-alt-right"></i>
                                 @lang('labels.backend.access.roles.management')
                             </a>
                         </li>
@@ -84,6 +86,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/product'))
                         }}" href="{{ route('admin.product.product.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.list_products')
                         </a>
                     </li>
@@ -96,6 +99,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/list'))
                         }}" href="{{ route('admin.product.productlist.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.list_products_stock')
                         </a>
                     </li>
@@ -108,6 +112,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/productconsumption'))
                         }}" href="{{ route('admin.product.productconsumption.consumption') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.consumption_products')
                         </a>
                     </li>
@@ -120,6 +125,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/history'))
                         }}" href="{{ route('admin.product.producthistory.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.history_product')
                         </a>
                     </li>
@@ -132,6 +138,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/historyout'))
                         }}" href="{{ route('admin.product.productouthistory.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.historyout_product')
                         </a>
                     </li>
@@ -145,6 +152,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/color*'))
                         }}" href="{{ route('admin.product.color.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.colors')
                         </a>
                     </li>
@@ -157,6 +165,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/size*'))
                         }}" href="{{ route('admin.product.size.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.sizes')
                         </a>
                     </li>
@@ -169,6 +178,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/sleeve*'))
                         }}" href="{{ route('admin.product.sleeve.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.sleeves')
                         </a>
                     </li>
@@ -181,6 +191,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/cloth*'))
                         }}" href="{{ route('admin.product.cloth.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.cloths')
                         </a>
                     </li>
@@ -193,6 +204,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/line*'))
                         }}" href="{{ route('admin.product.line.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.lines')
                         </a>
                     </li>
@@ -205,6 +217,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/product/unit*'))
                         }}" href="{{ route('admin.product.unit.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.units')
                         </a>
                     </li>
@@ -232,6 +245,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/inventory/service'))
                         }}" href="{{ route('admin.inventory.service.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.services')
                         </a>
                     </li>
@@ -242,6 +256,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/inventory/sell*'))
                         }}" href="{{ route('admin.inventory.sell.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.sells')
                         </a>
                     </li>
@@ -290,6 +305,15 @@
             </li>
             @endcan
 
+            <li class="nav-item">
+                <a class="nav-link {{
+                    active_class(Active::checkUriPattern('admin/revision'))
+                }}" href="{{ route('admin.revision.index') }}">
+                    <i class="nav-icon fa fa-filter"> </i>
+                    @lang('menus.backend.sidebar.warehouse_review')
+                </a>
+            </li>
+
             @canany(['egresos', 'ingresos', 'caja chica', 'corte de caja'])
             <li class="nav-item nav-dropdown {{
                 active_class(Active::checkUriPattern('admin/transaction*'), 'open')
@@ -308,6 +332,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/transaction/expense'))
                         }}" href="{{ route('admin.transaction.expense.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.expenses')
                         </a>
                     </li>
@@ -318,6 +343,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/transaction/income*'))
                         }}" href="{{ route('admin.transaction.income.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.incomes')
                         </a>
                     </li>
@@ -328,6 +354,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/transaction/small*'))
                         }}" href="{{ route('admin.transaction.small.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.small_box')
                         </a>
                     </li>
@@ -355,6 +382,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/setting/general'))
                         }}" href="{{ route('admin.setting.general.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.general')
                         </a>
                     </li>
@@ -364,6 +392,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/setting/status'))
                         }}" href="{{ route('admin.setting.status.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.status')
                         </a>
                     </li>
@@ -373,6 +402,7 @@
                         <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/setting/method*'))
                         }}" href="{{ route('admin.setting.method.index') }}">
+                            <i class="fas fa-long-arrow-alt-right"></i>
                             @lang('menus.backend.sidebar.payments_methods')
                         </a>
                     </li>
@@ -392,7 +422,8 @@
                         <a class="nav-link nav-dropdown-toggle {{
                             active_class(Active::checkUriPattern('admin/log-viewer*'))
                         }}" href="#">
-                        <i class="nav-icon fas fa-list"></i> @lang('menus.backend.log-viewer.main')
+                        <i class="nav-icon fas fa-list"></i> 
+                        @lang('menus.backend.log-viewer.main')
                     </a>
 
                     <ul class="nav-dropdown-items">
@@ -400,6 +431,7 @@
                             <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/log-viewer'))
                         }}" href="{{ route('log-viewer::dashboard') }}">
+                                <i class="fas fa-long-arrow-alt-right"></i>
                                 @lang('menus.backend.log-viewer.dashboard')
                             </a>
                         </li>
@@ -407,6 +439,7 @@
                             <a class="nav-link {{
                             active_class(Active::checkUriPattern('admin/log-viewer/logs*'))
                         }}" href="{{ route('log-viewer::logs.list') }}">
+                                <i class="fas fa-long-arrow-alt-right"></i>
                                 @lang('menus.backend.log-viewer.logs')
                             </a>
                         </li>

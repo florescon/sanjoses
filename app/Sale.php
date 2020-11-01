@@ -14,7 +14,7 @@ use App\ColorSizeProduct;
 use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUserSecond;
 use App\MaterialProductSaleUser;
-use App\StockRevisions;
+use App\StockRevision;
 use Carbon;
 
 class Sale extends Model
@@ -55,7 +55,7 @@ class Sale extends Model
 
     public function product_revision_stock()
     {
-        return $this->hasMany(StockRevisions::class);
+        return $this->hasMany(StockRevision::class);
     }
 
     public function product_sale_staff_main()

@@ -11,3 +11,4 @@ require __DIR__.'/auth/product.php';
 require __DIR__.'/auth/material.php';
 require __DIR__.'/auth/order.php';
 require __DIR__.'/auth/documentation.php';
+require __DIR__.'/auth/revision.php';
