@@ -34,7 +34,7 @@ class MaterialHistoryOutDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('part', function (MaterialHistory $part) {
-                    return !empty($part->material_id) ? $part->material->part_number  : '';
+                    return !empty($part->material_id) ? '<em>'. $part->material->part_number. '</em>'  : '';
             })
             ->addColumn('material', function (MaterialHistory $material) {
                     $btn = !empty($material->material_id) ? $material->material->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
@@ -62,7 +62,7 @@ class MaterialHistoryOutDataTable extends DataTable
 
                            return $btn;
             })
-            ->rawColumns(['action', 'material', 'actual', 'quantity']);
+            ->rawColumns(['action', 'part',  'material', 'actual', 'quantity']);
      }
 
     /**
@@ -112,6 +112,7 @@ class MaterialHistoryOutDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'title' => '#', 'printable' => false, 'exportable' => false],
+            ['data' => 'part', 'title' => __('labels.backend.access.material.table.part_number')],
             ['data' => 'material', 'title' => __('labels.backend.access.material.material'), 'class' =>'text-center'],
             ['data' => 'old_quantity', 'title' => __('labels.backend.access.material.table.previous_stock')],
             ['data' => 'quantity', 'title' => __('labels.backend.access.material.table.operation')],

@@ -37,7 +37,7 @@
                     </div>
                       &nbsp;
                     <div class="col-md-3">
-                        <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
+                        <button type="submit" class="btn btn-success">@lang('labels.general.add')</button>
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
                     </div>
                 </div>

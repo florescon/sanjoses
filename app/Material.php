@@ -67,7 +67,7 @@ class Material extends Model
      */
     public function getFullNameAttribute()
     {
-        return '<strong>'.$this->part_number.'</strong> '.$this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
+        return $this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
     }
 
 }

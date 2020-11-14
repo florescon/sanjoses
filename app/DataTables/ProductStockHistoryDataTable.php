@@ -36,7 +36,7 @@ class ProductStockHistoryDataTable extends DataTable
                     return !empty($part->product_stock_id) ? $part->product_stock->product_detail->code : '';
             })
             ->addColumn('product_stock', function (ProductStockHistory $product_stock) {
-                    return !empty($product_stock->product_stock_id) ? '<strong>'.$product_stock->product_stock->product_detail->code.'</strong> '.$product_stock->product_stock->product_detail->name. ' '.$product_stock->product_stock->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
+                    return !empty($product_stock->product_stock_id) ? $product_stock->product_stock->product_detail->name. ' '.$product_stock->product_stock->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>';
             })
             ->editColumn('quantity', function ($dat) {
                 return $dat->quantity ? '<strong>'.$dat->quantity.'</strong>' : '';

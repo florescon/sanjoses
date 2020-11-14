@@ -51,7 +51,7 @@
                                             <div class="col-sm-6 col-md-5">
                                                 <ul class="links">
                                                     <li><a href="#">@lang('labels.general.account')</a></li>
-                                                    <li><a href="{{ route('frontend.contact') }}"">@lang('labels.frontend.contact.box_title')</a></li>
+                                                    <li><a href="{{ route('frontend.contact') }}">@lang('labels.frontend.contact.box_title')</a></li>
                                                 </ul>
                                             </div><!-- End .col-sm-6 -->
                                             <div class="col-sm-6 col-md-5">

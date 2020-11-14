@@ -37,7 +37,7 @@
                     </div>
                       &nbsp;
                     <div class="col-md-3">
-                        <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
+                        <button type="submit" class="btn btn-success">@lang('labels.general.add')</button>
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
                     </div>
                 </div>
@@ -64,10 +64,9 @@
                         <tr>
                             {{-- <th></th> --}}
                             <th>@lang('labels.backend.access.revision.table.id')</th>
-                            <th>@lang('labels.backend.access.revision.table.code')</th>
-                            <th>@lang('labels.backend.access.revision.table.name')</th>
+                            <th>@lang('labels.backend.access.revision.table.order')</th>
+                            <th>@lang('labels.backend.access.revision.table.product')</th>
                             <th>@lang('labels.backend.access.revision.table.stock')</th>
-                            <th>@lang('labels.backend.access.revision.table.price')</th>
                             <th>@lang('labels.backend.access.revision.table.last_updated') </th>
                         </tr>
                         </thead>
@@ -193,7 +192,7 @@
         processing: true,
         serverSide: true,
         autoWidth: false,
-        order: ['5', 'desc'], 
+        order: ['4', 'desc'], 
         ajax: {
           url: "{{ route('admin.revision.index') }}",
           method: 'get',
@@ -228,7 +227,6 @@
             {data: 'sale_id', name: 'sale_id'},
             {data: 'product_detail', name: 'product_detail.name'},
             {data: 'quantity', name: 'quantity'},
-            {data: 'ready_quantity', name: 'ready_quantity'},
             {data: 'updated_at', name: 'updated_at'},
             // {data: 'action', name: 'action', printable: false, orderable: false, searchable: false},
         ]

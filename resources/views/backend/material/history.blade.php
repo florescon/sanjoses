@@ -49,7 +49,7 @@
                     </div>
 		                  &nbsp;
 		                <div class="col-md-1">
-		                    <button ype="submit" class="btn btn-success">@lang('labels.general.add')</button>
+		                    <button type="submit" class="btn btn-success">@lang('labels.general.add')</button>
 		                </div>
                     <div class="col-md-1">
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
@@ -435,7 +435,7 @@ $(document).ready(function() {
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
-            {data: 'part', name: 'material.part_number', printable: false, visible: false},
+            {data: 'part', name: 'material.part_number'},
             {data: 'material', name: 'material.name'},
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},
@@ -467,6 +467,9 @@ $(document).ready(function() {
       });
 
     });
+
+  $('.data-table').append('<caption style="caption-side: bottom">Entradas de materia prima</caption>');
+
 </script>
 
 {!! $dataTable->scripts() !!}

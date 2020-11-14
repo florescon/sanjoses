@@ -434,7 +434,12 @@ class OrderController extends Controller
 
         $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail', 'product_revision_stock.product_stock.product_detail_color'])->find($id);
+        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail', 'product_revision_stock.product_stock.product_detail_color', 'product_revision_stock' => function($query)
+            {
+                $query->groupBy('product_id')->selectRaw('*, sum(quantity) as sum, sum(ready_quantity) as ready_sum');                
+            }
+        ])->find($id);
+
 
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
@@ -553,8 +558,19 @@ class OrderController extends Controller
 
     public function readyproduct(Request $request)
     {
+
         $material_byuser = MaterialProductSaleUser::findOrFail($request->id);
         $material_byuser->update($request->all());
+
+        if($request->transfer){
+            $material_staff = new StockRevision();
+            $material_staff->sale_id = $request->sale;
+            $material_staff->product_id = $request->product;
+            $material_staff->quantity = $request->ready_quantity;
+            $material_staff->saveOrFail();
+        }
+
+
 
         return redirect()->back()
           ->withFlashSuccess('Consumo actualizado con éxito');

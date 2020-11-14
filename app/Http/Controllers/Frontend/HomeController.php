@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $setting = Setting::pluck('value', 'key');
-        return view('frontend.index2', compact('setting'));
+        return view('frontend.index3', compact('setting'));
     }
 
 }

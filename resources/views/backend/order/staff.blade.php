@@ -149,24 +149,29 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                 @foreach($prod->product_ as $producto)
+                                 @forelse($prod->product_ as $producto)
                                 <tr>
                                   <td>{{ $producto->product_stock->product_detail->name.' — '. $producto->product_stock->product_detail_color->name.' — '.$producto->product_stock->product_detail_size->name }}</td>
                                   <td>{{ $producto->quantity }}</td>
                                   <td style="background-color:pink;">{{ $producto->ready_quantity }}</td>
                                   <td>{{ $producto->updated_at }}</td>
                                   <td>
-                                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-outline-dark btn-sm" data-id="{{ $producto->id }}" data-myquantity="{{ $producto->quantity }}" data-target="#editConsumption"> Finalizar <i class="fa fa-check-double"></i></a>
+                                    <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}" class="btn btn-outline-dark btn-sm" data-id="{{ $producto->id }}" data-myproduct="{{ $producto->material_id }}" data-myquantity="{{ $producto->quantity }}" data-target="#editConsumption"> Finalizar <i class="fa fa-check-double"></i></a>
                                   </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td class="text-center" colspan="5"> Nada definido</td>
+                                </tr>
+                                @endforelse
                               </tbody>
                             </table>
                           </div>
                           <br>
 
                             @if($prod->material_->count())
-                            <table class="table">
+                            <div class="table-responsive">
+                              <table class="table">
                               <thead class="thead-light">
                                 <tr>
                                   <th scope="col">Código</th>
@@ -176,7 +181,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                 @foreach($prod->material_ as $material)
+                                @foreach($prod->material_ as $material)
                                 <tr class="table-warning">
                                   <td>{{ $material->material->part_number }}</td>
                                     <td>
@@ -189,7 +194,8 @@
                                 </tr>
                                 @endforeach
                               </tbody>
-                            </table>
+                              </table>
+                            </div>
                             @endif
 
 
@@ -392,11 +398,24 @@
         {{ csrf_field() }}
       <div class="modal-body">
           <div class="form-group">
+            <input type="hidden" name="sale" id="sale" value="{{ $sale->id }}">
+            <input type="hidden" name="product" id="product">
 
             <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
             <input type="hidden" name="id" id="id" value="">
             <input type="number" class="form-control" value="" name="ready_quantity" id="quantity" required>
           </div>
+
+            @if($status_url->id == 5)
+              <div class="checkbox d-flex align-items-center float-right">
+                  <label>&nbsp; <strong class="text-info">Transferir a almacén de revisión intermedia </strong> </label>&nbsp;
+                  <label class="switch switch-label switch-pill switch-primary switch-sm">
+                    <input class="switch-input" type="checkbox" value="1" name="transfer" checked>
+                    <span class="switch-slider" data-checked="&#x2713;" data-unchecked="&#x2715;"></span>
+                  </label>
+              </div>
+              <br>
+            @endif
 
       </div>
       <div class="modal-footer">
@@ -417,10 +436,12 @@
     $('#editConsumption').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget)
       var quantity = button.data('myquantity')
+      var product = button.data('myproduct')
       var id = button.data('id')
       var modal = $(this)
 
       modal.find('.modal-body #quantity').val(quantity)
+      modal.find('.modal-body #product').val(product)
       modal.find('.modal-body #id').val(id)
     });
 </script>

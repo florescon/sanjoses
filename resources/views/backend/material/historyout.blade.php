@@ -42,7 +42,7 @@
 		                    <input type="number" min="0" name="stock_" step="any" id="stock_" class="form-control border border-danger" placeholder="@lang('labels.backend.access.material.table.quantity')"/>
 		                </div>&nbsp;
 		                <div class="col-md-1">
-		                    <button ype="submit" class="btn btn-danger">@lang('labels.general.substract')</button>
+		                    <button type="submit" class="btn btn-danger">@lang('labels.general.substract')</button>
 		                </div>
                     <div class="col-md-1">
                         <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
@@ -426,7 +426,7 @@ $(document).ready(function() {
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
-            {data: 'part', name: 'material.part_number', printable: false, visible: false},
+            {data: 'part', name: 'material.part_number'},
             {data: 'material', name: 'material.name'},
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},
@@ -457,6 +457,9 @@ $(document).ready(function() {
       });
 
     });
+
+  $('.data-table').append('<caption style="caption-side: bottom">Salidas de materia prima</caption>');
+
 </script>
 
 {!! $dataTable->scripts() !!}

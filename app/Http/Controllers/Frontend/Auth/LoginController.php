@@ -33,7 +33,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('frontend.auth.login2')
+        return view('frontend.auth.login3')
             ->withSocialiteLinks((new SocialiteHelper)->getSocialLinks());
     }
 

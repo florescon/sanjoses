@@ -120,17 +120,17 @@
                 {{ $product->product_stock->product_detail->name .' — '. $product->product_stock->product_detail_color->name.' — '.$product->product_stock->product_detail_size->name }}
               </td>
               <td>
-                {{ $product->quantity }}
+                {{ $product->sum }}
               </td>
               <td>
-                {{ $product->ready_quantity }}
+                {{ $product->ready_sum }}
               </td>
               <td>
                 {{ $product->created_at }}
               </td>
               <td>
-                @if($product->quantity == $product->ready_quantity)
-                  <a href="#" class="btn btn-primary btn-sm" role="button"> Procesado </a>
+                @if($product->sum == $product->ready_sum)
+                  <a href="#" class="btn btn-primary btn-sm disabled" role="button" > Procesado </a>
 
                 @else
                   <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}"  class="btn btn-outline-dark btn-sm" data-id="{{ $product->id }}" data-myquantity="{{ $product->quantity }}" data-target="#editProductRevisionStock"> Procesar </a>
@@ -191,11 +191,9 @@
   <script>
       $('#editProductRevisionStock').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
-        var quantity = button.data('myquantity')
         var id = button.data('id')
         var modal = $(this)
 
-        modal.find('.modal-body #quantity').val(quantity)
         modal.find('.modal-body #id').val(id)
       });
   </script>

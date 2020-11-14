@@ -101,6 +101,7 @@ return [
             'settings' => 'Configuraciones',
             'general' => 'Generales',
             'material' => 'Materia prima',
+            'list_material' => 'Lista de materia prima',
             'history_material' => 'Entradas de materia prima',
             'historyout_material' => 'Salidas de materia prima',
             'orders' => 'Ordenes',

@@ -594,6 +594,8 @@ return [
                     'cloth' => 'Tela',
                     'price' => 'Precio',
                     'code' => 'Código',
+                    'order' => 'Orden',
+                    'product' => 'Producto',
                     'general_code' => 'Código general',
                     'specific_code' => 'Código específico',
                     'quantity' => 'Cantidad',

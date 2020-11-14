@@ -70,11 +70,10 @@ class StockRevisionDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'title' => '#', 'printable' => false, 'exportable' => false],
-            ['data' => 'product_detail', 'title' => __('labels.backend.access.product.table.name')],
-            ['data' => 'sale_id', 'title' => __('labels.backend.access.product.table.stock')],
-            ['data' => 'quantity', 'title' => __('labels.backend.access.product.table.price')],
-            ['data' => 'ready_quantity', 'title' => __('labels.backend.access.product.table.price')],
-            ['data' => 'created_at', 'title' => __('labels.backend.access.product.table.created')],
+            ['data' => 'sale_id', 'title' => __('labels.backend.access.revision.table.order')],
+            ['data' => 'product_detail', 'title' => __('labels.backend.access.revision.table.product')],
+            ['data' => 'quantity', 'title' => __('labels.backend.access.revision.table.stock')],
+            ['data' => 'created_at', 'title' => __('labels.backend.access.revision.table.last_updated')],
         ];
     }
 
