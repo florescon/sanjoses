@@ -9,9 +9,12 @@ Route::group(['namespace' => 'Order'], function () {
 
     Route::get('order/create', [OrderController::class, 'create'])->name('order.create');
     Route::post('ordercart', [OrderController::class, 'storeCart'])->name('order.storecart');
+
+    Route::post('ordercartupdatequantities', [OrderController::class, 'updateQuantitiesCart'])->name('order.updatequantities');
+
     Route::get('order/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
 
-
+    Route::put('order/autosavequantity/{id}', [OrderController::class, 'autoSaveQuantityCart'])->name('order.autosave');
 
     Route::post('order', [OrderController::class, 'store'])->name('order.store');
     Route::get('order/{id}/show', [OrderController::class, 'show'])->name('order.show');

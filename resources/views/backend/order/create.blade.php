@@ -2,6 +2,10 @@
 
 @section('title', app_name() . ' | ' . __('labels.backend.access.order.create'))
 
+@section('after-styles')
+
+@endsection
+
 @section('content')
 
             <div class="row">
@@ -22,27 +26,29 @@
 
                   </div>
                   <div class="card-body">
-
                     <form id="cart" action="{{route('admin.order.storecart')}}" method="POST">
                     @csrf
                         <div class="row">
                           <div class="col-sm-12">
-                          <div class="form-group">
-                            <label for="product" class="col-form-label">@lang('labels.backend.access.order.product')</label>
-                            <select type="text" name="product" class="form-control" id="product" required>
-                            </select>
-                          </div>
+                            <div class="form-group">
+                              <label for="product" class="col-form-label">@lang('labels.backend.access.order.product')</label>
+                              <select type="text" name="product[]" multiple="multiple" class="form-control" id="product" required>
+                              </select>
+                            </div>
+
+                            <em> <strong>Nota: </strong> Para mantener búsqueda y selección múltiple, mantenga presionado la tecla Ctrl</em>
+                            <br>
                           </div>
                         </div>
                         <!-- /.row-->
-                        <div class="row">
+                        {{-- <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label for="quantity">@lang('labels.backend.access.order.table.quantity')</label>
                               <input class="form-control" id="quantity" name="quantity" type="number" min="1" placeholder="Cantidad" >
                             </div>
                           </div>
-                        </div>
+                        </div> --}}
                         <!-- /.row-->
                       <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-sm">@lang('labels.general.buttons.add')</button>
@@ -71,37 +77,59 @@
                         <tr>
                           <th>@lang('labels.backend.access.order.table.concept')</th>
                           <th>@lang('labels.backend.access.order.table.price')</th>
-                          <th>@lang('labels.backend.access.order.table.quantity')</th>
+                          <th style="width: 130px;">@lang('labels.backend.access.order.table.quantity')</th>
                           <th>@lang('labels.backend.access.order.table.total_sale')</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         @php($total=0)
-                        @foreach($products as $product)
-                        <tr>
-                          <td>{!! '<strong>'.$product->product->product_detail->name.'</strong> '. $product->product->product_detail_color->name.' / '.$product->product->product_detail_size->name  !!}</td>
-                          <td>${{ $product->product->price }}</td>
-                          <td>{{ $product->quantity }}</td>
-                          <td>${{ $product->quantity*$product->product->price }}
-                          </td>
-                          <td>
-                                <a href="{{ route('admin.ordercart.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
-                                    <i class="fas fa-trash"></i>
-                                </a> 
-                           </td>
-                        </tr>
-                        @php($total+=$product->quantity*$product->product->price)
-                        @endforeach
-                          <tfoot>
+                        <form action="{{route('admin.order.updatequantities')}}" method="POST" class="was-validated">
+                        @csrf
+                          @foreach($products as $product)
                             <tr>
-                              <td></td>
-                              <td></td>
-                              <th>@lang('labels.backend.access.sell.table.total_sale') <span class="Total"></span></th>
-                              <th>${{ $total }}</th>
-                              <td></td>
+                              <td>{!! '<strong>'.$product->product->product_detail->name.'</strong> '. $product->product->product_detail_color->name.' / '.$product->product->product_detail_size->name  !!}</td>
+                              <td>${{ $product->product->price }}</td>
+                              <td>
+                                <input type="hidden" id="hid" value="{{$product->id}}" name="hid[]">
+                                <div class="mb-3">
+                                  <input type="number" class="form-control" name="quantities[]" min="0" value="{{ $product->quantity }}" required>
+                                </div>
+
+
+                              {{-- <input type="hidden" id="hid" value="{{$product->id}}" name="hid">
+                              <input class="jscolor float-right form-control" name="backgroundcolor" id="statscolor" value="{{$product->quantity}}" autocomplete="off" onChange="autoSave(this.jscolor)"> --}}
+
+
+                              </td>
+                              <td>${{ $product->quantity*$product->product->price }}
+                              </td>
+                              <td>
+                                    <a href="{{ route('admin.ordercart.destroy', $product->id) }}" class="btn btn-danger btn-sm" data-method="delete" data-trans-button-cancel="{{ __('buttons.general.cancel') }}" data-trans-button-confirm="{{ __('buttons.general.crud.delete') }}" data-trans-title="{{ __('strings.backend.general.are_you_sure') }}" class="dropdown-item">
+                                        <i class="fas fa-trash"></i>
+                                    </a> 
+                               </td>
                             </tr>
-                          </tfoot>
+                            @php($total+=$product->quantity*$product->product->price)
+                          @endforeach
+                            <tr>
+                              <td colspan="2"></td>
+                              <th> 
+                                <button class="btn btn-sm btn-success" type="submit"> Guardar cantidades </button>
+                              </th>
+                              <th colspan="2"></th>
+                            </tr>
+
+                        </form>
+                            <tfoot>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <th>@lang('labels.backend.access.sell.table.total_sale') <span class="Total"></span></th>
+                                <th>${{ $total }}</th>
+                                <td></td>
+                              </tr>
+                            </tfoot>
                       </tbody>
                     </table>
 
@@ -150,7 +178,7 @@
                   </div>
                   <div class="card-footer">
                     <button class="btn btn-sm btn-success" type="submit">
-                      <i class="fa fa-dot-circle-o"></i> @lang('labels.general.buttons.save')</button>
+                      <i class="fa fa-dot-circle-o"></i> @lang('labels.general.buttons.generate_order')</button>
                     <a class="btn btn-sm btn-danger" href="{{ route('admin.order.create') }}" type="reset">
                       <i class="fa fa-ban"></i> Resetear</a>
                   </div>
@@ -245,8 +273,9 @@
             cache: true,
             delay: 250
         },
-        placeholder: '@lang('labels.backend.access.order.product')',
+        placeholder: '@lang('labels.backend.access.order.search_product')',
         width: 'resolve',
+        multiple: true,
         templateSelection: function (data) {
           if (data.id === '') { // adjust for custom placeholder values
             return '@lang('labels.backend.access.order.product')';
@@ -258,6 +287,7 @@
         // minimumInputLength: 1,
 
       });
+
 });
 
 $(document).ready(function() {
@@ -370,5 +400,43 @@ function myFunction() {
 
 
 </script>
+
+{{-- <script>  
+// $(document).change(function(){  
+     function autoSave(jscolor)  
+     {  
+            var id =$("#hid").val();
+            var statscolor = $('#statscolor').val();  
+ 
+ 
+               $.ajax({  
+                    headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                     },
+                    method:"put",  
+                    url:"autosavequantity/"+id,   
+                    data:{backgroundcolor:statscolor},  
+                    dataType:"text",  
+                    success:function(data) {  
+                         console.log(data);  
+                         // $('#autoSave').fadeIn().text("color successfully updated");
+                         // setInterval(function(){
+               
+                         //      $('#autoSave').fadeOut();
+                         // }, 5000); 
+                         setTimeout(function() {
+                            $('#autoSave').fadeOut(3000);
+                            
+                        }, 5000 ); 
+          
+                    }  
+               });  
+            
+     }
+     // setInterval(function(){   
+     //      autoSave();   
+     //      }, 5000);  
+// });  
+</script> --}}
 
 @endpush

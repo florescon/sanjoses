@@ -103,29 +103,57 @@ class OrderController extends Controller
         return view('backend.order.create', compact('products', 'payments'));
     }
 
+    public function autoSaveQuantityCart(Request $request, $id)
+    {
+        $autosave = Cart::findOrFail($id);
+        $autosave->quantity = $request->backgroundcolor;
+        $autosave->save();
+
+    }
+
     public function storeCart(Request $request)
     {
         $this->validate($request, [
             'product' => 'required',
-            'quantity' => 'required|not_in:0',
         ]);
         
-        $dup = DB::table('carts')->where(['product_id'=>$request->product])->where('audi_id', Auth::id())->where('sale_order', 1)->count();
-            
-        if($dup>=1){
-            return redirect()->back()->withFlashDanger('Producto duplicado');
-        }
 
-        $cart = new Cart();
-        $cart->product_id = $request->product;
-        $cart->quantity = $request->quantity;
-        $cart->audi_id = Auth::id();
-        $cart->sale_order = 1;
-        $cart->save();
+        $products = $request->product;
+
+        foreach ($products as $product) {
+            $cart = Cart::firstOrCreate([
+                'product_id' => $product,
+                'audi_id' => Auth::id(),
+                'sale_order' => 1
+            ]);
+            $cart->save();
+        }
 
         return redirect()->route('admin.order.create')
           ->withFlashSuccess('Producto agregado con éxito');
     }   
+
+    public function updateQuantitiesCart(Request $request)
+    {
+        $this->validate($request, [
+            'quantities' => 'required',
+        ]);
+
+        $products_cart = $request->hid;
+
+        foreach ($products_cart as $key => $product_update) {
+            Cart::where([
+                'id' => $product_update, 
+              ])
+              ->update([
+                'quantity'=> $request->quantities[$key]
+            ]);
+        }
+
+        return redirect()->route('admin.order.create')
+          ->withFlashSuccess('Cantidades actualizadas con éxito');
+    }
+
 
     public function destroyCart($id)
     {
@@ -158,6 +186,17 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+
+        $dup = DB::table('carts')->where(function($query){
+            return $query
+            ->whereNull('quantity')
+            ->orWhere('quantity', 0);
+        })->where('audi_id', Auth::id())->where('sale_order', 1)->count();
+            
+        if($dup>=1){
+            return redirect()->back()->withFlashDanger('Cantidades pendiendes por asignar');
+        }
+
 
         $products = Cart::with('boms')->where('audi_id', Auth::id())->where('sale_order', 1)->get();
         try {

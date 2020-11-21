@@ -123,11 +123,7 @@
 							</button>
 							<div class="row">
 								<div class="col-12 text-center filter-sorting">									
-									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative active" data-filter="*">all <span class="btn-filter-icon bg-dark color-white">11</span></a>
-									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-1">branding <span class="btn-filter-icon bg-dark color-white">4</span></a>
-									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-2">art direction <span class="btn-filter-icon bg-dark color-white">2</span></a>
-									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-3">graphic design <span class="btn-filter-icon bg-dark color-white">4</span></a>
-									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-4">illustration <span class="btn-filter-icon bg-dark color-white">3</span></a>									
+									<a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative active" data-filter="*">todas las categorías <span class="btn-filter-icon bg-dark color-white">11</span></a>
 								</div>
 							</div>
 						</div>
