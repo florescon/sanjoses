@@ -22,7 +22,7 @@ class StockRevisionDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('product_detail', function (StockRevision $product) {
-                    return !empty($product->product_id) ? optional($product->product_detail)->name. ' '.$product->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
+                    return !empty($product->product_id) ? '<a><strong>'. $product->product_detail->product_detail->name.' </a> </strong>'. $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name   : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
             })
             ->addColumn('action', 'stockrevision.action')
             ->rawColumns(['product_detail', 'action']);
