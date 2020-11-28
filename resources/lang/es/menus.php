@@ -106,6 +106,7 @@ return [
             'historyout_material' => 'Salidas de materia prima',
             'orders' => 'Ordenes',
             'warehouse_review' => 'Almacén revisión intermedia',
+            'warehouse_review_registry' => 'Registros Almacén revisión intermedia',
         ],
     ],
 

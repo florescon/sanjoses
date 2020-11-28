@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockRevisionsTable extends Migration
+class CreateStockRevisionLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateStockRevisionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock_revisions', function (Blueprint $table) {
-            $table->mediumIncrements('id');
+        Schema::create('stock_revision_logs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedMediumInteger('sale_id')->nullable();
             $table->unsignedInteger('product_id')->nullable();
             $table->double('quantity')->nullable();
+            $table->unsignedInteger('type')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateStockRevisionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock_revisions');
+        Schema::dropIfExists('stock_revision_logs');
     }
 }

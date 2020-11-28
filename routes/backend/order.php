@@ -43,10 +43,6 @@ Route::group(['namespace' => 'Order'], function () {
     Route::patch('order/readyproduct/{id}', [OrderController::class, 'readyproduct'])->name('order.readyproduct');
     Route::get('order/readyallproducts/{id}', [OrderController::class, 'readyallproducts'])->name('order.readyallproducts');
     
-
-    Route::patch('order/readyproductrevisionstock/{id}', [OrderController::class, 'readyproductrevisionstock'])->name('order.readyproductrevisionstock');
-    Route::get('order/readyallproductsrevisionstock/{id}', [OrderController::class, 'readyallproductsrevisionstock'])->name('order.readyallproductsrevisionstock');
-
     
     Route::post('ordercomment/{id}', [OrderController::class, 'comment'])->name('order.comment');
     Route::post('orderdate/{id}', [OrderController::class, 'dateadd'])->name('order.dateadd');

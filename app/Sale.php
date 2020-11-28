@@ -15,6 +15,7 @@ use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUserSecond;
 use App\MaterialProductSaleUser;
 use App\StockRevision;
+use App\StockRevisionLog;
 use Carbon;
 
 class Sale extends Model
@@ -53,9 +54,9 @@ class Sale extends Model
         return $this->hasMany(MaterialProductSaleUserMain::class)->orderBy('created_at', 'desc');
     }
 
-    public function product_revision_stock()
+    public function product_revision_log()
     {
-        return $this->hasMany(StockRevision::class);
+        return $this->hasMany(StockRevisionLog::class);
     }
 
     public function product_sale_staff_main()

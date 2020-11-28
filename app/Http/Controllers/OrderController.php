@@ -20,6 +20,7 @@ use App\MaterialProductSaleUserMain;
 use App\MaterialProductSaleUser;
 use App\MaterialProductSaleUserSecond;
 use App\StockRevision;
+use App\StockRevisionLog;
 use DB;
 use PDF;
 use DataTables;
@@ -473,9 +474,9 @@ class OrderController extends Controller
 
         $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
 
-        $product_revision_stock = Sale::with(['product_revision_stock.product_stock.product_detail', 'product_revision_stock.product_stock.product_detail_color', 'product_revision_stock' => function($query)
+        $product_revision_log = Sale::with(['product_revision_log.product_detail.product_detail', 'product_revision_log.product_detail.product_detail_color', 'product_revision_log' => function($query)
             {
-                $query->groupBy('product_id')->selectRaw('*, sum(quantity) as sum, sum(ready_quantity) as ready_sum');                
+                $query->groupBy('product_id')->selectRaw('*, sum(quantity) as sum');                
             }
         ])->find($id);
 
@@ -483,7 +484,7 @@ class OrderController extends Controller
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
 
-        return view('backend.order.revisionstock', compact('sale', 'product_revision_stock', 'status_url', 'statuses'));
+        return view('backend.order.revisionstock', compact('sale', 'product_revision_log', 'status_url', 'statuses'));
 
     }
 
@@ -546,21 +547,51 @@ class OrderController extends Controller
 
         if($request->all_quantities){
             foreach($products->products as $product){
-                $material_staff = new StockRevision();
-                $material_staff->sale_id = $request->id;
-                $material_staff->product_id = $product->product_id;
-                $material_staff->quantity = $product->quantity;
-                $material_staff->saveOrFail();
+
+                $product_id_log_all = StockRevision::where('product_id', $product->product_id)->first();
+                if(!$product_id_log_all){
+                    $revision = StockRevision::firstOrCreate([
+                        'product_id' => $product->product_id,
+                        'quantity' => $product->quantity,
+                    ]);
+                    $revision->save();
+                }
+                else{
+                    $product_id_log_all->increment('quantity', abs($product->quantity));
+                }
+
+                $revision_log = new StockRevisionLog();
+                $revision_log->sale_id = $request->id;
+                $revision_log->product_id = $product->product_id;
+                $revision_log->quantity = $product->quantity;
+                $revision_log->type = 1;
+                $revision_log->saveOrFail();
             }
         }
         else{
             foreach($quantity as $key => $quant) {
+
                 if(!empty($quant)){
-                    $material_staff = new StockRevision();
-                    $material_staff->sale_id = $request->id;
-                    $material_staff->product_id = $product_id[$key];
-                    $material_staff->quantity = $quant ? $quant : 0;
-                    $material_staff->saveOrFail();
+
+                    $product_id_log = StockRevision::where('product_id', $product_id[$key])->first();
+                    if(!$product_id_log){
+                        $revision = StockRevision::firstOrCreate([
+                            'product_id' => $product_id[$key],
+                            'quantity' => $quant,
+                        ]);
+                        $revision->save();
+                    }
+                    else{
+
+                        $product_id_log->increment('quantity', abs($quant));
+                    }
+
+                    $revision_log = new StockRevisionLog();
+                    $revision_log->sale_id = $request->id;
+                    $revision_log->product_id = $product_id[$key];
+                    $revision_log->quantity = $quant ? $quant : 0;
+                    $revision_log->type = 1;
+                    $revision_log->saveOrFail();
                 }
             }
         }
@@ -602,7 +633,7 @@ class OrderController extends Controller
         $material_byuser->update($request->all());
 
         if($request->transfer){
-            $material_staff = new StockRevision();
+            $material_staff = new StockRevisionLog();
             $material_staff->sale_id = $request->sale;
             $material_staff->product_id = $request->product;
             $material_staff->quantity = $request->ready_quantity;
@@ -645,7 +676,7 @@ class OrderController extends Controller
     {
         $sale = Sale::findOrFail($request->id);
             
-        foreach ($sale->product_revision_stock as $product) {
+        foreach ($sale->product_revision_log as $product) {
 
             $readyproduct = StockRevision::find($product->id);
             $copyready = StockRevision::where('id', $product->id)->update(['ready_quantity' => $readyproduct->quantity]);

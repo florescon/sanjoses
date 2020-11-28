@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', app_name() . ' | ' . __('labels.backend.access.revision.management'))
+@section('title', app_name() . ' | ' . __('labels.backend.access.revision_log.management'))
 
 @section('content')
 
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <h4 class="card-title mb-0">
-                    {{ __('labels.backend.access.revision.management') }}
+                    {{ __('labels.backend.access.revision_log.management') }}
                 </h4>
             </div><!--col-->
 
@@ -20,28 +20,6 @@
             <div class="col">
 
             <div class="col">
-            <h4 class="card-title mb-0">
-              <small class="text-muted"><em>Agregar/Restar cantidades de productos al almacén de revisión intermedia</em></small>
-            </h4>
-            <br>
-          <form autocomplete="off" method="POST" action="{{ route('admin.revision.addstock', 'test') }}">
-            @csrf
-                <div class="row input-daterange">
-                    <div class="col-md-5">
-                        <select type="text" name="material" class="form-control" id="material" required>
-                        </select>
-                    </div>&nbsp;
-
-                    <div class="col-md-3">
-                        <input type="number" name="stock_" step="any" id="stock_" class="form-control" placeholder="@lang('labels.backend.access.revision.table.quantity')"/>
-                    </div>
-                      &nbsp;
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-success">@lang('labels.general.add')</button>
-                        <button type="button" name="refresh" id="refresh" class="btn btn-default">@lang('labels.general.clear')</button>
-                    </div>
-                </div>
-              </form>
             <br>
             <div class="row input-daterange">
                 <div class="col-md-3">
@@ -59,14 +37,16 @@
             </div>
             <br>
                 <div class="table-responsive">
-                    <table class="table table-responsive-sm table-striped table-sm data-table">
+                    <table class="table table-responsive-sm table-sm data-table">
                         <thead>
                         <tr>
                             {{-- <th></th> --}}
                             <th>@lang('labels.backend.access.revision.table.id')</th>
+                            <th>@lang('labels.backend.access.revision.table.order')</th>
                             <th>@lang('labels.backend.access.revision.table.product')</th>
                             <th>@lang('labels.backend.access.revision.table.stock')</th>
-                            <th>@lang('labels.backend.access.revision.table.last_updated') </th>
+                            <th>@lang('labels.backend.access.revision.table.type')</th>
+                            <th>@lang('labels.backend.access.revision.table.created') </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -191,9 +171,9 @@
         processing: true,
         serverSide: true,
         autoWidth: false,
-        order: ['3', 'desc'], 
+        order: ['5', 'desc'], 
         ajax: {
-          url: "{{ route('admin.revision.index') }}",
+          url: "{{ route('admin.revisionlog.index') }}",
           method: 'get',
           data: function (d) {
             d.start_date = $('#start-date').val(); // Pass along start date and end date here
@@ -223,8 +203,10 @@
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
+            {data: 'sale_id', name: 'sale_id'},
             {data: 'product_detail', name: 'product_detail.product_detail.name'},
             {data: 'quantity', name: 'quantity'},
+            {data: 'type', name: 'type'},
             {data: 'updated_at', name: 'updated_at'},
             // {data: 'action', name: 'action', printable: false, orderable: false, searchable: false},
         ]

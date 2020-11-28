@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\StockRevision;
+use App\StockRevisionLog;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Html\Editor\Editor;
 use Carbon;
 
-class StockRevisionDataTable extends DataTable
+class StockRevisionLogDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -32,24 +32,34 @@ class StockRevisionDataTable extends DataTable
             // ->get();
         }
 
+
         // $query = $query->with('product_detail.product_detail')->groupBy('product_id')->selectRaw('*, sum(quantity) as sum');
 
         return datatables()
             ->eloquent($query)
-            ->addColumn('product_detail', function (StockRevision $product) {
+            ->setRowClass(function ($stock) {
+                return $stock->sale_id ? 'alert-info' : '';
+            })
+            ->editColumn('sale_id', function ($dat) {
+                return  $dat->sale_id ? '<em>#'. $dat->sale_id .'</em>' : '--';
+            })
+            ->editColumn('type', function ($dat) {
+                return $dat->type == 1 ? '<code class="text-primary"><a> Entrada </a></code>' : '<code class="text-danger"><a> Salida </a></code>';
+            })
+            ->addColumn('product_detail', function (StockRevisionLog $product) {
                     return !empty($product->product_id) ? '<a><strong>'. $product->product_detail->product_detail->name.' </a> </strong>'. $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name   : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
             })
             ->addColumn('action', 'stockrevision.action')
-            ->rawColumns(['product_detail', 'action']);
+            ->rawColumns(['sale_id', 'type', 'product_detail', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\StockRevision $model
+     * @param \App\Models\StockRevisionLog $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(StockRevision $model)
+    public function query(StockRevisionLog $model)
     {
         return $model->newQuery();
     }
@@ -62,7 +72,7 @@ class StockRevisionDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('stockrevision-table')
+                    ->setTableId('stockrevisionlog-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -85,9 +95,10 @@ class StockRevisionDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'title' => '#', 'printable' => false, 'exportable' => false],
+            ['data' => 'sale_id', 'title' => __('labels.backend.access.revision.table.order')],
             ['data' => 'product_detail', 'title' => __('labels.backend.access.revision.table.product')],
             ['data' => 'quantity', 'title' => __('labels.backend.access.revision.table.stock')],
-            ['data' => 'created_at', 'title' => __('labels.backend.access.revision.table.last_updated')],
+            ['data' => 'created_at', 'title' => __('labels.backend.access.revision.table.created')],
         ];
     }
 
@@ -98,6 +109,6 @@ class StockRevisionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Almacen_Intermedio_' . date('YmdHis');
+        return 'Almacen_Intermedio_Registros_' . date('YmdHis');
     }
 }

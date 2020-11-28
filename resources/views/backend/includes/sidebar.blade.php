@@ -275,7 +275,7 @@
                 <a class="nav-link {{
                     active_class(Active::checkUriPattern('admin/order'))
                 }}" href="{{ route('admin.order.index') }}">
-                    <i class="nav-icon fa fa-stream"> </i>
+                    <i class="nav-icon fa fa-building"> </i>
                     @lang('menus.backend.sidebar.orders')
                 </a>
             </li>
@@ -290,7 +290,14 @@
                 </a>
             </li>
 
-
+            <li class="nav-item">
+                <a class="nav-link {{
+                    active_class(Active::checkUriPattern('admin/revisionlog'))
+                }}" href="{{ route('admin.revisionlog.index') }}">
+                    <i class="nav-icon fa fa-bars"> </i>
+                    @lang('menus.backend.sidebar.warehouse_review_registry')
+                </a>
+            </li>
 
             @canany(['servicios', 'generar venta', 'ver ventas'])
             <li class="nav-item nav-dropdown {{

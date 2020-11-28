@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StockRevision extends Model
+class StockRevisionLog extends Model
 {
 
-    protected $table = 'stock_revisions';
+    protected $table = 'stock_revision_logs';
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +15,9 @@ class StockRevision extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'quantity', 'ready_quantity'
+        'sale_id', 'product_id', 'quantity', 'type'
     ];
+
 
     public function product_detail()
     {

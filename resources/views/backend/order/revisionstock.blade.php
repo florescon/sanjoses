@@ -97,7 +97,7 @@
     </div>
 
 
-    @if($product_revision_stock->product_revision_stock->count())
+    @if($product_revision_log->product_revision_log->count())
     <div class="card">
       <div class="card-header text-center">
         <h5>Transferidos</h5>
@@ -108,33 +108,25 @@
             <tr class="bg-primary">
               <th scope="col">Producto</th>
               <th scope="col">Cantidad</th>
-              <th scope="col">Procesado</th>
               <th scope="col">Fecha</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($product_revision_stock->product_revision_stock as $product)
+            @foreach($product_revision_log->product_revision_log as $product)
             <tr>
               <td>
-                {{ $product->product_stock->product_detail->name .' — '. $product->product_stock->product_detail_color->name.' — '.$product->product_stock->product_detail_size->name }}
+                {{ $product->product_detail->product_detail->name .' — '. $product->product_detail->product_detail_color->name.' — '.$product->product_detail->product_detail_size->name }}
               </td>
               <td>
                 {{ $product->sum }}
               </td>
               <td>
-                {{ $product->ready_sum }}
-              </td>
-              <td>
                 {{ $product->created_at }}
               </td>
               <td>
-                @if($product->sum == $product->ready_sum)
-                  <a href="#" class="btn btn-primary btn-sm disabled" role="button" > Procesado </a>
 
-                @else
-                  <a href="#" data-toggle="modal" data-placement="top" title="{{ __('buttons.general.crud.edit') }}"  class="btn btn-outline-dark btn-sm" data-id="{{ $product->id }}" data-myquantity="{{ $product->quantity }}" data-target="#editProductRevisionStock"> Procesar </a>
-                @endif
+
               </td>
             </tr>
             @endforeach
@@ -151,50 +143,9 @@
 </div>
 
 
-<div class="modal fade" id="editProductRevisionStock" tabindex="-1" role="dialog" aria-labelledby="editProductRevisionStockLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editProductRevisionStockLabel">@lang('labels.backend.access.product.ready_product')</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-    <form autocomplete="off" method="POST" action="{{ route('admin.order.readyproductrevisionstock', 'test') }}">
-        {{method_field('patch')}}
-        {{ csrf_field() }}
-      <div class="modal-body">
-          <div class="form-group">
-
-            <label for="quantity" class="col-form-label">@lang('labels.backend.access.material.table.quantity'):</label>
-            <input type="hidden" name="id" id="id" value="">
-            <input type="number" class="form-control" value="" name="ready_quantity" id="quantity" required>
-          </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.general.buttons.close')</button>
-        <button type="submit" class="btn btn-primary">@lang('labels.general.buttons.save')</button>
-      </div>
-    </form>
-
-    </div>
-  </div>
-</div>
-
 
 
 @endsection
 
 @push('after-scripts')
-  <script>
-      $('#editProductRevisionStock').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var modal = $(this)
-
-        modal.find('.modal-body #id').val(id)
-      });
-  </script>
 @endpush
