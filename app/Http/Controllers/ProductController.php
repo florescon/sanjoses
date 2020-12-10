@@ -124,7 +124,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('colors', 'detail', 'color_size_product', 'color_size_product.product_detail', 'color_size_product.product_detail_color', 'color_size_product.product_detail_size')->findOrFail($id);
+        $product = Product::with('colors', 'detail', 'color_size_product.product_detail', 'color_size_product.product_detail_color', 'color_size_product.product_detail_size', 'color_size_product.product_revision')->findOrFail($id);
         return view('backend.product.product.show', compact('product'));
     }
 

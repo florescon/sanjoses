@@ -33,6 +33,14 @@
                 </td>
             </tr>
 
+
+            <tr>
+                <th>@lang('labels.backend.access.users.tabs.content.overview.rfc')</th>
+                <td>
+                    {{ optional($user->customer)->rfc }}
+                </td>
+            </tr>
+
             <tr>
                 <th>@lang('labels.backend.access.users.tabs.content.overview.address')</th>
                 <td>

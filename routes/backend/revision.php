@@ -2,10 +2,16 @@
 use App\Http\Controllers\StockRevisionController;
 use App\Http\Controllers\StockRevisionLogController;
 
-Route::group(['namespace' => 'Revision'], function () {
+Route::group([
+    'prefix' => 'revision',
+    'as' => 'revision.',
+	'namespace' => 'Revision'], function () {
 
-    Route::get('revision', [StockRevisionController::class, 'index'])->name('revision.index');
-    Route::post('revision/addstock/{id}', [StockRevisionController::class, 'addstockrevision'])->name('revision.addstock');
+    Route::get('revision', [StockRevisionController::class, 'index'])->name('index');
+    Route::post('revision/addstock/{id}', [StockRevisionController::class, 'addstockrevision'])->name('addstock');
+
+    Route::get('select2-load-product-revision', [StockRevisionController::class, 'select2LoadMore'])->name('productdetails.select');
+
 
 
 });

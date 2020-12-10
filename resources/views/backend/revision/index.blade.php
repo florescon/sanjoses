@@ -127,7 +127,7 @@
     $(document).ready(function() {
     $('#material').select2({
       ajax: {
-            url: '{{ route('admin.product.productdetails.select') }}',
+            url: '{{ route('admin.revision.productdetails.select') }}',
             data: function (params) {
                 return {
                     search: params.term,
@@ -141,8 +141,8 @@
                     results: data.products.map(function (item) {
                         return {
                             id: item.id,
-                            text: item.product_detail.name.bold() + ' ' +  item.product_detail_color.name + ' / ' + item.product_detail_size.name + ' $' + item.price + '<br> (Disponible: ' +  item.stock  + ')'
-                        };
+                            text: item.product_detail.name.bold() + ' ' +  item.product_detail_color.name + ' / ' + item.product_detail_size.name + ' $' + item.price + (item.product_revision  ?  '<br> Disponible: ' + item.product_revision.quantity : '')
+                         };
                     }),
                     pagination: {
                         more: data.pagination
@@ -156,7 +156,7 @@
         width: 'resolve',
         minimumInputLength: 1,
         allowClear: true,
-        escapeMarkup: function(m) { return m; },
+        escapeMarkup: function(m) { return m; }
       });
 });
 

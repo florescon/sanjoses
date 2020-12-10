@@ -43,7 +43,7 @@
                                 ->class('form-control')
                                 ->placeholder(__('validation.attributes.backend.access.users.last_name'))
                                 ->attribute('maxlength', 191)
-                                ->required() }}
+                                }}
                         </div><!--col-->
                     </div><!--form-group-->
 
@@ -67,10 +67,24 @@
                                 ->class('form-control')
                                 ->placeholder(__('validation.attributes.backend.access.users.phone'))
                                 ->attribute('maxlength', 191)
-                                ->required() }}
+                                 }}
                         </div><!--col-->
                     </div><!--form-group-->
  
+
+                    <div class="form-group row">
+                        {{ html()->label(__('validation.attributes.backend.access.users.rfc'))->class('col-md-2 form-control-label')->for('rfc') }}
+
+                        <div class="col-md-10">
+                            {{ html()->text('rfc', optional($user->customer)->rfc)
+                                ->class('form-control')
+                                ->placeholder(__('validation.attributes.backend.access.users.rfc'))
+                                ->attribute('maxlength', 191)
+                                 }}
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+
                     <div class="form-group row">
                         {{ html()->label(__('validation.attributes.backend.access.users.address'))->class('col-md-2 form-control-label')->for('address') }}
 

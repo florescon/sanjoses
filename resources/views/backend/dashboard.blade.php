@@ -129,8 +129,8 @@
 
           <div class="card-body">
 
-
             @foreach($orders as $order)
+
             <div class="progress-group mb-4">
               <div class="progress-group-header">
                 
@@ -164,5 +164,13 @@
         </div><!--card-->
       </div><!--col-->
     </div><!--row-->
+
+@endsection
+
+
+
+@section('after-scripts')
+
+
 
 @endsection

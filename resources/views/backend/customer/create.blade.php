@@ -44,7 +44,7 @@
                                     ->class('form-control')
                                     ->placeholder(__('validation.attributes.backend.access.users.last_name'))
                                     ->attribute('maxlength', 191)
-                                    ->required() }}
+                                     }}
                             </div><!--col-->
                         </div><!--form-group-->
 
@@ -90,7 +90,7 @@
                                     ->class('form-control')
                                     ->placeholder(__('validation.attributes.backend.access.users.phone'))
                                     ->attribute('maxlength', 191)
-                                    ->required() }}
+                                     }}
                             </div><!--col-->
                         </div><!--form-group-->
 

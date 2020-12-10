@@ -38,11 +38,15 @@ class Sale extends Model
         return $this->hasMany(ProductSale::class);
     }
 
+    public function products_and_log()
+    {
+        return $this->hasMany(ProductSale::class)->with('product_revision_log');
+    }
+
     public function material_product_sale()
     {
         return $this->hasMany(MaterialProductSale::class);
     }
-
 
     public function product_sale_staff()
     {
@@ -76,6 +80,15 @@ class Sale extends Model
 
     public function status_bar() {
         return $this->belongsToMany(Status::class, 'status_sale')->withTimestamps()->withPivot('audi_id', 'created_at')->orderBy('status_sale.created_at', 'desc');
+    }
+
+
+    /**
+     * Get the last status record associated with the sale.
+     */
+    public function status_last()
+    {
+        return $this->hasOne(Status::class, 'status_sale');
     }
 
     // this is not a relationship. just a standard method on the model.

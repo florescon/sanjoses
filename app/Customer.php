@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
-use App\Blood;
-use App\School;
 
 class Customer extends Model
 {
@@ -24,23 +22,13 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'phone', 'age', 'address', 'grade'
+        'phone', 'rfc', 'address'
     ];
 
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function blood()
-    {
-        return $this->belongsTo(Blood::class);
-    }
-
-    public function school()
-    {
-        return $this->belongsTo(School::class);
     }
 
 

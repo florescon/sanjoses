@@ -15,6 +15,7 @@ class CreateStockRevisionLogsTable extends Migration
     {
         Schema::create('stock_revision_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('product_sale_id')->nullable();
             $table->unsignedMediumInteger('sale_id')->nullable();
             $table->unsignedInteger('product_id')->nullable();
             $table->double('quantity')->nullable();

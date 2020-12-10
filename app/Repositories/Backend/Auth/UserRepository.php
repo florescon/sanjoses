@@ -313,6 +313,7 @@ class UserRepository extends BaseRepository
                     $usere = Customer::where('user_id', $user->id)->first();
                     if(isset($usere)){
                         $usere->phone = $data["phone"];
+                        $usere->rfc = $data["rfc"];
                         $usere->address = $data["address"];
  
                         $usere->save();
@@ -321,6 +322,7 @@ class UserRepository extends BaseRepository
                         $usere = new Customer();
                         $usere->user_id = $user->id;
                         $usere->phone = $data['phone'];
+                        $usere->rfc = $data['rfc'];
                         $usere->address = $data['address'];
 
                         $usere->save();                    

@@ -210,6 +210,7 @@ return [
                     'birthdate' => 'Fecha de nacimiento',
                     'age' => 'Edad',
                     'address' => 'Dirección',
+                    'rfc' => 'RFC',
                     'blood' => 'Tipo de sangre',
                     'school' => 'Institucion',
                 ],

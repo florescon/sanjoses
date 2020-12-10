@@ -29,11 +29,6 @@ class DashboardController extends Controller
         $products = ColorSizeProduct::count();
         $material = Material::count();
 
-
-        // $orders = Sale::with('status')->where('type', 2)->whereDoesntHave('status', function ($query) {
-        //     $query->where('level', 'like', 10);
-        // })->paginate();
-
         $orders = Sale::with('user')->where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
 
 

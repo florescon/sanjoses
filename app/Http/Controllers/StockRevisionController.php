@@ -6,6 +6,7 @@ use App\StockRevision;
 use App\StockRevisionLog;
 use Illuminate\Http\Request;
 use App\DataTables\StockRevisionDataTable;
+use App\ColorSizeProduct;
 
 class StockRevisionController extends Controller
 {
@@ -42,7 +43,22 @@ class StockRevisionController extends Controller
         // $log->audi_id = Auth::id();
         $log->saveOrFail();
 
-            return redirect()->back()->withFlashSuccess('Cantidad actualizada con exito');
+            return redirect()->back()->withFlashSuccess('Producto actualizado con éxito');
+    }
+
+
+
+    public function select2LoadMore(Request $request)
+    {
+        $search = $request->get('search');
+        $data = ColorSizeProduct::with('product_detail', 'product_detail_color', 'product_detail_size', 'product_revision')
+        ->whereHas('product_detail', function($query) use($search){
+           $query->where('name', 'LIKE', '%'. $search .'%');
+         })
+        ->orWhere('price', 'like', '%' . $search . '%')
+        ->orWhere('code', 'like', '%' . $search . '%')
+        ->paginate(5);
+        return response()->json(['products' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
 

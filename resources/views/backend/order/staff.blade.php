@@ -45,7 +45,7 @@
     </div>
 
     <div class="card">
-      @if($sale->material_product_sale->count() && $sale->latestStatus()->level >= 0)
+      @if($sale->products->count() && $sale->latestStatus()->level >= 0)
 
       <div class="card-header">
         Folio @lang('labels.backend.access.order.sale'):  <strong>#{{ $sale->id }}</strong> 
@@ -66,7 +66,7 @@
       @endif
       <div class="card-body">
         <div class="table-responsive-sm">
-          @if($sale->material_product_sale->count() && $sale->latestStatus()->level >= 0)
+          @if($sale->products->count() && $sale->latestStatus()->level >= 0)
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>

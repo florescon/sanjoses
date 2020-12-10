@@ -472,19 +472,30 @@ class OrderController extends Controller
     public function addtorevisionstock($id, $staff)
     {
 
-        $sale = Sale::find($id)->with(['products.product_detail.product_detail', 'products.product_detail.product_detail_color', 'products.product_detail.product_detail_size'])->findOrFail($id);
+        // $product = Sale::with('products')->find($id);
 
-        $product_revision_log = Sale::with(['product_revision_log.product_detail.product_detail', 'product_revision_log.product_detail.product_detail_color', 'product_revision_log' => function($query)
+        // $multiplied = $product->map(function ($item, $key) {
+        //     return $item;
+        // });
+
+        // dd($multiplied->all());
+
+        $sale = Sale::with(['product_revision_log.product_detail.product_detail', 'product_revision_log.product_detail.product_detail_color', 'products_and_log.product_detail.product_detail', 'products_and_log.product_detail.product_detail_color', 'products_and_log.product_detail.product_detail_size',
+            'product_revision_log' => function($query)
             {
                 $query->groupBy('product_id')->selectRaw('*, sum(quantity) as sum');                
+            },
+            'products_and_log.product_revision_log' => function($query)
+            {
+                $query->groupBy('product_sale_id')->selectRaw('*, sum(quantity) as suma');                
             }
-        ])->find($id);
+        ])->findOrFail($id);
 
 
         $status_url = Status::where('id', $staff)->first();
         $statuses = Status::all();
 
-        return view('backend.order.revisionstock', compact('sale', 'product_revision_log', 'status_url', 'statuses'));
+        return view('backend.order.revisionstock', compact('sale', 'status_url', 'statuses'));
 
     }
 
@@ -542,6 +553,7 @@ class OrderController extends Controller
 
         $quantity = $request->quantity;
         $product_id = $request->product;
+        $product_sale = $request->product_sale;
 
         $products = Sale::with('products')->where('id', $request->id)->first();
 
@@ -562,6 +574,7 @@ class OrderController extends Controller
 
                 $revision_log = new StockRevisionLog();
                 $revision_log->sale_id = $request->id;
+                $revision_log->product_sale_id = $request->product_sale;
                 $revision_log->product_id = $product->product_id;
                 $revision_log->quantity = $product->quantity;
                 $revision_log->type = 1;
@@ -588,6 +601,7 @@ class OrderController extends Controller
 
                     $revision_log = new StockRevisionLog();
                     $revision_log->sale_id = $request->id;
+                    $revision_log->product_sale_id = $product_sale[$key];
                     $revision_log->product_id = $product_id[$key];
                     $revision_log->quantity = $quant ? $quant : 0;
                     $revision_log->type = 1;

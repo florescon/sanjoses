@@ -9,6 +9,7 @@ use App\Product;
 use App\Color;
 use App\Size;
 use App\Material;
+use App\StockRevision;
 
 class ColorSizeProduct extends Model
 {
@@ -41,6 +42,10 @@ class ColorSizeProduct extends Model
         return $this->belongsTo(Material::class, 'cloth_material_id')->withTrashed();
     }
 
+    public function product_revision()
+    {
+        return $this->hasOne(StockRevision::class, 'product_id', 'id');
+    }
 
     public function sale(){
     	return $this->belongsTo(Sale::class);

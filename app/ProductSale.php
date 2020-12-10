@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 use App\Sale;
 use App\ColorSizeProduct;
+use App\StockRevisionLog;
 use App\Bom;
 
 class ProductSale extends Model
@@ -30,6 +31,11 @@ class ProductSale extends Model
     public function product()
     {
         return $this->belongsToMany(ColorSizeProduct::class);
+    }
+
+    public function product_revision_log()
+    {
+        return $this->hasMany(StockRevisionLog::class, 'product_sale_id');
     }
 
     public function boms()

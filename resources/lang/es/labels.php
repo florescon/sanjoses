@@ -223,26 +223,6 @@ return [
                 ],
             ],
 
-            'school' => [
-                'create' => 'Crear institución',
-                'edit' => 'Modificar institución',
-                'management' => 'Administración de instituciones',
-                'image_upload' => 'Subir imagen',
-                'change_image' => 'Cambiar imagen',
-                'choose_file' => 'elija el archivo (max: 2048 kB)',
-
-                'table' => [
-                    'id' => 'Id',
-                    'name' => 'Nombre',
-                    'image' => 'Imagen',
-                    'address' => 'Dirección',
-                    'sort' => 'Orden',
-                    'last_updated' => 'Última modificación',
-                    'created' => 'Creado',
-                    'total' => 'Todas las instituciones',
-                ],
-            ],
-
 
             'cms_support' => [
                 'create' => 'Crear página soporte cms',
@@ -539,7 +519,6 @@ return [
                 'filter_by_date_created' => 'Filtro por fecha de creación',
                 'orders_in_process' => 'Órdenes en proceso',
                 'last_orders' => 'Últimas órdenes',
-
                 'table' => [
                     'id' => 'Id',
                     'name' => 'Nombre',
@@ -548,6 +527,7 @@ return [
                     'concept' => 'Concepto',
                     'price' => 'Precio',
                     'quantity' => 'Cantidad',
+                    'quantity_entered' => 'Cantidad ingresada',
                     'total_sale' => 'Total',
                     'sort' => 'Orden',
                     'folio' => 'Folio',
@@ -1137,6 +1117,7 @@ return [
                             'phone' => 'Telefono',
                             'age' => 'Edad',
                             'years_old' => 'años',
+                            'rfc' => 'RFC',
                             'address' => 'Dirección',
                             'blood' => 'Tipo de sangre',
                             'school' => 'Institución',

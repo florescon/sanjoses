@@ -95,24 +95,6 @@
                         </div><!--col-->
                     </div><!--form-group-->
 
-{{-- 
-                   <div class="form-group row">
-                    {{ html()->label(__('validation.attributes.backend.access.users.blood'))->class('col-md-2 form-control-label')->for('blood') }}
-
-                        <div class="col-md-10">
-                        <select name="blood" class="form-control">
-                            <option value="">Selecciona una opción</option>
-                            @foreach($bloods as $blood)
-                                {{ html()->option($blood->name, $blood->id, $blood->id==optional($user->customer)->blood_id ? 'selected' : '')
-                                }}
-                            @endforeach
-                        </select>
-                        </div><!--col-->
-                    </div><!--form-group-->
- --}}
-
-
-
 
                     <div class="form-group row">
                         {{ html()->label('Abilities')->class('col-md-2 form-control-label') }}

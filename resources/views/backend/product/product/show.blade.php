@@ -147,6 +147,7 @@
             <th class="right">@lang('labels.backend.access.product.table.size')</th>
             <th class="right">@lang('labels.backend.access.product.table.cloth')</th>
             <th class="right">@lang('labels.backend.access.product.table.stock')</th>
+            <th class="right">Stock revision intermedia</th>
             <th class="right">@lang('labels.backend.access.product.table.price')</th>
             <th class="right">@lang('labels.backend.access.product.table.last_updated')</th>
             <th class="right">@lang('labels.general.actions')</th>
@@ -160,6 +161,7 @@
               <td class="right">{{ optional($pro->product_detail_size)->name }}</td>
               <td class="right">{!! $pro->cloth_material_id ? '<a href="#" data-toggle="modal" data-placement="top"  data-placement="top" title="editar" data-target="#addCloth" data-product_id="'.$pro->id.'" data-mycolor="'.$pro->color_id.'" class="text-dark">'.$pro->product_detail_cloth_material->full_name.' </a>'  : '<a href="#" data-toggle="modal" data-placement="top"  data-placement="top" title="agregar" data-target="#addCloth" data-product_id="'.$pro->id.'" data-mycolor="'.$pro->color_id.'"><span class="badge badge-pill badge-secondary blinking"> <em>No definida</em></span></a>'  !!}</td>
               <td class="right">{{ $pro->stock }}</td>
+              <td class="right">{{ optional($pro->product_revision)->quantity }}</td>
               <td class="right">${{ number_format($pro->price, 2, ".", ",") }}</td>
               <td class="right">{{ $pro->updated_at }}</td>
               <td class="right">
