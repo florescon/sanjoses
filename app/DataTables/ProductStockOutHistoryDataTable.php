@@ -20,7 +20,7 @@ class ProductStockOutHistoryDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $query = $query->with('product_stock', 'generated_by')->where('type', 2);
+        $query = $query->with('product_stock.product_detail', 'generated_by')->where('type', 2);
 
         $end_date = new Carbon(request('end_date'));
 

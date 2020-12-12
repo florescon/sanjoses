@@ -227,7 +227,7 @@
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
-            {data: 'part', name: 'id', printable: false, visible: false},
+            {data: 'part', name: 'product_stock.product_detail.code', printable: false, visible: false},
             {data: 'product_stock', name: 'id'},
             {data: 'old_quantity', name: 'old_quantity'},
             {data: 'quantity', name: 'quantity'},

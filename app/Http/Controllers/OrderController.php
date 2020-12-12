@@ -766,8 +766,19 @@ class OrderController extends Controller
         $products = ProductSale::where('sale_id', $id)->get();
         try {
 
-            $delete = Sale::findOrFail($id);
-            $delete->delete();
+            $sale = Sale::findOrFail($id);
+            $sale->status()->detach();
+            // $sale->products()->detach();
+
+            $materials = MaterialProductSale::where('sale_id', $id)->get();
+            foreach($materials as $material){
+                $product_increment = Material::find($material->material_id);
+                $product_increment->increment('stock', $material->quantity);
+            }
+
+            //falta history
+
+            $sale->delete();
         } catch (\Exception $e) {
             return redirect()->back()->withFlashDanger(__('exceptions.backend.access.general.cant_delete'));
         }

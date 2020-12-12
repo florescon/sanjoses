@@ -32,6 +32,9 @@ class ProductStockDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
+            ->addColumn('code_general', function (ColorSizeProduct $code) {
+                    return !empty($code->product_id) ? optional($code->product_detail)->code : '';
+            })
             ->addColumn('product_detail', function (ColorSizeProduct $product) {
                     return !empty($product->product_id) ? optional($product->product_detail)->name. ' '.$product->full_name  : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
             })
@@ -49,7 +52,7 @@ class ProductStockDataTable extends DataTable
 
                            return $btn;
             })
-            ->rawColumns(['product_detail', 'action']);
+            ->rawColumns(['code_general','product_detail', 'action']);
     }
 
     /**

@@ -50,51 +50,55 @@
                   <th>Producto</th>
                   <th class="right">@lang('labels.backend.access.order.table.quantity')</th>
                   <th class="right">@lang('labels.backend.access.order.table.quantity_entered')</th>
-                  <th class="right">@lang('labels.backend.access.order.table.price')</th>
-                  <th class="right">@lang('labels.backend.access.order.table.total_sale')</th>
+                  <th class="right">Restante</th>
                   <th class="right">Ingresar</th>
                 </th>
               </tr>
             </thead>
             <tbody>
-              @php($totalmat=0)
-              @php($totalinput=0)
-
+              @php($totalentered=0)
+              @php($totalremaining=0)
               @foreach($sale->products_and_log as $product)
+                @php($totalsum=0)
 
-              <input type="hidden" name="id" id="id" value="{{ $sale->id }}">
-              <input type="hidden" name="product_sale[]" id="product_sale" value="{{ $product->id }}">
-              <input type="hidden" name="product[]" id="product" value="{{ $product->product_id }}">
-              <tr>
-                <td class="left"><strong><a href="{{ route('admin.product.product.show', $product->product_detail->product_detail->id) }}"> {{ $product->product_detail->product_detail->name }} </a> </strong>{!! $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name !!}</td>
-                <td class="right" align="center">
-                  <em>
-                    {{ $product->quantity}}
-                  </em>
-                </td>
-                <td align="center">
-                  @foreach($product->product_revision_log as $product_log)
-                  <em>
-                    {{ $product_log->suma }}
-                  </em>
-                  @php($totalinput += $product_log->suma)
-                  @endforeach
-                </td>
-                <td class="right"><strong>${{ $product->product_detail->price }}</strong></td>
-                <td class="right"><strong>${{ $product->quantity*$product->product_detail->price }}</strong></td>
-                <td>
-                  <input class="form-control" id="quantity" type="number" step="any" min="0" max="" max="{{ $product->quantity}}" name="quantity[]">
-                </td>
-              </tr>
-              @php($totalmat += $product->quantity*$product->product_detail->price)
+                <input type="hidden" name="id" id="id" value="{{ $sale->id }}">
+                <input type="hidden" name="product_sale[]" id="product_sale" value="{{ $product->id }}">
+                <input type="hidden" name="product[]" id="product" value="{{ $product->product_id }}">
+                <tr>
+                  <td class="left"><strong><a href="{{ route('admin.product.product.show', $product->product_detail->product_detail->id) }}"> {{ $product->product_detail->product_detail->name }} </a> </strong>{!! $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name !!}</td>
+                  <td class="right" align="center">
+                    <em>
+                      {{ $product->quantity }}
+                    </em>
+                  </td>
+                  <td align="center">
+                    @foreach($product->product_revision_log as $product_log)
+                      <em>
+                        {{ $product_log->suma }}
+                      </em>
+
+                      {!! $product_log->suma == $product->quantity ? '<i class="fa fa-check" aria-hidden="true"></i>' : '' !!}
+                      @php($totalentered += $product_log->suma)
+                      @php($totalsum = $product_log->suma)
+                    @endforeach
+                  </td>
+                  <td align="center">
+                    <em>
+                      {{ $product->quantity - $totalsum}}
+                    </em>
+                  </td>
+                  <td>
+                    <input class="form-control" id="quantity" type="number" step="any" min="0" max="{{ $product->quantity - $totalsum}}" name="quantity[]" >
+                  </td>
+                </tr>
+                @php($totalremaining += ($product->quantity - $totalsum))
               @endforeach
               <tr>
-                <td class="left"></td>
+                <td align="right"><strong>Total</strong></td>
                 <td align="center"><strong>{{ $sale->getTotalProducts() }}</strong></td>
-                <td align="center"><strong>{{ $totalinput }}</strong></td>
-                <td class="right"><strong>Total:</strong></td>
-                <td class="right"><strong>${{ $totalmat }}</strong></td>
-                <td class="left"></td>
+                <td align="center"><strong>{{ $totalentered }}</strong></td>
+                <td align="center"><strong>{{ $totalremaining }}</strong></td>
+                <td></td>
               </tr>
             </tbody>
             </table>

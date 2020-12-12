@@ -269,7 +269,7 @@
                     @if($material->history->count())
                       @foreach($material->history as $histo)
                         <tr class="table table-sm">
-                          <td class="right">&nbsp;&nbsp;&nbsp;<em> Se modificó la cantidad </em></td>
+                          <td class="right">&nbsp;&nbsp;&nbsp;<em> Adición/Sustracción de cantidad </em></td>
                           <td class="right"><em>  </em></td>
                           <td class="right" align="center"><em> {{ $histo->quantity }} </em></td>
                           <td class="right" align="center" colspan="3" ><em>{{ $histo->created_at }}</em></td>

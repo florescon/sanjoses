@@ -225,7 +225,7 @@
            //      searchable: false
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
-            {data: 'code', name: 'code', printable: false, visible: false},
+            {data: 'code_general', name: 'product_detail.code', printable: false, visible: false},
             {data: 'product_detail', name: 'product_detail.name'},
             {data: 'stock', name: 'stock'},
             {data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2, '$' )},
