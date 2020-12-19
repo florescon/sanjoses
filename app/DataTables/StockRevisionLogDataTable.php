@@ -43,6 +43,9 @@ class StockRevisionLogDataTable extends DataTable
             ->editColumn('sale_id', function ($dat) {
                 return  $dat->sale_id ? '<em>#'. $dat->sale_id .'</em>' : '--';
             })
+            ->editColumn('final_order_id', function ($dat) {
+                return  $dat->final_order_id ? '<em>#'. $dat->final_order_id .'</em>' : '--';
+            })
             ->editColumn('type', function ($dat) {
                 return $dat->type == 1 ? '<code class="text-primary"><a> Entrada </a></code>' : '<code class="text-danger"><a> Salida </a></code>';
             })
@@ -50,7 +53,7 @@ class StockRevisionLogDataTable extends DataTable
                     return !empty($product->product_id) ? '<a><strong>'. $product->product_detail->product_detail->name.' </a> </strong>'. $product->product_detail->product_detail_color->name. ' / '.$product->product_detail->product_detail_size->name   : '<span class="badge badge-pill badge-secondary"> <em>No asignado</em></span>';
             })
             ->addColumn('action', 'stockrevision.action')
-            ->rawColumns(['sale_id', 'type', 'product_detail', 'action']);
+            ->rawColumns(['sale_id', 'final_order_id', 'type', 'product_detail', 'action']);
     }
 
     /**
@@ -96,6 +99,7 @@ class StockRevisionLogDataTable extends DataTable
         return [
             ['data' => 'id', 'title' => '#', 'printable' => false, 'exportable' => false],
             ['data' => 'sale_id', 'title' => __('labels.backend.access.revision.table.order')],
+            ['data' => 'final_order_id', 'title' => __('labels.backend.access.revision.table.final_order')],
             ['data' => 'product_detail', 'title' => __('labels.backend.access.revision.table.product')],
             ['data' => 'quantity', 'title' => __('labels.backend.access.revision.table.stock')],
             ['data' => 'created_at', 'title' => __('labels.backend.access.revision.table.created')],

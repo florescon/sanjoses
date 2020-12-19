@@ -62,4 +62,17 @@ class StockRevisionController extends Controller
     }
 
 
+    public function select2LoadStockRevision(Request $request)
+    {
+        $search = $request->get('search');
+        $data = StockRevision::with('product_detail.product_detail', 'product_detail.product_detail_color', 'product_detail.product_detail_size')
+        ->whereHas('product_detail.product_detail', function($query) use($search){
+           $query->where('name', 'LIKE', '%'. $search .'%');
+         })
+        ->orWhere('quantity', 'like', '%' . $search . '%')
+        ->paginate(5);
+        return response()->json(['products' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
+
 }

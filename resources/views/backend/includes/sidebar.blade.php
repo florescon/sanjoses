@@ -283,6 +283,15 @@
 
             <li class="nav-item">
                 <a class="nav-link {{
+                    active_class(Active::checkUriPattern('admin/finalorder'))
+                }}" href="{{ route('admin.finalorder.index') }}">
+                    <i class="nav-icon fa fa-object-group"> </i>
+                    @lang('menus.backend.sidebar.final_orders')
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{
                     active_class(Active::checkUriPattern('admin/revision'))
                 }}" href="{{ route('admin.revision.index') }}">
                     <i class="nav-icon fa fa-filter"> </i>

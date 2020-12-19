@@ -11,6 +11,7 @@ Route::group([
     Route::post('revision/addstock/{id}', [StockRevisionController::class, 'addstockrevision'])->name('addstock');
 
     Route::get('select2-load-product-revision', [StockRevisionController::class, 'select2LoadMore'])->name('productdetails.select');
+    Route::get('select2-load-stock-revision', [StockRevisionController::class, 'select2LoadStockRevision'])->name('productrevision.select');
 
 
 

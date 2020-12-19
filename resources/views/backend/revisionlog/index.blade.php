@@ -43,6 +43,7 @@
                             {{-- <th></th> --}}
                             <th>@lang('labels.backend.access.revision.table.id')</th>
                             <th>@lang('labels.backend.access.revision.table.order')</th>
+                            <th>@lang('labels.backend.access.revision.table.final_order')</th>
                             <th>@lang('labels.backend.access.revision.table.product')</th>
                             <th>@lang('labels.backend.access.revision.table.stock')</th>
                             <th>@lang('labels.backend.access.revision.table.type')</th>
@@ -171,7 +172,7 @@
         processing: true,
         serverSide: true,
         autoWidth: false,
-        order: ['5', 'desc'], 
+        order: ['6', 'desc'], 
         ajax: {
           url: "{{ route('admin.revisionlog.index') }}",
           method: 'get',
@@ -204,6 +205,7 @@
            //  },
             {data: 'id', name: 'id', printable: false, visible: false},
             {data: 'sale_id', name: 'sale_id'},
+            {data: 'final_order_id', name: 'final_order_id'},
             {data: 'product_detail', name: 'product_detail.product_detail.name'},
             {data: 'quantity', name: 'quantity'},
             {data: 'type', name: 'type'},
