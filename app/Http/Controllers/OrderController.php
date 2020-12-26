@@ -558,7 +558,7 @@ class OrderController extends Controller
         $products = Sale::with('products')->where('id', $request->id)->first();
 
         if($request->all_quantities){
-            foreach($products->products as $product){
+            foreach($products->products as $key => $product){
 
                 $product_id_log_all = StockRevision::where('product_id', $product->product_id)->first();
                 if(!$product_id_log_all){
@@ -574,8 +574,8 @@ class OrderController extends Controller
 
                 $revision_log = new StockRevisionLog();
                 $revision_log->sale_id = $request->id;
-                $revision_log->product_sale_id = $request->product_sale;
-                $revision_log->product_id = $product->product_id;
+                $revision_log->product_sale_id = $product_sale[$key];
+                $revision_log->product_id = $product_id[$key];
                 $revision_log->quantity = $product->quantity;
                 $revision_log->type = 1;
                 $revision_log->saveOrFail();

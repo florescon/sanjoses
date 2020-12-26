@@ -15,7 +15,7 @@ class StockRevisionLog extends Model
      * @var array
      */
     protected $fillable = [
-        'sale_id', 'product_id', 'quantity', 'type'
+        'sale_id', 'final_order_id', 'product_sale_id', 'product_id', 'quantity', 'type'
     ];
 
 
